@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fontFamily="@font/iransansmobile_medium"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item
+        android:id="@+id/nav_search"
+        android:icon="@drawable/ic_search_w"
+            android:fontFamily="@font/iransansmobile_medium"
+        android:title="جستجوی کالا" />
+
+
+
+        <item
+            android:id="@+id/nav_search_date"
+            android:icon="@drawable/ic_search_w"
+            android:fontFamily="@font/iransansmobile_medium"
+            android:title="جدید ترین ها" />
+
+        <item
+            android:id="@+id/nav_buy"
+            android:icon="@drawable/ic_ww"
+            android:title="سبد خرید"
+            android:fontFamily="@font/iransansmobile_medium"
+            />
+
+        <item
+            android:id="@+id/nav_open_fac"
+            android:icon="@drawable/ic_date_w"
+            android:fontFamily="@font/iransansmobile_medium"
+            android:title="فاکتور ها باز" />
+
+        <item
+            android:id="@+id/nav_buy_history"
+            android:icon="@drawable/ic_date_w"
+            android:fontFamily="@font/iransansmobile_medium"
+            android:title="همه فاکتور ها" />
+
+        <item
+            android:id="@+id/nav_rep"
+            android:icon="@drawable/ic_date_w"
+            android:fontFamily="@font/iransansmobile_medium"
+            android:title="بروزرسانی" />
+
+
+    </group>
+
+    <item android:title="عمومی"
+        android:fontFamily="@font/iransansmobile_medium">
+        <menu>
+
+            <item
+                android:id="@+id/nav_cfg"
+                android:icon="@drawable/ic_config_w"
+                android:fontFamily="@font/iransansmobile_medium"
+                android:title="مشخصات کاربری" />
+            <item
+                android:id="@+id/aboutus"
+                android:icon="@drawable/nav_about_us"
+                android:fontFamily="@font/iransansmobile_medium"
+                android:title="درباره ی ما" />
+
+
+        </menu>
+    </item>
+
+</menu>

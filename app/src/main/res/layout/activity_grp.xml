@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layoutDirection="rtl">
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/GrpActivity_appbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/iransansmobile_medium"
+                >
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/GrpActivity_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_weight="1"
+                    android:background="?attr/colorPrimary"
+                    android:fontFamily="@font/iransansmobile_medium"
+                    app:titleTextColor="@color/white"
+                    app:title="گروه ها">
+
+
+
+
+
+                </androidx.appcompat.widget.Toolbar>
+            </com.google.android.material.appbar.AppBarLayout>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/GrpActivity_grp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+
+                />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="2dp">
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <Button
+                        android:id="@+id/GrpActivity_filter_active"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:visibility="gone"
+                        android:textSize="15dp"
+                        android:text="اعمال فیلتر"
+                        android:textStyle="bold"
+                        android:textColor="@color/green_900"
+                        android:gravity="center"
+                        android:layout_weight="0.3"
+                        app:strokeColor="@color/grey_1000"
+                        app:strokeWidth="1dp"
+                        app:backgroundTint="@color/green_200"
+                        style="?attr/materialButtonOutlinedStyle"
+                        />
+
+
+                    <Button
+                        android:id="@+id/GrpActivity_change_search"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:textSize="15dp"
+                        android:gravity="center"
+                        android:text="جستجوی پیشرفته "
+                        android:textColor="@color/blue_grey_900"
+                        android:textStyle="bold"
+                        android:layout_weight="0.3"
+                        app:strokeColor="@color/grey_1000"
+                        app:strokeWidth="1dp"
+                        app:backgroundTint="@color/white"
+                        style="?attr/materialButtonOutlinedStyle"
+                        />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="2dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="2dp"
+                android:id="@+id/GrpActivity_search_line_p"
+                android:visibility="gone"
+                >
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0.5dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="260dp"
+                                android:layout_height="30dp"
+                                android:layout_weight="0.8"
+
+                                android:gravity="center"
+                                android:paddingTop="5dp"
+                                android:paddingRight="10dp"
+                                android:text="ناشر : " />
+
+
+                            <EditText
+                                android:id="@+id/GrpActivity_search_pro_nasher"
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:layout_margin="2dp"
+                                android:layout_weight="0.2"
+                                android:background="@drawable/bg_round_selected"
+
+                                android:gravity="center" />
+
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="1dp"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="260dp"
+                                android:layout_height="30dp"
+                                android:layout_weight="0.8"
+
+                                android:gravity="center"
+                                android:paddingTop="5dp"
+                                android:paddingRight="10dp"
+                                android:text="مولف : " />
+
+
+                            <EditText
+                                android:id="@+id/GrpActivity_search_pro_writer"
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:layout_margin="2dp"
+                                android:layout_weight="0.2"
+                                android:background="@drawable/bg_round_selected"
+
+                                android:gravity="center" />
+
+
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="1dp"
+                            android:orientation="horizontal"
+                            android:visibility="visible">
+                            <TextView
+                                android:layout_width="260dp"
+                                android:layout_height="30dp"
+                                android:layout_weight="0.8"
+                                android:gravity="center"
+                                android:paddingTop="5dp"
+                                android:paddingRight="10dp"
+                                android:text="سال: "
+                                />
+
+                            <EditText
+                                android:id="@+id/GrpActivity_search_pro_PrintYear"
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:layout_margin="2dp"
+                                android:layout_weight="0.2"
+                                android:background="@drawable/bg_round_selected"
+                                android:gravity="center"
+                                android:inputType="numberDecimal"/>
+
+
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0.5dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="260dp"
+                                android:layout_height="30dp"
+                                android:layout_weight="0.8"
+                                android:gravity="center"
+                                android:paddingTop="5dp"
+                                android:paddingRight="10dp"
+                                android:text="نام: "
+                                />
+
+                            <EditText
+                                android:id="@+id/GrpActivity_search_pro_good"
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:layout_margin="2dp"
+                                android:layout_weight="0.2"
+                                android:background="@drawable/bg_round_selected"
+                                android:gravity="center" />
+
+
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="1dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="260dp"
+                                android:layout_height="30dp"
+                                android:layout_weight="0.8"
+                                android:gravity="center"
+                                android:paddingTop="5dp"
+                                android:paddingRight="10dp"
+                                android:text="مترجم:"
+                                />
+
+
+                            <EditText
+                                android:id="@+id/GrpActivity_search_pro_dragoman"
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:layout_margin="2dp"
+                                android:layout_weight="0.2"
+                                android:background="@drawable/bg_round_selected"
+                                android:gravity="center"
+                                 />
+
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="1dp"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="260dp"
+                                android:layout_height="30dp"
+                                android:layout_weight="0.8"
+
+                                android:gravity="center"
+                                android:paddingTop="5dp"
+                                android:paddingRight="10dp"
+
+                                android:text="نوبت : "
+
+                                />
+
+                            <EditText
+                                android:id="@+id/GrpActivity_search_pro_period"
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:layout_margin="2dp"
+                                android:layout_weight="0.2"
+                                android:background="@drawable/bg_round_selected"
+
+                                android:gravity="center"
+                                android:inputType="numberDecimal" />
+
+
+
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="2dp"
+                android:id="@+id/GrpActivity_search_line"
+                >
+                    <EditText
+                        android:id="@+id/GrpActivity_edtsearch"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:hint="جستجو"
+                        android:background="@drawable/bg_round_selected"
+                        android:layout_marginLeft="2dp"
+                        android:paddingRight="20dp"
+                        android:layout_weight="0.3"
+                        android:singleLine="true"
+                        android:selectAllOnFocus="true"
+                        android:focusedByDefault="false"
+                        android:paddingStart="10dp"
+
+                        />
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:weightSum="1">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/GrpActivity_good"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingTop="10dp"
+                    android:layout_weight="0.1"
+                    />
+                <androidx.core.widget.ContentLoadingProgressBar
+                    android:id="@+id/GrpActivity_prog"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:indeterminate="true"
+                    android:layout_weight="0.9"
+                    />
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/GrpActivity_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="30dp"
+        app:backgroundTint="@color/red_800"
+        android:src="@drawable/ic_add_shopping_white"
+        android:visibility="gone" />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
