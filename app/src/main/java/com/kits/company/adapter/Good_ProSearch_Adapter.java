@@ -95,7 +95,11 @@ public class Good_ProSearch_Adapter extends RecyclerView.Adapter<Good_ProSearch_
         //String img = goodView.getImageName();
         holder.img.setVisibility(View.INVISIBLE);
 
-
+        if(goods.get(position).isCheck()){
+            holder.rltv.setChecked(true);
+        }else {
+            holder.rltv.setChecked(false);
+        }
 
         if(goodView.getHasStackAmount()>0) {
             if (goodView.getMaxSellPrice().equals(Integer.parseInt(goodView.getSellPrice()))) {
@@ -248,11 +252,7 @@ public class Good_ProSearch_Adapter extends RecyclerView.Adapter<Good_ProSearch_
             }
         });
 
-        if(goods.get(position).isCheck()){
-            holder.rltv.setChecked(true);
-        }else {
-            holder.rltv.setChecked(false);
-        }
+
         holder.rltv.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {

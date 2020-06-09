@@ -378,7 +378,6 @@ public class GrpActivity extends AppCompatActivity {
                     if(Objects.equals(shPref.getString("view", null), "grid")){
                         adapter = new Good_ProSearch_Adapter(goods, GrpActivity.this);
                         adapter_line = new Good_ProSearch_Line_Adapter(goods, GrpActivity.this);
-
                         gridLayoutManager = new GridLayoutManager(GrpActivity.this,2);
                         rc_good.setLayoutManager(gridLayoutManager);
                         rc_good.setAdapter(adapter);

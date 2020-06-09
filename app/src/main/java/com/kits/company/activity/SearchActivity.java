@@ -340,6 +340,8 @@ Intent intent;
                     goods = response.body().getGoods();
                     if(Objects.equals(shPref.getString("view", null), "grid")){
                         adapter = new Good_ProSearch_Adapter(goods, SearchActivity.this);
+                        adapter_line = new Good_ProSearch_Line_Adapter(goods, SearchActivity.this);
+
                         adapter.multi_select=false;
                         gridLayoutManager = new GridLayoutManager(SearchActivity.this,2);
                         rc_good.setLayoutManager(gridLayoutManager);
@@ -348,6 +350,8 @@ Intent intent;
 
                     }else{
                         adapter_line = new Good_ProSearch_Line_Adapter(goods, SearchActivity.this);
+                        adapter = new Good_ProSearch_Adapter(goods, SearchActivity.this);
+
                         adapter_line.multi_select=false;
                         gridLayoutManager = new GridLayoutManager(SearchActivity.this,1);
                         rc_good.setLayoutManager(gridLayoutManager);

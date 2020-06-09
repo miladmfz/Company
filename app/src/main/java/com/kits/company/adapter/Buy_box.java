@@ -237,7 +237,7 @@ public class Buy_box {
                              assert response.body() != null;
                              if (response.body().equals("done")) {
                                  Log.e("onResponse2", "" + response.body());
-                                 Toast toast = Toast.makeText(mContext, "کالای مورد نظر حذف گردبد", Toast.LENGTH_SHORT);
+                                 Toast toast = Toast.makeText(mContext, "کالای مورد نظر حذف گردید", Toast.LENGTH_SHORT);
                                  toast.setGravity(Gravity.CENTER, 10, 10);
                                  toast.show();
                              }

@@ -227,6 +227,7 @@ public class Search_date_detailActivity extends AppCompatActivity {
                     goods = response.body().getGoods();
                     if(Objects.equals(shPref.getString("view", null), "grid")){
                         adapter = new Good_ProSearch_Adapter(goods, Search_date_detailActivity.this);
+                        adapter_line = new Good_ProSearch_Line_Adapter(goods, Search_date_detailActivity.this);
                         adapter.multi_select=false;
                         gridLayoutManager = new GridLayoutManager(Search_date_detailActivity.this,2);
                         rc_good.setLayoutManager(gridLayoutManager);
@@ -235,6 +236,7 @@ public class Search_date_detailActivity extends AppCompatActivity {
 
                     }else{
                         adapter_line = new Good_ProSearch_Line_Adapter(goods, Search_date_detailActivity.this);
+                        adapter = new Good_ProSearch_Adapter(goods, Search_date_detailActivity.this);
                         adapter_line.multi_select=false;
                         gridLayoutManager = new GridLayoutManager(Search_date_detailActivity.this,1);
                         rc_good.setLayoutManager(gridLayoutManager);
