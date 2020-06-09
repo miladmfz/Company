@@ -377,12 +377,15 @@ public class GrpActivity extends AppCompatActivity {
                     goods = response.body().getGoods();
                     if(Objects.equals(shPref.getString("view", null), "grid")){
                         adapter = new Good_ProSearch_Adapter(goods, GrpActivity.this);
+                        adapter_line = new Good_ProSearch_Line_Adapter(goods, GrpActivity.this);
+
                         gridLayoutManager = new GridLayoutManager(GrpActivity.this,2);
                         rc_good.setLayoutManager(gridLayoutManager);
                         rc_good.setAdapter(adapter);
                         rc_good.setItemAnimator(new FlipInTopXAnimator());
 
                     }else{
+                        adapter = new Good_ProSearch_Adapter(goods, GrpActivity.this);
                         adapter_line = new Good_ProSearch_Line_Adapter(goods, GrpActivity.this);
                         gridLayoutManager = new GridLayoutManager(GrpActivity.this,1);
                         rc_good.setLayoutManager(gridLayoutManager);
@@ -435,6 +438,8 @@ public class GrpActivity extends AppCompatActivity {
             public void onFailure(Call<GoodRespons> call, Throwable t) {
                 Toast.makeText(GrpActivity.this, "کالای بیشتری موجود نیست", Toast.LENGTH_SHORT).show();
                 prog.setVisibility(View.GONE);
+                loading = true;
+
 
             }
         });
@@ -498,28 +503,38 @@ public class GrpActivity extends AppCompatActivity {
         }
         if (item.getItemId() == R.id.menu_grid) {
 
+            item_multi.findItem(R.id.menu_multi).setVisible(false);
+            for (Good good : goods) {
+                good.setCheck(false);
+            }
+            Multi_buy.clear();
+            fab.setVisibility(View.GONE);
+
+
             if(Objects.equals(shPref.getString("view", null), "grid")){
-                item_multi.findItem(R.id.menu_multi).setVisible(false);
-                for (Good good : goods) {
-                    good.setCheck(false);
-                }
-                Multi_buy.clear();
-                fab.setVisibility(View.GONE);
+
                 item_multi.findItem(R.id.menu_grid).setIcon(R.drawable.ic_view_grid_24dp);
                 sEdit.putString("view","line");
                 sEdit.apply();
-                set_rc_good();
+                adapter_line.multi_select=false;
+                gridLayoutManager = new GridLayoutManager(GrpActivity.this,1);
+                gridLayoutManager.scrollToPosition(pastVisiblesItems+1);
+                rc_good.setLayoutManager(gridLayoutManager);
+                rc_good.setAdapter(adapter_line);
+
             }else{
-                item_multi.findItem(R.id.menu_multi).setVisible(false);
-                for (Good good : goods) {
-                    good.setCheck(false);
-                }
-                Multi_buy.clear();
-                fab.setVisibility(View.GONE);
+
                 item_multi.findItem(R.id.menu_grid).setIcon(R.drawable.ic_view_line_24dp);
                 sEdit.putString("view","grid");
                 sEdit.apply();
-                set_rc_good();
+                //set_rc_good();
+                adapter.multi_select=false;
+                gridLayoutManager = new GridLayoutManager(GrpActivity.this,2);
+                gridLayoutManager.scrollToPosition(pastVisiblesItems+2);
+                rc_good.setLayoutManager(gridLayoutManager);
+                rc_good.setAdapter(adapter);
+
+
             }
             return true;
         }
@@ -530,12 +545,12 @@ public class GrpActivity extends AppCompatActivity {
             }
             Multi_buy.clear();
             if(Objects.equals(shPref.getString("view", null), "grid")){
-                adapter.notifyDataSetChanged();
                 adapter.multi_select=false;
+                adapter.notifyDataSetChanged();
 
             }else{
-                adapter_line.notifyDataSetChanged();
                 adapter_line.multi_select=false;
+                adapter_line.notifyDataSetChanged();
 
             }
             fab.setVisibility(View.GONE);

@@ -400,6 +400,8 @@ Intent intent;
             public void onFailure(Call<GoodRespons> call, Throwable t) {
                 Toast.makeText(SearchActivity.this, "کالای بیشتری موجود نیست", Toast.LENGTH_SHORT).show();
                 prog.setVisibility(View.GONE);
+                loading = true;
+
             }
         });
     }
@@ -437,28 +439,37 @@ Intent intent;
         }
         if (item.getItemId() == R.id.menu_grid) {
 
+            item_multi.findItem(R.id.menu_multi).setVisible(false);
+            for (Good good : goods) {
+                good.setCheck(false);
+            }
+            Multi_buy.clear();
+            fab.setVisibility(View.GONE);
+
+
             if(Objects.equals(shPref.getString("view", null), "grid")){
-                item_multi.findItem(R.id.menu_multi).setVisible(false);
-                for (Good good : goods) {
-                    good.setCheck(false);
-                }
-                Multi_buy.clear();
-                fab.setVisibility(View.GONE);
+
                 item_multi.findItem(R.id.menu_grid).setIcon(R.drawable.ic_view_grid_24dp);
                 sEdit.putString("view","line");
                 sEdit.apply();
-                set_rc_good();
+                adapter_line.multi_select=false;
+                gridLayoutManager = new GridLayoutManager(SearchActivity.this,1);
+                gridLayoutManager.scrollToPosition(pastVisiblesItems+1);
+                rc_good.setLayoutManager(gridLayoutManager);
+                rc_good.setAdapter(adapter_line);
+
             }else{
-                item_multi.findItem(R.id.menu_multi).setVisible(false);
-                for (Good good : goods) {
-                    good.setCheck(false);
-                }
-                Multi_buy.clear();
-                fab.setVisibility(View.GONE);
+
                 item_multi.findItem(R.id.menu_grid).setIcon(R.drawable.ic_view_line_24dp);
                 sEdit.putString("view","grid");
                 sEdit.apply();
-                set_rc_good();
+                //set_rc_good();
+                adapter.multi_select=false;
+                gridLayoutManager = new GridLayoutManager(SearchActivity.this,2);
+                gridLayoutManager.scrollToPosition(pastVisiblesItems+2);
+                rc_good.setLayoutManager(gridLayoutManager);
+                rc_good.setAdapter(adapter);
+
 
             }
             return true;
