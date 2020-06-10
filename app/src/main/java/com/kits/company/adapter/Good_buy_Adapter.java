@@ -96,7 +96,7 @@ public class Good_buy_Adapter extends RecyclerView.Adapter<Good_buy_Adapter.Good
         }
 
 
-        call2 = apiInterface_image.GetImage("getImagecompany",goodbuyView.getGoodCode().toString(),0,250);
+        call2 = apiInterface_image.GetImage("getImage",goodbuyView.getGoodCode().toString(),0,250);
         call2.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call2, Response<String> response) {

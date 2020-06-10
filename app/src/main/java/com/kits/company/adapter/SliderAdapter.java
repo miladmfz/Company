@@ -91,7 +91,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.GoodViewHolde
             }
 
         }else {
-            Call<String> call2 = apiInterface_image.GetImage("getImagecompany", code.toString(),position,500);
+            Call<String> call2 = apiInterface_image.GetImage("getImage", code.toString(),position,500);
             call2.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call2, Response<String> response) {
@@ -105,7 +105,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.GoodViewHolde
                                     .placeholder(R.drawable.no_photo)
                                     .error(R.drawable.no_photo) //6
                                     .fallback(R.drawable.no_photo)
-                                    .override(2000, 2000)
+
                                     .fitCenter()
                                     .into(holder.imageViewBackground);
                         } catch (Exception e) {

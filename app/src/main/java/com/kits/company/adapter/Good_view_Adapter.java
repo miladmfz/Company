@@ -114,7 +114,7 @@ public class Good_view_Adapter extends RecyclerView.Adapter<Good_view_Adapter.Go
         name=goodView.getGoodName();
         String SERVER_IP_ADDRESS = mContext.getString(R.string.SERVERIP);
 
-        call2 = apiInterface_image.GetImage("getImagecompany",goodView.getGoodCode().toString(),0,250);
+        call2 = apiInterface_image.GetImage("getImage",goodView.getGoodCode().toString(),0,250);
 
         call2.enqueue(new Callback<String>() {
             @Override
@@ -130,7 +130,7 @@ public class Good_view_Adapter extends RecyclerView.Adapter<Good_view_Adapter.Go
                                 .placeholder(R.drawable.no_photo)
                                 .error(R.drawable.no_photo) //6
                                 .fallback(R.drawable.no_photo)
-                                .override(2000, 2000)
+
                                 .fitCenter()
                                 .into(holder.img);
                         holder.img.setVisibility(View.VISIBLE);
@@ -142,7 +142,7 @@ public class Good_view_Adapter extends RecyclerView.Adapter<Good_view_Adapter.Go
                                 .placeholder(R.drawable.no_photo)
                                 .error(R.drawable.no_photo) //6
                                 .fallback(R.drawable.no_photo)
-                                .override(2000, 2000)
+
                                 .fitCenter()
                                 .into(holder.img);
                         holder.img.setVisibility(View.VISIBLE);

@@ -61,7 +61,7 @@ public class SliderAdapterExample extends SliderViewAdapter<SliderAdapterExample
 
 
 
-        Call<String> call2 = apiInterface_image.GetImage("getImagecompany", code.toString(),position,250);
+        Call<String> call2 = apiInterface_image.GetImage("getImage", code.toString(),position,250);
         call2.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call2, Response<String> response) {
@@ -79,7 +79,7 @@ public class SliderAdapterExample extends SliderViewAdapter<SliderAdapterExample
                                         .placeholder(R.drawable.no_photo)
                                         .error(R.drawable.no_photo) //6
                                         .fallback(R.drawable.no_photo)
-                                        .override(2000, 2000)
+
                                         .fitCenter()
                                         .into(viewHolder.imageViewBackground);
                             } else {
@@ -91,7 +91,7 @@ public class SliderAdapterExample extends SliderViewAdapter<SliderAdapterExample
                                         .placeholder(R.drawable.no_photo)
                                         .error(R.drawable.no_photo) //6
                                         .fallback(R.drawable.no_photo)
-                                        .override(2000, 2000)
+
                                         .fitCenter()
                                         .into(viewHolder.imageViewBackground);
                             }
@@ -112,7 +112,7 @@ public class SliderAdapterExample extends SliderViewAdapter<SliderAdapterExample
 //
 //
 //
-//        Call<String> call2 = apiInterface_image.GetImage("getImagecompany",goodView.getGoodCode().toString(),0);
+//        Call<String> call2 = apiInterface_image.GetImage("getImage",goodView.getGoodCode().toString(),0);
 //        call2.enqueue(new Callback<String>() {
 //            @Override
 //            public void onResponse(Call<String> call2, Response<String> response) {
@@ -127,7 +127,7 @@ public class SliderAdapterExample extends SliderViewAdapter<SliderAdapterExample
 //                                .placeholder(R.drawable.no_photo)
 //                                .error(R.drawable.no_photo) //6
 //                                .fallback(R.drawable.no_photo)
-//                                .override(2000, 2000)
+//
 //                                .fitCenter()
 //                                .into(holder.img);
 //                    }else {
@@ -139,7 +139,7 @@ public class SliderAdapterExample extends SliderViewAdapter<SliderAdapterExample
 //                                .placeholder(R.drawable.no_photo)
 //                                .error(R.drawable.no_photo) //6
 //                                .fallback(R.drawable.no_photo)
-//                                .override(2000, 2000)
+//
 //                                .fitCenter()
 //                                .into(holder.img);
 //                    }
