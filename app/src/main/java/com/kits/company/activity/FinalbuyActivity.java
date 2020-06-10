@@ -32,6 +32,7 @@ import com.kits.company.webService.APIInterface;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -81,7 +82,7 @@ public class FinalbuyActivity extends AppCompatActivity {
         final TextView textView3 =findViewById(R.id.finalbuyActivity_3);
         final TextView textView4 =findViewById(R.id.finalbuyActivity_4);
         final TextView textView5 =findViewById(R.id.finalbuyActivity_5);
-        EditText editText1 =findViewById(R.id.finalbuyActivity_6);
+        final EditText editText1 =findViewById(R.id.finalbuyActivity_6);
         Button sendfactor =findViewById(R.id.finalbuyActivity_sendbasket);
 
 
@@ -113,23 +114,17 @@ public class FinalbuyActivity extends AppCompatActivity {
         });
 
         textView1.setText(Farsi_number.PerisanNumber(shPref.getString("fname", null)+"  "+shPref.getString("lname", null)));
-        textView5.setText(Farsi_number.PerisanNumber(shPref.getString("address", null)));
+        textView5.setText(Farsi_number.PerisanNumber(Objects.requireNonNull(shPref.getString("address", null))));
 
-        editText1.addTextChangedListener(
-                new TextWatcher() {
-                    @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-                    @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-                    @Override
-                    public void afterTextChanged(final Editable editable) {
-                        basket_explain = arabicToenglish(editable.toString());
 
-                    }
-                });
 
         sendfactor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(!editText1.getText().toString().equals(""))
+                basket_explain = arabicToenglish(editText1.getText().toString());
+                else
+                basket_explain="_";
                 new android.app.AlertDialog.Builder(FinalbuyActivity.this)
                         .setTitle("توجه")
                         .setMessage("آیا فاکتور ارسال گردد؟")

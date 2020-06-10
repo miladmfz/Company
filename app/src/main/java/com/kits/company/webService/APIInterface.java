@@ -62,9 +62,11 @@ public interface APIInterface {
     @FormUrlEncoded
     Call<GoodGroupRespons> Getgrp(@Field("tag") String tag ,
                                   @Field("GroupCode") Integer GroupCode);
+
     @POST("index.php")
     @FormUrlEncoded
     Call<GoodGroupRespons> Getkowsar_grp(@Field("tag") String tag );
+
 
 
     @POST("index.php")

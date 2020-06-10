@@ -75,8 +75,8 @@ public class SplashActivity extends AppCompatActivity {
             sEdit.putString("lname", " ");
             sEdit.putString("mobile", " ");
             sEdit.putString("email", " ");
-            sEdit.putString("address", " ");
-            sEdit.putString("PostalCode", " ");
+            sEdit.putString("address", "معرفی نشده");
+            sEdit.putString("PostalCode", "معرفی نشده");
             sEdit.putString("img", " ");
             sEdit.putString("basket_position", " ");
             sEdit.putString("view", "grid");

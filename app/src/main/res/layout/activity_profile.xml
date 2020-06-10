@@ -283,7 +283,9 @@
                     android:background="@color/white"
                     android:textSize="20dp"
                     android:layout_weight="0.3"
-                    android:visibility="visible" />
+                    android:visibility="visible"
+                    android:inputType="textPassword"
+                    />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -445,7 +447,9 @@
                     android:background="@color/white"
                     android:textSize="20dp"
                     android:layout_weight="0.3"
-                    android:visibility="visible" />
+                    android:visibility="visible"
+                    android:inputType="textPassword"
+                    />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -474,7 +478,9 @@
                     android:background="@color/white"
                     android:textSize="20dp"
                     android:layout_weight="0.3"
-                    android:visibility="visible" />
+                    android:visibility="visible"
+                    android:inputType="textPassword"
+                    />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -624,7 +630,8 @@
                     android:background="@color/white"
                     android:textSize="20dp"
                     android:layout_weight="0.3"
-                    android:visibility="visible" />
+                    android:visibility="visible"
+                    />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -653,7 +660,9 @@
                     android:background="@color/white"
                     android:textSize="20dp"
                     android:layout_weight="0.3"
-                    android:visibility="visible" />
+                    android:visibility="visible"
+                    android:inputType="textPassword"
+                    />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -682,7 +691,9 @@
                     android:background="@color/white"
                     android:textSize="20dp"
                     android:layout_weight="0.3"
-                    android:visibility="visible" />
+                    android:visibility="visible"
+                    android:inputType="textPassword"
+                    />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

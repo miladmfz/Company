@@ -152,7 +152,7 @@ public class Good_ProSearch_Adapter extends RecyclerView.Adapter<Good_ProSearch_
                                     .placeholder(R.drawable.no_photo)
                                     .error(R.drawable.no_photo) //6
                                     .fallback(R.drawable.no_photo)
-                                    .override(2000, 2000)
+                                    .override(500, 500)
                                     .fitCenter()
                                     .into(holder.img);
 
@@ -166,7 +166,7 @@ public class Good_ProSearch_Adapter extends RecyclerView.Adapter<Good_ProSearch_
                                     .placeholder(R.drawable.no_photo)
                                     .error(R.drawable.no_photo) //6
                                     .fallback(R.drawable.no_photo)
-                                    .override(2000, 2000)
+                                    .override(500, 500)
                                     .fitCenter()
                                     .into(holder.img).onDestroy();
                             holder.img.setVisibility(View.VISIBLE);

@@ -18,6 +18,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.kits.company.R;
 import com.kits.company.adapter.InternetConnection;
 import com.kits.company.model.User;
@@ -40,6 +41,7 @@ public class RegisterActivity extends AppCompatActivity {
     String euser,epass,erepass,emobile,efname,elname,eemail,address,postaddress;
 
     public EditText eloginuser, eloginpass,emobilerecovery;
+    public TextInputLayout eloginuser_l, eloginpass_l,emobilerecovery_l;
     String loginuser, loginpass;
 
     Button to_login,to_reg,reg_btn,login_btn,update_profile,exit_profile,backtohome,btn_edit_pass;
@@ -114,23 +116,23 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         login_recovery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-
                 if(login_recovery.getText() == "فراموشی رمز عبور؟"){
-                    eloginuser.setVisibility(View.GONE);
-                    eloginpass.setVisibility(View.GONE);
-                    emobilerecovery.setVisibility(View.VISIBLE);
+                    eloginuser_l.setVisibility(View.GONE);
+                    eloginpass_l.setVisibility(View.GONE);
+                    emobilerecovery_l.setVisibility(View.VISIBLE);
                     login_recovery.setText("ورود با نام کاربری و رمز عبور");
                     login_btn.setText("تایید");
 
                 }else{
 
-                    eloginuser.setVisibility(View.VISIBLE);
-                    eloginpass.setVisibility(View.VISIBLE);
-                    emobilerecovery.setVisibility(View.GONE);
+                    eloginuser_l.setVisibility(View.VISIBLE);
+                    eloginpass_l.setVisibility(View.VISIBLE);
+                    emobilerecovery_l.setVisibility(View.GONE);
                     login_recovery.setText("فراموشی رمز عبور؟");
                     login_btn.setText("ورود");
 
@@ -457,6 +459,9 @@ public class RegisterActivity extends AppCompatActivity {
         eloginuser = findViewById(R.id.login_user);
         eloginpass = findViewById(R.id.login_pass);
         emobilerecovery = findViewById(R.id.login_mobile);
+        eloginuser_l = findViewById(R.id.login_user_layout);
+        eloginpass_l = findViewById(R.id.login_pass_layout);
+        emobilerecovery_l = findViewById(R.id.login_mobile_layout);
         login_btn = findViewById(R.id.login_btn);
         login_recovery = findViewById(R.id.login_recovery);
         login_recovery.setText("فراموشی رمز عبور؟");

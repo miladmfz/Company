@@ -24,12 +24,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
@@ -70,8 +73,8 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
     APIInterface apiInterface = APIClient.getCleint().create(APIInterface.class);
     SharedPreferences shPref ;
     TextView textCartItemCount,profilename,grp1,grp2;
-    String grp_name1,grp_name2;
-    int grp_id1,grp_id2;
+    String grp_name1,grp_name2,image_name1,image_name2;
+    int grp_id1,grp_id2,image_id1,image_id2;
     ArrayList<GoodBuy> goodbuys;
     Intent intent;
     Toolbar toolbar;
@@ -79,8 +82,9 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
     NavigationView navigationView;
     RecyclerView rc_grp,rc_allgood,rc_allgood_2;
     ArrayList<Good> goods;
-    ArrayList<GoodGroup> Groups;
+    ArrayList<GoodGroup> Groups,Groups_defult,Groups_image;
     Button btn1,btn2,kowsarsamaneh;
+    ImageView imagebtn1,imagebtn2;
     ProgressBar prog;
     private boolean doubleBackToExitPressedOnce = false;
     SharedPreferences.Editor sEdit;
@@ -126,6 +130,8 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         rc_allgood_2 =  findViewById(R.id.main_rc_allgood_2);
         btn1 =  findViewById(R.id.main_btn1);
         btn2 =  findViewById(R.id.main_btn2);
+        imagebtn1 =  findViewById(R.id.main_image_btn1);
+        imagebtn2 =  findViewById(R.id.main_image_btn2);
         kowsarsamaneh = findViewById(R.id.kits);
         profilename = findViewById(R.id.nav_profile_name);
         prog = findViewById(R.id.main_prog);
@@ -175,6 +181,8 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
         allgrp();
         kowsar_good();
+        kowsar_image_good();
+
         SliderView();
         noti();
 
@@ -198,6 +206,26 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 intent = new Intent(getApplicationContext(), GrpActivity.class);
                 intent.putExtra("id", grp_id2);
                 intent.putExtra("title",""+grp_name2);
+                startActivity(intent);
+            }
+        });
+
+        imagebtn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent = new Intent(getApplicationContext(), GrpActivity.class);
+                intent.putExtra("id", image_id1);
+                intent.putExtra("title",""+image_name1);
+                startActivity(intent);
+            }
+        });
+
+        imagebtn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent = new Intent(getApplicationContext(), GrpActivity.class);
+                intent.putExtra("id", image_id2);
+                intent.putExtra("title",""+image_name2);
                 startActivity(intent);
             }
         });
@@ -236,6 +264,49 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         });
     }
 
+    private void kowsar_image_good() {
+        Call<GoodGroupRespons> call = apiInterface.Getkowsar_grp("GoodGroupInfo_DefaultImage");
+
+        call.enqueue(new Callback<GoodGroupRespons>() {
+            @Override
+            public void onResponse(Call<GoodGroupRespons> call, Response<GoodGroupRespons> response) {
+                if (response.isSuccessful()) {
+                    Groups_image = response.body().getGroups();
+
+                    if(Groups_image.size()>0)
+                    {
+                        image_name1=Groups_image.get(0).getName();
+                        image_id1=Groups_image.get(0).getGroupCode();
+                        imagebtn1.setVisibility(View.VISIBLE);
+                        Glide.with(imagebtn1)
+                                .load("http://" + getString(R.string.SERVERIP) + "/login/slide_img/imageview1.jpg")
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                .into(imagebtn1);
+                        if(Groups_image.size()>1) {
+                            image_name2 = Groups_image.get(1).getName();
+                            image_id2 = Groups_image.get(1).getGroupCode();
+                            imagebtn2.setVisibility(View.VISIBLE);
+                            Glide.with(imagebtn2)
+                                    .load("http://" + getString(R.string.SERVERIP) + "/login/slide_img/imageview2.jpg")
+                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                    .into(imagebtn2);
+                        }
+
+                    }
+
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GoodGroupRespons> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "2222", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+
     private void kowsar_good() {
 
 
@@ -245,16 +316,16 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
             @Override
             public void onResponse(Call<GoodGroupRespons> call, Response<GoodGroupRespons> response) {
                 if (response.isSuccessful()) {
-                    Groups = response.body().getGroups();
+                    Groups_defult = response.body().getGroups();
 
-                    grp_name1=Groups.get(0).getName();
-                    grp_name2=Groups.get(1).getName();
-                    grp_id1=Groups.get(0).getGroupCode();
-                    grp_id2=Groups.get(1).getGroupCode();
+                    grp_name1=Groups_defult.get(0).getName();
+                    grp_name2=Groups_defult.get(1).getName();
+                    grp_id1=Groups_defult.get(0).getGroupCode();
+                    grp_id2=Groups_defult.get(1).getGroupCode();
 
-                    grp1.setText(Groups.get(0).getName());
+                    grp1.setText(Groups_defult.get(0).getName());
                     Call<GoodRespons> call2 = apiInterface.GetAllGood
-                            ("goodinfo","","",Groups.get(0).getGroupCode(),0,shPref.getString("mobile", null),0);
+                            ("goodinfo","","",Groups_defult.get(0).getGroupCode(),0,shPref.getString("mobile", null),0);
                     call2.enqueue(new Callback<GoodRespons>() {
                         @Override
                         public void onResponse(Call<GoodRespons> call, Response<GoodRespons> response) {
@@ -262,7 +333,6 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                                 goods = response.body().getGoods();
                                 adapter = new Good_view_Adapter( goods, MainActivity.this);
                                 horizontalLayoutManager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false);
-
                                 rc_allgood.setLayoutManager(horizontalLayoutManager);
                                 rc_allgood.setAdapter(adapter);
                                 rc_allgood.setItemAnimator(new FadeInUpAnimator());
@@ -279,10 +349,10 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
 
 
-                    grp2.setText(Groups.get(1).getName());
+                    grp2.setText(Groups_defult.get(1).getName());
 
                     Call<GoodRespons> call3 = apiInterface.GetAllGood
-                            ("goodinfo","","",Groups.get(1).getGroupCode(),0,shPref.getString("mobile", null),0 );
+                            ("goodinfo","","",Groups_defult.get(1).getGroupCode(),0,shPref.getString("mobile", null),0 );
                     call3.enqueue(new Callback<GoodRespons>() {
                         @Override
                         public void onResponse(Call<GoodRespons> call, Response<GoodRespons> response) {
@@ -303,19 +373,12 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
 
 
-
-
-
-
-
                 }
             }
 
             @Override
             public void onFailure(Call<GoodGroupRespons> call, Throwable t) {
-                rc_grp.setVisibility(View.GONE);
-                Log.e("a",t.getMessage());
-                //Toast.makeText(GrpActivity.this, "بروز مشکل در برقراری ارتباط!", Toast.LENGTH_SHORT).show();
+
             }
         });
 
