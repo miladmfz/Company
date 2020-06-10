@@ -84,7 +84,7 @@ public class Prefactor_Detail_Adapter extends RecyclerView.Adapter<Prefactor_Det
         holder.amount.setText(Farsi_number.PerisanNumber(preFactorview.getFacAmount().toString()));
 
 
-        call2 = apiInterface_image.GetImage("getImagecompany",preFactorview.getGoodCode().toString(),0,100,100);
+        call2 = apiInterface_image.GetImage("getImagecompany",preFactorview.getGoodCode().toString(),0,200);
         call2.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call2, Response<String> response) {

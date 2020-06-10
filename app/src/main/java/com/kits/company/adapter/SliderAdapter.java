@@ -91,7 +91,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.GoodViewHolde
             }
 
         }else {
-            Call<String> call2 = apiInterface_image.GetImage("getImagecompany", code.toString(),position,500,500);
+            Call<String> call2 = apiInterface_image.GetImage("getImagecompany", code.toString(),position,500);
             call2.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call2, Response<String> response) {

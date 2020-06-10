@@ -135,7 +135,7 @@ public class Good_ProSearch_Adapter extends RecyclerView.Adapter<Good_ProSearch_
         name=goodView.getGoodName();
 
 
-        call2 = apiInterface_image.GetImage("getImagecompany",goodView.getGoodCode().toString(),0,300,300);
+        call2 = apiInterface_image.GetImage("getImagecompany",goodView.getGoodCode().toString(),0,300);
         call2.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call2, Response<String> response) {
@@ -152,7 +152,7 @@ public class Good_ProSearch_Adapter extends RecyclerView.Adapter<Good_ProSearch_
                                     .placeholder(R.drawable.no_photo)
                                     .error(R.drawable.no_photo) //6
                                     .fallback(R.drawable.no_photo)
-                                    .override(500, 500)
+
                                     .fitCenter()
                                     .into(holder.img);
 
@@ -166,7 +166,7 @@ public class Good_ProSearch_Adapter extends RecyclerView.Adapter<Good_ProSearch_
                                     .placeholder(R.drawable.no_photo)
                                     .error(R.drawable.no_photo) //6
                                     .fallback(R.drawable.no_photo)
-                                    .override(500, 500)
+
                                     .fitCenter()
                                     .into(holder.img).onDestroy();
                             holder.img.setVisibility(View.VISIBLE);

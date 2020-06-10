@@ -79,8 +79,7 @@ public interface APIInterface {
     Call <String> GetImage(@Field("tag") String tag,
                            @Field("GoodCode") String GoodCode,
                            @Field("IX") Integer IX,
-                           @Field("width") Integer width,
-                           @Field("height") Integer height );
+                           @Field("Scale") Integer Scale);
 
 
     @POST("index.php")

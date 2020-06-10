@@ -114,7 +114,7 @@ public class Good_view_Adapter extends RecyclerView.Adapter<Good_view_Adapter.Go
         name=goodView.getGoodName();
         String SERVER_IP_ADDRESS = mContext.getString(R.string.SERVERIP);
 
-        call2 = apiInterface_image.GetImage("getImagecompany",goodView.getGoodCode().toString(),0,400,400);
+        call2 = apiInterface_image.GetImage("getImagecompany",goodView.getGoodCode().toString(),0,250);
 
         call2.enqueue(new Callback<String>() {
             @Override

@@ -61,7 +61,7 @@ public class SliderAdapterExample extends SliderViewAdapter<SliderAdapterExample
 
 
 
-        Call<String> call2 = apiInterface_image.GetImage("getImagecompany", code.toString(),position,200,200);
+        Call<String> call2 = apiInterface_image.GetImage("getImagecompany", code.toString(),position,250);
         call2.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call2, Response<String> response) {
