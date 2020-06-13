@@ -51,13 +51,11 @@ import retrofit2.Response;
 
 
 public class Prefactor_Detail_Adapter extends RecyclerView.Adapter<Prefactor_Detail_Adapter.GoodViewHolder> {
-    private DecimalFormat decimalFormat = new DecimalFormat("0,000");
+
     private APIInterface apiInterface_image = API_image.getCleint().create(APIInterface.class);
     private Context mContext;
     private ArrayList<PreFactor> preFactors;
     private String SERVER_IP_ADDRESS;
-    private int amount = 0;
-    private Intent intent;
     public Call<String> call2;
     public Prefactor_Detail_Adapter(ArrayList<PreFactor> preFactors, Context mContext) {
         this.mContext = mContext;
@@ -90,10 +88,8 @@ public class Prefactor_Detail_Adapter extends RecyclerView.Adapter<Prefactor_Det
             public void onResponse(Call<String> call2, Response<String> response) {
                 if (response.isSuccessful()) {
 
-
                     assert response.body() != null;
                     try {
-
                     if(!response.body().equals("no_photo")) {
                         Glide.with(holder.img)
                                 .asBitmap()

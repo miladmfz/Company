@@ -37,9 +37,20 @@ public class User {
     @SerializedName("PostalCode")
     private String PostalCode;
 
+    @SerializedName("CustomerName")
+    private String CustomerName;
+
 
     public String getXUserName() {
         return XUserName;
+    }
+
+    public String getCustomerName() {
+        return CustomerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        CustomerName = customerName;
     }
 
     public void setXUserName(String XUserName) {

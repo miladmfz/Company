@@ -114,6 +114,7 @@ public class ProfileActivity extends AppCompatActivity {
         email_profile.setHint(shPref.getString("email", null));
         address_profile.setHint(shPref.getString("address", null));
         postaddress_profile.setHint(shPref.getString("PostalCode", null));
+        postaddress_profile.setHint(shPref.getString("CustomerName", null));
 
         update_profile.setOnClickListener(new View.OnClickListener() {
             @Override

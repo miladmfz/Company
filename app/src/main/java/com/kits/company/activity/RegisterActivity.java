@@ -45,7 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
     String loginuser, loginpass;
 
     Button to_login,to_reg,reg_btn,login_btn,update_profile,exit_profile,backtohome,btn_edit_pass;
-    TextView reg_status_text,fname_profile,lname_profile,mobile_profile,email_profile,address_profile,postaddress_profile,login_recovery;
+    TextView reg_status_text,fname_profile,lname_profile,mobile_profile,email_profile,address_profile,customernam_profile,postaddress_profile,login_recovery;
     ScrollView register_CardView;
     MaterialCardView  profile_CardView,login_CardView;
 
@@ -397,6 +397,7 @@ public class RegisterActivity extends AppCompatActivity {
                         sEdit.putString("email", users.get(0).getEmail());
                         sEdit.putString("address", users.get(0).getAddress());
                         sEdit.putString("PostalCode", users.get(0).getPostalCode());
+                        sEdit.putString("CustomerName", users.get(0).getCustomerName());
                         sEdit.putString("img", " ");
                         sEdit.apply();
                         Toast.makeText(RegisterActivity.this, "خوش آمدید", Toast.LENGTH_SHORT).show();
@@ -451,6 +452,7 @@ public class RegisterActivity extends AppCompatActivity {
         email_profile= findViewById(R.id.profile_email);
         address_profile= findViewById(R.id.profile_address);
         postaddress_profile= findViewById(R.id.profile_postaddress);
+        customernam_profile= findViewById(R.id.profile_customername);
         update_profile= findViewById(R.id.update_profile);
         exit_profile= findViewById(R.id.exit_profile);
         backtohome= findViewById(R.id.backtohome_profile);
@@ -490,6 +492,7 @@ public class RegisterActivity extends AppCompatActivity {
         sEdit.putString("email", " ");
         sEdit.putString("address", " ");
         sEdit.putString("PostalCode", " ");
+        sEdit.putString("CustomerName", " ");
         sEdit.putString("img", " ");
         sEdit.apply();
     }
