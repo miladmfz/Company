@@ -64,6 +64,8 @@ public class Good implements Serializable {
     private String GroupsWhitoutCode;
     @SerializedName("GoodImageName")
     private String GoodImageName;
+    @SerializedName("GoodImageUrl")
+    private String GoodImageUrl;
     @SerializedName("Details")
     private String Details;
     @SerializedName("Itam_Show")
@@ -82,6 +84,15 @@ public class Good implements Serializable {
     private byte[] IMG;
     @SerializedName("Check")
     private boolean Check;
+
+
+    public String getGoodImageUrl() {
+        return GoodImageUrl;
+    }
+
+    public void setGoodImageUrl(String goodImageUrl) {
+        GoodImageUrl = goodImageUrl;
+    }
 
     public boolean isCheck() {
         return Check;

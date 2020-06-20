@@ -81,11 +81,12 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
     DrawerLayout drawer;
     NavigationView navigationView;
     RecyclerView rc_grp,rc_allgood,rc_allgood_2;
-    ArrayList<Good> goods;
+    ArrayList<Good> goods,banner_goods;
     ArrayList<GoodGroup> Groups,Groups_defult,Groups_image;
     Button btn1,btn2,kowsarsamaneh;
     ImageView imagebtn1,imagebtn2;
     ProgressBar prog;
+    SliderView sliderView;
     private boolean doubleBackToExitPressedOnce = false;
     SharedPreferences.Editor sEdit;
     LinearLayoutManager horizontalLayoutManager;
@@ -137,20 +138,22 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         prog = findViewById(R.id.main_prog);
         grp1 = findViewById(R.id.main_grp1);
         grp2 = findViewById(R.id.main_grp2);
-
+        sliderView = findViewById(R.id.imageSlider);
 
 
     }
 
     public void test_fun() {
 
-        ZarinPal purchase = ZarinPal.getPurchase(this);
-        PaymentRequest peyment = ZarinPal.getPaymentRequest();
+//        ZarinPal purchase = ZarinPal.getPurchase(this);
+//        PaymentRequest peyment = ZarinPal.getPaymentRequest();
+//
+//        peyment.setMerchantID("");
+//        peyment.setAmount(100);
+//        peyment.setDescription("test_pardasht");
+//        peyment.getCallBackURL();
 
-        peyment.setMerchantID("");
-        peyment.setAmount(100);
-        peyment.setDescription("test_pardasht");
-        peyment.getCallBackURL();
+
 
     }
 
@@ -168,10 +171,10 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
         Button test = findViewById(R.id.mainactivity_test);
 
-//        if (getString(R.string.app_name).equals("company")) {
-//            test.setVisibility(View.VISIBLE);
-//
-//        }
+        if (getString(R.string.app_name).equals("company")) {
+            test.setVisibility(View.VISIBLE);
+
+        }
         test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -300,8 +303,9 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
             @Override
             public void onFailure(Call<GoodGroupRespons> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "2222", Toast.LENGTH_SHORT).show();
-            }
+                intent = new Intent(MainActivity.this, SplashActivity.class);
+                startActivity(intent);
+                finish();            }
         });
 
     }
@@ -387,16 +391,46 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
     private void SliderView(){
 
 
-         SliderView sliderView = findViewById(R.id.imageSlider);
-         SliderAdapter adapter = new SliderAdapter(this);
-         sliderView.setSliderAdapter(adapter);
-        sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
-        sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
-        sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
-        sliderView.setIndicatorSelectedColor(Color.WHITE);
-        sliderView.setIndicatorUnselectedColor(Color.GRAY);
-        sliderView.setScrollTimeInSec(3); //set scroll delay in seconds :
-        sliderView.startAutoCycle();
+        Call<GoodRespons> call3 = apiInterface.Banner_get("Banner");
+        call3.enqueue(new Callback<GoodRespons>() {
+            @Override
+            public void onResponse(Call<GoodRespons> call, Response<GoodRespons> response) {
+                if (response.isSuccessful()) {
+                    banner_goods = response.body().getGoods();
+
+                    if(banner_goods.size()>0)
+                    {
+                        sliderView.setVisibility(View.VISIBLE);
+                        for (final Good Goodss : banner_goods) {
+                            Log.e("company_gn",Goodss.getGoodName());
+                            Log.e("company_gurl",Goodss.getGoodImageUrl());
+                            SliderAdapter adapter = new SliderAdapter(MainActivity.this,0,banner_goods.size(),banner_goods);
+                            sliderView.setSliderAdapter(adapter);
+                            sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+                            sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+                            sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
+                            sliderView.setIndicatorSelectedColor(Color.WHITE);
+                            sliderView.setIndicatorUnselectedColor(Color.GRAY);
+                            sliderView.setScrollTimeInSec(3); //set scroll delay in seconds :
+                            sliderView.startAutoCycle();
+
+
+                        }
+
+                    }else{
+                        sliderView.setVisibility(View.GONE);
+                    }
+
+                }
+            }
+            @Override
+            public void onFailure(Call<GoodRespons> call, Throwable t) {
+                Log.e("retrofit_fail",t.getMessage());
+            }
+        });
+
+
+
 
     }
     private void noti(){

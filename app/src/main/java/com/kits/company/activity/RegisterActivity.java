@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.google.android.material.textfield.TextInputLayout;
 import com.kits.company.R;
 import com.kits.company.adapter.InternetConnection;
+import com.kits.company.model.Farsi_number;
 import com.kits.company.model.User;
 import com.kits.company.model.UsersRespons;
 import com.kits.company.webService.APIClient;
@@ -28,6 +29,7 @@ import com.kits.company.webService.APIInterface;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -310,12 +312,13 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
 
-        fname_profile.setText(shPref.getString("fname", null));
-        lname_profile.setText(shPref.getString("lname", null));
-        mobile_profile.setText(shPref.getString("mobile", null));
+        fname_profile.setText(Farsi_number.PerisanNumber(Objects.requireNonNull(shPref.getString("fname", null))));
+        lname_profile.setText(Farsi_number.PerisanNumber(Objects.requireNonNull(shPref.getString("lname", null))));
+        mobile_profile.setText(Farsi_number.PerisanNumber(Objects.requireNonNull(shPref.getString("mobile", null))));
         email_profile.setText(shPref.getString("email", null));
-        address_profile.setText(shPref.getString("address", null));
-        postaddress_profile.setText(shPref.getString("PostalCode", null));
+        address_profile.setText(Farsi_number.PerisanNumber(Objects.requireNonNull(shPref.getString("address", null))));
+        postaddress_profile.setText(Farsi_number.PerisanNumber(Objects.requireNonNull(shPref.getString("PostalCode", null))));
+        customernam_profile.setText(Farsi_number.PerisanNumber(Objects.requireNonNull(shPref.getString("CustomerName", null))));
 
 
 
@@ -397,7 +400,13 @@ public class RegisterActivity extends AppCompatActivity {
                         sEdit.putString("email", users.get(0).getEmail());
                         sEdit.putString("address", users.get(0).getAddress());
                         sEdit.putString("PostalCode", users.get(0).getPostalCode());
-                        sEdit.putString("CustomerName", users.get(0).getCustomerName());
+                        if(users.get(0).getCustomerName() == null){
+                            sEdit.putString("CustomerName", "مشتری پیش فرض");
+
+                        }else {
+                            sEdit.putString("CustomerName", users.get(0).getCustomerName());
+
+                        }
                         sEdit.putString("img", " ");
                         sEdit.apply();
                         Toast.makeText(RegisterActivity.this, "خوش آمدید", Toast.LENGTH_SHORT).show();

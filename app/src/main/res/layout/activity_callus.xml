@@ -110,14 +110,14 @@ android:layout_marginTop="60dp"
         android:gravity="end|bottom">
 
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/callus_kits"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="12dp"
             android:textColor="@color/white"
             android:layout_gravity="bottom"
-            style="?attr/materialButtonOutlinedStyle"
+
             />
     </androidx.appcompat.widget.LinearLayoutCompat>
 

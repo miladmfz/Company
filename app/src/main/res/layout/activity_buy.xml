@@ -52,9 +52,8 @@
                 android:orientation="horizontal">
 
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/BuyActivity_total_delete"
-                    style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -218,7 +217,7 @@
         >
 
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/BuyActivity_test"
             android:layout_width="match_parent"
             android:text="@string/buy_sendfactor"
@@ -232,7 +231,7 @@
             app:backgroundTint="@color/green_700"
             app:strokeColor="@color/grey_1000"
             app:strokeWidth="1dp"
-            style="?attr/materialButtonOutlinedStyle" />
+              />
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>

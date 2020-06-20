@@ -21,13 +21,14 @@
 
 
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/grp_vlist_detail_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/detail_buy"
             android:textColor="@color/white"
-            style="?attr/materialButtonOutlinedStyle" />
+            style="?attr/materialButtonOutlinedStyle"
+              />
 
 
 

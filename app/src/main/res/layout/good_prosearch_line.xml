@@ -22,17 +22,16 @@
         android:orientation="horizontal"
         android:id="@+id/proserch_ggg"
         android:weightSum="1">
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/good_prosearch_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
             android:text="خرید"
             android:textColor="@color/white"
-            app:backgroundTint="@color/green_600"
+            app:backgroundTint="@color/green_400"
             android:textSize="10sp"
             android:layout_gravity="center_vertical"
-            style="?attr/materialButtonOutlinedStyle"
             android:layout_weight="0.4"/>
         <LinearLayout
             android:layout_width="match_parent"

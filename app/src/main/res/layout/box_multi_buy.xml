@@ -63,7 +63,7 @@
     </LinearLayout>
 
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/box_multi_buy_btn"
         android:layout_width="250dp"
         android:gravity="center"
@@ -74,11 +74,11 @@
         android:textStyle="bold"
         android:textSize="20sp"
         android:textColor="#ffffff"
-        app:backgroundTint="@color/green_600"
+        app:backgroundTint="@color/green_400"
         app:strokeColor="@color/grey_1000"
         app:strokeWidth="1dp"
         app:icon="@drawable/ic_add_shopping_black"
         app:iconTint="@color/white"
-        style="?attr/materialButtonOutlinedStyle" />
+          />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

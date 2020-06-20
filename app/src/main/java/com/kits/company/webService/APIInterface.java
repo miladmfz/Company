@@ -131,10 +131,11 @@ public interface APIInterface {
                               @Field("GoodRef") Integer GoodRef ,
                               @Field("Mobile") String Mobile);
 
+
     @POST("index.php")
     @FormUrlEncoded
-    Call<GoodRespons> Favorite_get(@Field("tag") String tag,
-                                   @Field("Mobile") String Mobile);
+    Call<GoodRespons> Banner_get(@Field("tag") String tag);
+
     @POST("index.php")
     @FormUrlEncoded
     Call<String> Favorite_action(@Field("tag") String tag,

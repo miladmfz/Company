@@ -257,7 +257,7 @@
             >
 
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/finalbuyActivity_sendbasket"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -270,7 +270,7 @@
                 app:backgroundTint="@color/green_700"
                 app:strokeColor="@color/grey_1000"
                 app:strokeWidth="1dp"
-                style="?attr/materialButtonOutlinedStyle" />
+                  />
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>

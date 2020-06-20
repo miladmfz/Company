@@ -73,18 +73,18 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/good_prosearch_view_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
             android:text="@string/detail_buy"
             android:textColor="@color/white"
-            app:backgroundTint="@color/green_600"
+            app:backgroundTint="@color/green_400"
             android:textSize="12sp"
             app:icon="@drawable/ic_add_shopping_black"
             app:iconTint="@color/white"
-            style="?attr/materialButtonOutlinedStyle" />
+              />
 
 
 

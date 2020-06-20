@@ -63,7 +63,7 @@
                     android:orientation="horizontal">
 
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/GrpActivity_filter_active"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -78,11 +78,10 @@
                         app:strokeColor="@color/grey_1000"
                         app:strokeWidth="1dp"
                         app:backgroundTint="@color/green_200"
-                        style="?attr/materialButtonOutlinedStyle"
                         />
 
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/GrpActivity_change_search"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -96,7 +95,7 @@
                         app:strokeColor="@color/grey_1000"
                         app:strokeWidth="1dp"
                         app:backgroundTint="@color/white"
-                        style="?attr/materialButtonOutlinedStyle"
+
                         />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -402,7 +401,7 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="30dp"
         app:backgroundTint="@color/red_800"
-        android:src="@drawable/ic_add_shopping_white"
+        app:srcCompat="@drawable/ic_add_shopping_white"
         android:visibility="gone" />
 
 

@@ -61,14 +61,14 @@
                 android:layout_margin="5dp"
                 android:visibility="gone"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/kits"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="8dp"
             android:textColor="@color/grey_1000"
             android:layout_gravity="bottom"
-            style="?attr/materialButtonOutlinedStyle"
+
             />
     </com.google.android.material.navigation.NavigationView>
 

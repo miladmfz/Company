@@ -297,7 +297,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/good_buy_btndlt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -311,7 +311,7 @@
                 android:textColor="@color/white"
                 app:backgroundTint="@color/red_800"
 
-                style="?attr/materialButtonOutlinedStyle" />
+                  />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
 

@@ -168,7 +168,7 @@
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/box_buy_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -178,11 +178,11 @@
         android:text="افزودن به سبد خرید"
         android:textStyle="bold"
         android:textColor="@color/white"
-        app:backgroundTint="@color/green_600"
+        app:backgroundTint="@color/green_400"
         android:textSize="12sp"
         app:icon="@drawable/ic_add_shopping_black"
         app:iconTint="@color/white"
-        style="?attr/materialButtonOutlinedStyle"
+
         />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

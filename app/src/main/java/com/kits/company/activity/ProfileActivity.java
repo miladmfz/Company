@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.google.android.material.card.MaterialCardView;
 import com.kits.company.R;
 import com.kits.company.adapter.InternetConnection;
+import com.kits.company.model.Farsi_number;
 import com.kits.company.model.User;
 import com.kits.company.model.UsersRespons;
 import com.kits.company.webService.APIClient;
@@ -217,8 +218,8 @@ public class ProfileActivity extends AppCompatActivity {
         xuser = data.getString("XUserName");
         xrandom = data.getString("XRandomCode");
         xmobile_recovery = data.getString("mobile_recovery");
-        mobilee.setText(xmobile_recovery);
-        edtuser.setText(xuser);
+        mobilee.setText(Farsi_number.PerisanNumber(xmobile_recovery));
+        edtuser.setText(Farsi_number.PerisanNumber(xuser));
         exrandom.addTextChangedListener(
                 new TextWatcher() {
                     @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}

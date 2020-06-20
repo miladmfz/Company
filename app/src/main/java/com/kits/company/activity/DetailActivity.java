@@ -25,18 +25,15 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.kits.company.R;
 import com.kits.company.adapter.Buy_box;
-import com.kits.company.adapter.Good_ProSearch_Adapter;
 import com.kits.company.adapter.Good_view_Adapter;
 import com.kits.company.adapter.InternetConnection;
-import com.kits.company.adapter.SliderAdapterExample;
+import com.kits.company.adapter.SliderAdapter;
 import com.kits.company.model.Farsi_number;
 import com.kits.company.model.Good;
 import com.kits.company.model.GoodBuy;
@@ -54,8 +51,6 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class DetailActivity extends AppCompatActivity {
@@ -257,7 +252,7 @@ public class DetailActivity extends AppCompatActivity {
     private void SliderView(){
 
         sliderView = findViewById(R.id.DetailActivity_imageSlider);
-        SliderAdapterExample adapter = new SliderAdapterExample(this,code,img_count);
+        SliderAdapter adapter = new SliderAdapter(this,code,img_count);
         sliderView.setSliderAdapter(adapter);
         sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
         sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
@@ -374,6 +369,7 @@ public class DetailActivity extends AppCompatActivity {
                         btnbuy.setText("ناموجود");
                         btnbuy.setClickable(false);
                         btnbuy.setTextColor(DetailActivity.this.getResources().getColor(R.color.white));
+                        btnbuy.setBackgroundColor(DetailActivity.this.getResources().getColor(R.color.red_300));
                     }
                     prog.setVisibility(View.GONE);
                     favorite_bol=good.getIsFavorite();
@@ -392,6 +388,7 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<GoodRespons> call, Throwable t) {
 
+                finish();
                     Log.e("retrofit_fail",t.getMessage());
 
 

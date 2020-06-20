@@ -295,7 +295,7 @@
                 android:orientation="horizontal"
                 android:weightSum="1">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/back_profileactivity_profile"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -308,9 +308,9 @@
                     android:layout_weight="0.5"
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    app:backgroundTint="@color/green_600"
-                    style="?attr/materialButtonOutlinedStyle"/>
-                <Button
+                    app:backgroundTint="@color/green_400"
+                     />
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/update_profileactivity_profile"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -323,8 +323,8 @@
                     android:layout_weight="0.5"
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    app:backgroundTint="@color/green_600"
-                    style="?attr/materialButtonOutlinedStyle"
+                    app:backgroundTint="@color/green_400"
+
                     />
 
 
@@ -490,7 +490,7 @@
                 android:orientation="horizontal"
                 android:weightSum="1">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/back_profileactivity_changepass_profile"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -503,9 +503,9 @@
                     android:layout_weight="0.5"
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    app:backgroundTint="@color/green_600"
-                    style="?attr/materialButtonOutlinedStyle"/>
-                <Button
+                    app:backgroundTint="@color/green_400"
+                     />
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/update_profileactivity_changepass"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -518,8 +518,8 @@
                     android:layout_weight="0.5"
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    app:backgroundTint="@color/green_600"
-                    style="?attr/materialButtonOutlinedStyle"
+                    app:backgroundTint="@color/green_400"
+
                     />
 
 
@@ -699,7 +699,7 @@
 
 
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/profileactivity_recovery_setbtn"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -712,8 +712,8 @@
                     android:layout_weight="0.5"
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    app:backgroundTint="@color/green_600"
-                    style="?attr/materialButtonOutlinedStyle"
+                    app:backgroundTint="@color/green_400"
+
                     />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
