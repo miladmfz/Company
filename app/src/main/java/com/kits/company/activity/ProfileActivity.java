@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -82,6 +83,10 @@ public class ProfileActivity extends AppCompatActivity {
         //recovery pass
         if(id== 2){
             recovery();
+        }
+        //recovery pass
+        if(id== 3){
+            Createuser();
         }
 
     }
@@ -254,6 +259,41 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         });
+    }
+    public void Createuser() {
+        MaterialCardView materialCardView= findViewById(R.id.profileactivity_form_recovery);
+        materialCardView.setVisibility(View.VISIBLE);
+
+        final EditText exrandom;
+        TextView mobilee =findViewById(R.id.profileactivity_recovery_mobile);
+        exrandom= findViewById(R.id.profileactivity_recovery_xrandom);
+        update_profile= findViewById(R.id.profileactivity_recovery_setbtn);
+        Bundle data = getIntent().getExtras();
+        xrandom = data.getString("XRandomCode");
+        xmobile_recovery = data.getString("mobile_recovery");
+        mobilee.setText(Farsi_number.PerisanNumber(xmobile_recovery));
+        exrandom.addTextChangedListener(
+                new TextWatcher() {
+                    @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+                    @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+                    @Override
+                    public void afterTextChanged(final Editable editable) {
+
+                        if(xrandom.equals(exrandom.getText().toString())){
+                            Toast.makeText(ProfileActivity.this, "خوش آمدید", Toast.LENGTH_SHORT).show();
+                            finish();
+                            Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            shPref = getSharedPreferences("profile", Context.MODE_PRIVATE);
+                            sEdit = shPref.edit();
+                            sEdit.putString("Active", "1");
+                            sEdit.apply();
+                        }
+
+                    }
+                });
+
+
     }
 
 

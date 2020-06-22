@@ -92,6 +92,21 @@ public class SplashActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }else {
+            shPref = getSharedPreferences("profile", Context.MODE_PRIVATE);
+            sEdit = shPref.edit();
+                sEdit.putString("Active", "-1");
+                sEdit.putString("fname", " ");
+                sEdit.putString("lname", " ");
+                sEdit.putString("mobile", " ");
+                sEdit.putString("email", " ");
+                sEdit.putString("address", "معرفی نشده");
+                sEdit.putString("PostalCode", "معرفی نشده");
+                sEdit.putString("img", " ");
+                sEdit.putString("basket_position", " ");
+                sEdit.putString("CustomerName", "معرفی نشده");
+                sEdit.putString("view", "grid");
+                sEdit.apply();
+
             intent = new Intent(SplashActivity.this, RegisterActivity.class);
             startActivity(intent);
             finish();

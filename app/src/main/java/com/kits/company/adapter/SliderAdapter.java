@@ -39,12 +39,13 @@ import retrofit2.Response;
 
 public class SliderAdapter extends SliderViewAdapter<SliderAdapter.GoodViewHolder> {
     APIInterface apiInterface_image = API_image.getCleint().create(APIInterface.class);
-    byte[] imageByteArray ;
     private List<Good> goods;
     private Intent intent;
     private Context mcontext;
     private Integer code=0;
     private Integer img_count=1;
+    private boolean image_zoom;
+    private Good goodView;
 
     public SliderAdapter(Context context,Integer code, Integer img_count, List<Good> goods) {
         this.mcontext = context;
@@ -52,10 +53,11 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.GoodViewHolde
         this.code = code;
         this.goods = goods;
     }
-    public SliderAdapter(Context context,Integer code,Integer img_count) {
+    public SliderAdapter(Context context,Integer code,Integer img_count,boolean zoom) {
         this.mcontext = context;
         this.img_count = img_count;
         this.code = code;
+        this.image_zoom = zoom;
 
     }
 
@@ -67,8 +69,9 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.GoodViewHolde
 
     @Override
     public void onBindViewHolder(final GoodViewHolder holder, int position) {
-        final Good goodView = goods.get(position);
-
+        if(code.equals(0)) {
+            goodView = goods.get(position);
+        }
 
         String SERVER_IP_ADDRESS = mcontext.getString(R.string.SERVERIP);
 
@@ -95,7 +98,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.GoodViewHolde
                 }
             });
         }else {
-            Call<String> call2 = apiInterface_image.GetImage("getImage", code.toString(),position,250);
+            Call<String> call2 = apiInterface_image.GetImage("getImage", code.toString(),position,400);
             call2.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call2, Response<String> response) {
@@ -144,13 +147,14 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.GoodViewHolde
 
 
 
-
-            holder.fl.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    image_zome_view();
-                }
-            });
+            if(image_zoom){
+                holder.fl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        image_zome_view();
+                    }
+                });
+            }
 
         }
     }
@@ -177,7 +181,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.GoodViewHolde
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);//title laye nadashte bashim
         dialog.setContentView(R.layout.image_zoom);
         SliderView sliderView =  dialog.findViewById(R.id.imageSlider_zoom_view);
-        SliderAdapter adapter = new SliderAdapter(mcontext,code,img_count);
+        SliderAdapter adapter = new SliderAdapter(mcontext,code,img_count,false);
         sliderView.setSliderAdapter(adapter);
         sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
         sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);

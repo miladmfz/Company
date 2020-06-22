@@ -348,10 +348,17 @@ public class RegisterActivity extends AppCompatActivity {
                         status.setVisibility(View.VISIBLE);
                         status.setTextColor(ContextCompat.getColor(RegisterActivity.this, R.color.green_900));
                         config();
-                        Toast.makeText(RegisterActivity.this, "خوش آمدید", Toast.LENGTH_SHORT).show();
+
+
+                        intent = new Intent(RegisterActivity.this, ProfileActivity.class);
+                        intent.putExtra("id", 3);
+
+                        intent.putExtra("XRandomCode", users.get(0).getXRandomCode());
+                        intent.putExtra("mobile_recovery", emobile);
+
                         finish();
-                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                         startActivity(intent);
+
                     }
 
                     if (users.get(0).getXUserCode().equals("-1")) {
@@ -481,7 +488,7 @@ public class RegisterActivity extends AppCompatActivity {
     public void config() {
         shPref = getSharedPreferences("profile", Context.MODE_PRIVATE);
         sEdit = shPref.edit();
-        sEdit.putString("Active", "1");
+        sEdit.putString("Active", "-1");
         sEdit.putString("fname", efname);
         sEdit.putString("lname", elname);
         sEdit.putString("mobile", emobile);

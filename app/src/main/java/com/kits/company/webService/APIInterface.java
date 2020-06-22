@@ -1,22 +1,15 @@
 package com.kits.company.webService;
 
-import com.google.gson.JsonArray;
 import com.kits.company.model.GoodBuyRespons;
 import com.kits.company.model.GoodGroupRespons;
 import com.kits.company.model.GoodRespons;
 import com.kits.company.model.PreFactorRespons;
-import com.kits.company.model.Sms;
 import com.kits.company.model.UsersRespons;
 
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 
 
 public interface APIInterface {
@@ -143,17 +136,6 @@ public interface APIInterface {
                                    @Field("GoodRef") Integer GoodRef,
                                    @Field("DeleteFlag") Integer DeleteFlag);
 
-    @Headers("Content-Type: application/json")
-    @POST("Token")
-    @FormUrlEncoded
-    Call<Sms> SMS_Token(@Field("UserApiKey") String UserApiKey,
-                        @Field("SecretKey") String SecretKey);
-
-    @Headers("Content-Type: application/json")
-    @POST("Token")
-    @FormUrlEncoded
-    Call<JsonArray> SMS_Token2(@Field("UserApiKey") String UserApiKey,
-                               @Field("SecretKey") String SecretKey);
 
 
 }

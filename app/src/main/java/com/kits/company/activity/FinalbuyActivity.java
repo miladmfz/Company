@@ -139,16 +139,26 @@ public class FinalbuyActivity extends AppCompatActivity {
                                             assert response.body() != null;
                                             goodbuys = response.body().getGoodsbuy();
 
-                                            if(goodbuys.get(0).getPreFactorCode()>0) {
-                                                Toast.makeText(FinalbuyActivity.this, "پیش فاکتور با موفقیت ثبت شد", Toast.LENGTH_SHORT).show();
-                                                finish();
-                                            }else{
-                                                Toast toast =Toast.makeText(FinalbuyActivity.this, "لطفا مقادیر کالا هارا بررسی کنید", Toast.LENGTH_SHORT);
+                                            if(goodbuys.get(0).getErrCode()>0)
+                                            {
+                                                Toast toast =Toast.makeText(FinalbuyActivity.this, goodbuys.get(0).getErrDesc(), Toast.LENGTH_SHORT);
                                                 toast.setGravity(Gravity.CENTER, 10, 10);
                                                 toast.show();
                                                 finish();
                                                 startActivity(getIntent());
+                                            }else{
+                                                if(goodbuys.get(0).getPreFactorCode()>0) {
+                                                    Toast.makeText(FinalbuyActivity.this, "پیش فاکتور با موفقیت ثبت شد", Toast.LENGTH_SHORT).show();
+                                                    finish();
+                                                }else{
+                                                    Toast toast =Toast.makeText(FinalbuyActivity.this, "لطفا مقادیر کالا هارا بررسی کنید", Toast.LENGTH_SHORT);
+                                                    toast.setGravity(Gravity.CENTER, 10, 10);
+                                                    toast.show();
+                                                    finish();
+                                                    startActivity(getIntent());
+                                                }
                                             }
+
                                         }
                                     }
                                     @Override

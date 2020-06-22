@@ -41,12 +41,30 @@ public class GoodBuy implements Serializable {
 
     @SerializedName("PreFactorCode")
     private Integer PreFactorCode;
+    @SerializedName("ErrCode")
+    private Integer ErrCode;
+    @SerializedName("ErrDesc")
+    private String ErrDesc;
 
     @SerializedName("PreFactorDate")
     private String PreFactorDate;
 
 
+    public Integer getErrCode() {
+        return ErrCode;
+    }
 
+    public void setErrCode(Integer errCode) {
+        ErrCode = errCode;
+    }
+
+    public String getErrDesc() {
+        return ErrDesc;
+    }
+
+    public void setErrDesc(String errDesc) {
+        ErrDesc = errDesc;
+    }
 
     public Integer getPreFactorCode() {
         return PreFactorCode;
