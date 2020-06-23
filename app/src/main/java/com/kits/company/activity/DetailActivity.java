@@ -326,6 +326,8 @@ public class DetailActivity extends AppCompatActivity {
     }
 
 
+
+
     public void good_call()  {
         Call<GoodRespons> call = apiInterface.GetAllGood
                 ("goodinfo","","goodcode="+id,0,0,shPref.getString("mobile", null),0);
@@ -335,6 +337,7 @@ public class DetailActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     goods = response.body().getGoods();
                     Good good= goods.get(0);
+
                     ImageName=good.getGoodExplain6();
                     goodcode.setText(Farsi_number.PerisanNumber(good.getGoodCode()+""));
                     code=good.getGoodCode();
@@ -354,17 +357,76 @@ public class DetailActivity extends AppCompatActivity {
                         maxsellpriceTextView.setText(spannableString);
                     }
                     SliderView();
-                    writer.setText(Farsi_number.PerisanNumber(good.getWriter()+""));
-                    dragoman.setText(Farsi_number.PerisanNumber(good.getDragoMan()+""));
-                    nasher.setText(Farsi_number.PerisanNumber(good.getNasher()+""));
-                    tahvildate.setText(Farsi_number.PerisanNumber(good.getTahvilDate()+""));
-                    printperiod.setText(Farsi_number.PerisanNumber(good.getPrintPeriod()+""));
-                    covertype.setText(Farsi_number.PerisanNumber(good.getCoverType()+""));
-                    size.setText(Farsi_number.PerisanNumber(good.getSize()+""));
-                    pageno.setText(Farsi_number.PerisanNumber(good.getPageNo()+""));
-                    grp.setText(Farsi_number.PerisanNumber(good.getGroupsWhitoutCode()+""));
-                    isbn.setText(Farsi_number.PerisanNumber(good.getISBN()+""));
-                    details.setText(Farsi_number.PerisanNumber(good.getDetails()+""));
+
+
+                    if(good.getWriter() != null){
+                        writer.setText(Farsi_number.PerisanNumber(good.getWriter()+""));
+                    }else {
+                        writer.setText("");
+                    }
+
+                    if(good.getDragoMan() != null){
+                        dragoman.setText(Farsi_number.PerisanNumber(good.getDragoMan()+""));
+                    }else {
+                        dragoman.setText("");
+                    }
+
+                    if(good.getNasher() != null){
+                        nasher.setText(Farsi_number.PerisanNumber(good.getNasher()+""));
+                    }else {
+                        nasher.setText("");
+                    }
+
+                    if(good.getTahvilDate() != null){
+                        tahvildate.setText(Farsi_number.PerisanNumber(good.getTahvilDate()+""));
+                    }else {
+                        tahvildate.setText("");
+                    }
+
+                    if(good.getPrintPeriod() != null){
+                        printperiod.setText(Farsi_number.PerisanNumber(good.getPrintPeriod()+""));
+                    }else {
+                        printperiod.setText("");
+                    }
+
+                    if(good.getCoverType() != null){
+                        covertype.setText(Farsi_number.PerisanNumber(good.getCoverType()+""));
+                    }else {
+                        covertype.setText("");
+                    }
+
+                    if(good.getSize() != null){
+                        size.setText(Farsi_number.PerisanNumber(good.getSize()+""));
+                    }else {
+                        size.setText("");
+                    }
+
+                    if(good.getPageNo() != null){
+                        pageno.setText(Farsi_number.PerisanNumber(good.getPageNo()+""));
+                    }else {
+                        pageno.setText("");
+                    }
+
+                    if(good.getGroupsWhitoutCode() != null){
+                        grp.setText(Farsi_number.PerisanNumber(good.getGroupsWhitoutCode()+""));
+                    }else {
+                        grp.setText("");
+                    }
+
+                    if(good.getISBN() != null){
+                        isbn.setText(Farsi_number.PerisanNumber(good.getISBN()+""));
+                    }else {
+                        isbn.setText("");
+                    }
+
+
+                    if(good.getDetails() != null){
+                        details.setText(Farsi_number.PerisanNumber(good.getDetails()+""));
+                    }else {
+                        details.setText("");
+                    }
+
+
                     if(good.getHasStackAmount()==0){
                         btnbuy.setText("ناموجود");
                         btnbuy.setClickable(false);
@@ -389,7 +451,7 @@ public class DetailActivity extends AppCompatActivity {
             public void onFailure(Call<GoodRespons> call, Throwable t) {
 
                 finish();
-                    Log.e("retrofit_fail",t.getMessage());
+                Log.e("retrofit_fail",t.getMessage());
 
 
             }
