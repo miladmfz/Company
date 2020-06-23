@@ -57,8 +57,5 @@ public class InternetConnection {
             Log.e("aaa", "Error setting mobile data state", ex);
         }
     }
-//    public boolean wifi()
-//    {
-//
-//    }
+
 }

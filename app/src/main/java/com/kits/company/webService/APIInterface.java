@@ -138,6 +138,16 @@ public interface APIInterface {
 
 
 
+
+    @POST("index.php")
+    @FormUrlEncoded
+    Call<String> Verification(@Field("tag") String tag,
+                              @Field("Code") Integer Code,
+                              @Field("MobileNumber") String MobileNumber);
+
+
+
+
 }
 
 

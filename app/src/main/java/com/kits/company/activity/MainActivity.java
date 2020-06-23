@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -35,6 +36,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.navigation.NavigationView;
 
 
@@ -85,6 +87,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
     ArrayList<GoodGroup> Groups,Groups_defult,Groups_image;
     Button btn1,btn2,kowsarsamaneh;
     ImageView imagebtn1,imagebtn2;
+    CardView card_imagebtn1,card_imagebtn2;
     ProgressBar prog;
     SliderView sliderView;
     private boolean doubleBackToExitPressedOnce = false;
@@ -133,6 +136,8 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         btn2 =  findViewById(R.id.main_btn2);
         imagebtn1 =  findViewById(R.id.main_image_btn1);
         imagebtn2 =  findViewById(R.id.main_image_btn2);
+        card_imagebtn1 =  findViewById(R.id.main_card_image_btn1);
+        card_imagebtn2 =  findViewById(R.id.main_card_image_btn2);
         kowsarsamaneh = findViewById(R.id.kits);
         profilename = findViewById(R.id.nav_profile_name);
         prog = findViewById(R.id.main_prog);
@@ -270,32 +275,39 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
     private void kowsar_image_good() {
         Call<GoodGroupRespons> call = apiInterface.Getkowsar_grp("GoodGroupInfo_DefaultImage");
 
+
         call.enqueue(new Callback<GoodGroupRespons>() {
             @Override
             public void onResponse(Call<GoodGroupRespons> call, Response<GoodGroupRespons> response) {
                 if (response.isSuccessful()) {
                     Groups_image = response.body().getGroups();
 
-                    if(Groups_image.size()>0)
+                    if(Groups_image.get(0).getErrCode()>0)
                     {
+                        Log.e("",""+Groups_image.get(0).getErrDesc());
+                    }else {
                         image_name1=Groups_image.get(0).getName();
                         image_id1=Groups_image.get(0).getGroupCode();
-                        imagebtn1.setVisibility(View.VISIBLE);
                         Glide.with(imagebtn1)
                                 .load("http://" + getString(R.string.SERVERIP) + "/login/slide_img/imageview1.jpg")
                                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                                 .into(imagebtn1);
+                        card_imagebtn1.setVisibility(View.VISIBLE);
+
                         if(Groups_image.size()>1) {
                             image_name2 = Groups_image.get(1).getName();
                             image_id2 = Groups_image.get(1).getGroupCode();
-                            imagebtn2.setVisibility(View.VISIBLE);
+                            card_imagebtn2.setVisibility(View.VISIBLE);
                             Glide.with(imagebtn2)
                                     .load("http://" + getString(R.string.SERVERIP) + "/login/slide_img/imageview2.jpg")
                                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                                     .into(imagebtn2);
                         }
 
+
+
                     }
+
 
 
                 }
@@ -303,9 +315,8 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
             @Override
             public void onFailure(Call<GoodGroupRespons> call, Throwable t) {
-                intent = new Intent(MainActivity.this, SplashActivity.class);
-                startActivity(intent);
-                finish();            }
+
+            }
         });
 
     }
@@ -321,59 +332,68 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
             public void onResponse(Call<GoodGroupRespons> call, Response<GoodGroupRespons> response) {
                 if (response.isSuccessful()) {
                     Groups_defult = response.body().getGroups();
+                    if(Groups_defult.get(0).getErrCode()>0)
+                    {
+                        Log.e("",""+Groups_defult.get(0).getErrDesc());
+                    }else {
+                        grp_name1=Groups_defult.get(0).getName();
+                        grp_name2=Groups_defult.get(1).getName();
+                        grp_id1=Groups_defult.get(0).getGroupCode();
+                        grp_id2=Groups_defult.get(1).getGroupCode();
 
-                    grp_name1=Groups_defult.get(0).getName();
-                    grp_name2=Groups_defult.get(1).getName();
-                    grp_id1=Groups_defult.get(0).getGroupCode();
-                    grp_id2=Groups_defult.get(1).getGroupCode();
-
-                    grp1.setText(Groups_defult.get(0).getName());
-                    Call<GoodRespons> call2 = apiInterface.GetAllGood
-                            ("goodinfo","","",Groups_defult.get(0).getGroupCode(),0,shPref.getString("mobile", null),0);
-                    call2.enqueue(new Callback<GoodRespons>() {
-                        @Override
-                        public void onResponse(Call<GoodRespons> call, Response<GoodRespons> response) {
-                            if (response.isSuccessful()) {
-                                goods = response.body().getGoods();
-                                adapter = new Good_view_Adapter( goods, MainActivity.this);
-                                horizontalLayoutManager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false);
-                                rc_allgood.setLayoutManager(horizontalLayoutManager);
-                                rc_allgood.setAdapter(adapter);
-                                rc_allgood.setItemAnimator(new FadeInUpAnimator());
-                                prog.setVisibility(View.GONE);
+                        grp1.setText(Groups_defult.get(0).getName());
+                        Call<GoodRespons> call2 = apiInterface.GetAllGood
+                                ("goodinfo","","",Groups_defult.get(0).getGroupCode(),0,shPref.getString("mobile", null),0);
+                        call2.enqueue(new Callback<GoodRespons>() {
+                            @Override
+                            public void onResponse(Call<GoodRespons> call, Response<GoodRespons> response) {
+                                if (response.isSuccessful()) {
+                                    goods = response.body().getGoods();
+                                    adapter = new Good_view_Adapter( goods, MainActivity.this);
+                                    horizontalLayoutManager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false);
+                                    rc_allgood.setLayoutManager(horizontalLayoutManager);
+                                    rc_allgood.setAdapter(adapter);
+                                    rc_allgood.setItemAnimator(new FadeInUpAnimator());
+                                    prog.setVisibility(View.GONE);
+                                }
                             }
-                        }
-                        @Override
-                        public void onFailure(Call<GoodRespons> call, Throwable t) {
-                            Log.e("retrofit_fail",t.getMessage());
+                            @Override
+                            public void onFailure(Call<GoodRespons> call, Throwable t) {
+                                Log.e("retrofit_fail",t.getMessage());
 
 
-                        }
-                    });
-
-
-
-                    grp2.setText(Groups_defult.get(1).getName());
-
-                    Call<GoodRespons> call3 = apiInterface.GetAllGood
-                            ("goodinfo","","",Groups_defult.get(1).getGroupCode(),0,shPref.getString("mobile", null),0 );
-                    call3.enqueue(new Callback<GoodRespons>() {
-                        @Override
-                        public void onResponse(Call<GoodRespons> call, Response<GoodRespons> response) {
-                            if (response.isSuccessful()) {
-                                goods = response.body().getGoods();
-                                adapter = new Good_view_Adapter( goods, MainActivity.this);
-                                LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false);
-                                rc_allgood_2.setLayoutManager(horizontalLayoutManager);
-                                rc_allgood_2.setAdapter(adapter);
-                                rc_allgood_2.setItemAnimator(new FadeInUpAnimator());
                             }
-                        }
-                        @Override
-                        public void onFailure(Call<GoodRespons> call, Throwable t) {
-                            Log.e("retrofit_fail",t.getMessage());
-                        }
-                    });
+                        });
+
+
+
+                        grp2.setText(Groups_defult.get(1).getName());
+
+                        Call<GoodRespons> call3 = apiInterface.GetAllGood
+                                ("goodinfo","","",Groups_defult.get(1).getGroupCode(),0,shPref.getString("mobile", null),0 );
+                        call3.enqueue(new Callback<GoodRespons>() {
+                            @Override
+                            public void onResponse(Call<GoodRespons> call, Response<GoodRespons> response) {
+                                if (response.isSuccessful()) {
+                                    goods = response.body().getGoods();
+                                    adapter = new Good_view_Adapter( goods, MainActivity.this);
+                                    LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false);
+                                    rc_allgood_2.setLayoutManager(horizontalLayoutManager);
+                                    rc_allgood_2.setAdapter(adapter);
+                                    rc_allgood_2.setItemAnimator(new FadeInUpAnimator());
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<GoodRespons> call, Throwable t) {
+                                Log.e("retrofit_fail",t.getMessage());
+                            }
+                        });
+
+
+                    }
+
+
+
 
 
 
@@ -404,19 +424,16 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                         for (final Good Goodss : banner_goods) {
                             Log.e("company_gn",Goodss.getGoodName());
                             Log.e("company_gurl",Goodss.getGoodImageUrl());
-                            SliderAdapter adapter = new SliderAdapter(MainActivity.this,0,banner_goods.size(),banner_goods);
+                            SliderAdapter adapter = new SliderAdapter(MainActivity.this,0,banner_goods.size(),banner_goods,false);
                             sliderView.setSliderAdapter(adapter);
                             sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
                             sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
                             sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
                             sliderView.setIndicatorSelectedColor(Color.WHITE);
                             sliderView.setIndicatorUnselectedColor(Color.GRAY);
-                            sliderView.setScrollTimeInSec(3); //set scroll delay in seconds :
+                            sliderView.setScrollTimeInSec(5); //set scroll delay in seconds :
                             sliderView.startAutoCycle();
-
-
                         }
-
                     }else{
                         sliderView.setVisibility(View.GONE);
                     }

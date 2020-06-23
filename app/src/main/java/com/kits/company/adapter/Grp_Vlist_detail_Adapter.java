@@ -24,14 +24,13 @@ public class Grp_Vlist_detail_Adapter extends RecyclerView.Adapter<Grp_Vlist_det
 
     private final Context mContext;
     private final ArrayList<GoodGroup> GoodGroups;
-    Intent intent;
+    private Intent intent;
 
 
     public Grp_Vlist_detail_Adapter(ArrayList<GoodGroup> GoodGroups, Context mContext)
     {
         this.mContext = mContext;
         this.GoodGroups = GoodGroups;
-
     }
 
     @NonNull

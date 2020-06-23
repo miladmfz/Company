@@ -21,10 +21,12 @@ import com.google.android.material.card.MaterialCardView;
 import com.kits.company.R;
 import com.kits.company.adapter.InternetConnection;
 import com.kits.company.model.Farsi_number;
+import com.kits.company.model.GoodGroupRespons;
 import com.kits.company.model.User;
 import com.kits.company.model.UsersRespons;
 import com.kits.company.webService.APIClient;
 import com.kits.company.webService.APIInterface;
+import com.kits.company.webService.APIVerification;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -225,6 +227,7 @@ public class ProfileActivity extends AppCompatActivity {
         xmobile_recovery = data.getString("mobile_recovery");
         mobilee.setText(Farsi_number.PerisanNumber(xmobile_recovery));
         edtuser.setText(Farsi_number.PerisanNumber(xuser));
+        Verification();
         exrandom.addTextChangedListener(
                 new TextWatcher() {
                     @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
@@ -260,6 +263,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
+
     public void Createuser() {
         MaterialCardView materialCardView= findViewById(R.id.profileactivity_form_recovery);
         materialCardView.setVisibility(View.VISIBLE);
@@ -272,6 +276,7 @@ public class ProfileActivity extends AppCompatActivity {
         xrandom = data.getString("XRandomCode");
         xmobile_recovery = data.getString("mobile_recovery");
         mobilee.setText(Farsi_number.PerisanNumber(xmobile_recovery));
+        Verification();
         exrandom.addTextChangedListener(
                 new TextWatcher() {
                     @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
@@ -292,6 +297,28 @@ public class ProfileActivity extends AppCompatActivity {
 
                     }
                 });
+
+
+    }
+
+
+    public void Verification() {
+        APIInterface apiInterface = APIVerification.getCleint().create(APIInterface.class);
+
+        Call<String> call_Verification = apiInterface.Verification("Verification",Integer.parseInt(xrandom),xmobile_recovery);
+        call_Verification.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()) {
+                    Log.e("",response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
 
 
     }
@@ -352,6 +379,7 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     }
+
     public void config() {
         shPref = getSharedPreferences("profile", Context.MODE_PRIVATE);
         sEdit = shPref.edit();

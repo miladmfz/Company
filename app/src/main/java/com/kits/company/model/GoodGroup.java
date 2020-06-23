@@ -22,7 +22,27 @@ public class GoodGroup {
     private Integer L5;
     @SerializedName("ChildNo")
     private Integer ChildNo;
+    @SerializedName("ErrCode")
+    private Integer ErrCode;
+    @SerializedName("ErrDesc")
+    private String ErrDesc;
 
+
+    public Integer getErrCode() {
+        return ErrCode;
+    }
+
+    public void setErrCode(Integer errCode) {
+        ErrCode = errCode;
+    }
+
+    public String getErrDesc() {
+        return ErrDesc;
+    }
+
+    public void setErrDesc(String errDesc) {
+        ErrDesc = errDesc;
+    }
 
     public Integer getChildNo() {
         return ChildNo;

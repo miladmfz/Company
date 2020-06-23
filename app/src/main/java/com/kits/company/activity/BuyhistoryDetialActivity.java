@@ -33,12 +33,13 @@ public class BuyhistoryDetialActivity extends AppCompatActivity {
 
     private DecimalFormat decimalFormat = new DecimalFormat("0,000");
     private SharedPreferences shPref;
-    ArrayList<PreFactor> preFactors;
+    private ArrayList<PreFactor> preFactors;
     private APIInterface apiInterface = APIClient.getCleint().create(APIInterface.class);
     ProgressBar prog;
     Integer code=0;
     Prefactor_Detail_Adapter adapter;
     Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

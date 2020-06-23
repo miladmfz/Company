@@ -47,12 +47,15 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.GoodViewHolde
     private boolean image_zoom;
     private Good goodView;
 
-    public SliderAdapter(Context context,Integer code, Integer img_count, List<Good> goods) {
+    public SliderAdapter(Context context,Integer code, Integer img_count, List<Good> goods,boolean zoom) {
         this.mcontext = context;
         this.img_count = img_count;
         this.code = code;
         this.goods = goods;
+        this.image_zoom = zoom;
+
     }
+
     public SliderAdapter(Context context,Integer code,Integer img_count,boolean zoom) {
         this.mcontext = context;
         this.img_count = img_count;
@@ -68,35 +71,19 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.GoodViewHolde
     }
 
     @Override
-    public void onBindViewHolder(final GoodViewHolder holder, int position) {
-        if(code.equals(0)) {
-            goodView = goods.get(position);
-        }
+    public void onBindViewHolder(final GoodViewHolder holder,final  int position) {
 
         String SERVER_IP_ADDRESS = mcontext.getString(R.string.SERVERIP);
 
         if(code.equals(0)) {
+            goodView = goods.get(position);
 
             Log.e("goodurl()",goodView.getGoodImageUrl());
-                    Glide.with(holder.itemView)
-                      .load("http://"+SERVER_IP_ADDRESS+goodView.getGoodImageUrl())
-                      .diskCacheStrategy(DiskCacheStrategy.NONE)
-                      .into(holder.imageViewBackground);
+            Glide.with(holder.itemView)
+                    .load("http://"+SERVER_IP_ADDRESS+goodView.getGoodImageUrl())
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(holder.imageViewBackground);
 
-            holder.imageViewBackground.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                        if (Integer.parseInt(goodView.getGoodName().substring(2)) > 0) {
-                            intent = new Intent(mcontext, DetailActivity.class);
-                            intent.putExtra("id", Integer.parseInt(goodView.getGoodName().substring(2)));
-                            mcontext.startActivity(intent);
-                        }
-                    }catch (Exception e)
-                    {
-                    }
-                }
-            });
         }else {
             Call<String> call2 = apiInterface_image.GetImage("getImage", code.toString(),position,400);
             call2.enqueue(new Callback<String>() {
@@ -116,7 +103,6 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.GoodViewHolde
                                         .placeholder(R.drawable.no_photo)
                                         .error(R.drawable.no_photo) //6
                                         .fallback(R.drawable.no_photo)
-
                                         .fitCenter()
                                         .into(holder.imageViewBackground);
                             } else {
@@ -128,7 +114,6 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.GoodViewHolde
                                         .placeholder(R.drawable.no_photo)
                                         .error(R.drawable.no_photo) //6
                                         .fallback(R.drawable.no_photo)
-
                                         .fitCenter()
                                         .into(holder.imageViewBackground);
                             }
@@ -144,19 +129,30 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.GoodViewHolde
             });
 
 
-
-
-
-            if(image_zoom){
-                holder.fl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        image_zome_view();
-                    }
-                });
-            }
-
         }
+
+        holder.fl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(image_zoom){
+                    image_zome_view();
+                }else {
+                    try {
+                        if (Integer.parseInt(goodView.getGoodName().substring(2)) > 0) {
+
+                            intent = new Intent(mcontext, DetailActivity.class);
+                            intent.putExtra("id", Integer.parseInt(goods.get(position).getGoodName().substring(2)));
+                            mcontext.startActivity(intent);
+                        }
+                    }catch (Exception e)
+                    {
+
+                    }
+                }
+
+            }
+        });
+
     }
     @Override
     public int getCount() {

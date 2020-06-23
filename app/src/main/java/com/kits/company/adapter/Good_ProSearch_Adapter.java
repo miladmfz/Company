@@ -135,7 +135,7 @@ public class Good_ProSearch_Adapter extends RecyclerView.Adapter<Good_ProSearch_
         name=goodView.getGoodName();
 
 
-        call2 = apiInterface_image.GetImage("getImage",goodView.getGoodCode().toString(),0,300);
+        call2 = apiInterface_image.GetImage("getImage",goodView.getGoodCode().toString(),0,200);
         call2.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call2, Response<String> response) {

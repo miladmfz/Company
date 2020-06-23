@@ -184,7 +184,6 @@ public class Good_buy_Adapter extends RecyclerView.Adapter<Good_buy_Adapter.Good
                 Buy_box buy_box = new Buy_box(mContext);
                 buy_box.basketdialog(goodbuyView.getGoodName(),goodbuyView.getPrice().toString(),goodbuyView.getGoodCode(),goodbuyView.getFacAmount(),position);
 
-
             }
         });
 
@@ -193,14 +192,8 @@ public class Good_buy_Adapter extends RecyclerView.Adapter<Good_buy_Adapter.Good
             @Override
             public void onClick(View view) {
                 amount=goodbuyView.getFacAmount();
-
-                    Buy_box buy_box = new Buy_box(mContext);
-                    buy_box.basketdsolo(goodbuyView.getPrice().toString(),goodbuyView.getGoodCode(),amount+1,position);
-
-
-
-
-
+                Buy_box buy_box = new Buy_box(mContext);
+                buy_box.basketdsolo(goodbuyView.getPrice().toString(),goodbuyView.getGoodCode(),amount+1,position);
             }
         });
 
@@ -238,7 +231,6 @@ public class Good_buy_Adapter extends RecyclerView.Adapter<Good_buy_Adapter.Good
         private Button btndlt;
         private ImageView pluse;
         private ImageView minus;
-
         private ImageView img;
         MaterialCardView rltv;
 

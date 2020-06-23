@@ -252,7 +252,7 @@ public class DetailActivity extends AppCompatActivity {
     private void SliderView(){
 
         sliderView = findViewById(R.id.DetailActivity_imageSlider);
-        SliderAdapter adapter = new SliderAdapter(this,code,img_count,true);
+        SliderAdapter adapter = new SliderAdapter(this,code,img_count,goods,true);
         sliderView.setSliderAdapter(adapter);
         sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
         sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
@@ -406,7 +406,6 @@ public class DetailActivity extends AppCompatActivity {
 
         goodcode =  findViewById(R.id.DetailActivity_code);
         goodname =  findViewById(R.id.DetailActivity_name);
-          // sellpercent =  findViewById(R.id.DetailActivity_amount);
         sellprice =  findViewById(R.id.DetailActivity_sellprice);
          maxsellpriceTextView =  findViewById(R.id.DetailActivity_maxsellprice);
          writer =  findViewById(R.id.DetailActivity_writer);
