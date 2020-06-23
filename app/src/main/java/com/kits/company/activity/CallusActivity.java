@@ -57,6 +57,7 @@ Intent intent;
 
         text1 =findViewById(R.id.callus_text1);
         text2 =findViewById(R.id.callus_text2);
+        text3 =findViewById(R.id.callus_text3);
 
 
 
@@ -79,6 +80,19 @@ Intent intent;
 
         Call<String> call2 = apiInterface.info("kowsar_info",438);//438 phone
         call2.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()) {
+                    text3.setText(response.body());
+                }
+            }
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.e("onFailure",t.toString());
+            }
+        });
+        Call<String> call3 = apiInterface.info("kowsar_info",435);//438 address
+        call3.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
