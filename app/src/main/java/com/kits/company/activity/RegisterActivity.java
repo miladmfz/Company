@@ -493,8 +493,9 @@ public class RegisterActivity extends AppCompatActivity {
         sEdit.putString("lname", elname);
         sEdit.putString("mobile", emobile);
         sEdit.putString("email", eemail);
-        sEdit.putString("address", address);
-        sEdit.putString("PostalCode", postaddress);
+        sEdit.putString("address", "معرفی نشده");
+        sEdit.putString("PostalCode", "معرفی نشده");
+        sEdit.putString("CustomerName", "معرفی نشده");
         sEdit.putString("img", " ");
         sEdit.apply();
     }

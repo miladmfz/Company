@@ -384,7 +384,7 @@ public class DetailActivity extends AppCompatActivity {
                     }
 
                     if(good.getPrintPeriod() != null){
-                        printperiod.setText(Farsi_number.PerisanNumber(good.getPrintPeriod()+""));
+                        printperiod.setText(good.getPrintPeriod());
                     }else {
                         printperiod.setText("");
                     }
@@ -402,7 +402,7 @@ public class DetailActivity extends AppCompatActivity {
                     }
 
                     if(good.getPageNo() != null){
-                        pageno.setText(Farsi_number.PerisanNumber(good.getPageNo()+""));
+                        pageno.setText(good.getPageNo());
                     }else {
                         pageno.setText("");
                     }
