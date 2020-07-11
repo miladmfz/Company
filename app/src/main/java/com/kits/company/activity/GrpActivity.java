@@ -157,6 +157,8 @@ public class GrpActivity extends AppCompatActivity {
 
                         srch = arabicToenglish(editable.toString());
                         srch= srch.replaceAll(" ","%");
+                        PageNo=0;
+
                         allgood(srch,sq);
                     }
                 },500);
@@ -201,20 +203,26 @@ public class GrpActivity extends AppCompatActivity {
                 int aperiod;
                 String agoodname = arabicToenglish(goodname.getText().toString());
                 srch=agoodname;
+                srch= srch.replaceAll(" ","%");
+
                 String adragoman = arabicToenglish(dragoman.getText().toString());
                 String anasher =arabicToenglish (nasher.getText().toString());
                 String periodd = arabicToenglish(period.getText().toString());
                 String awriter = arabicToenglish(writer.getText().toString());
                 String aprintyear = arabicToenglish(PrintYear.getText().toString());
+
                 if(!periodd.equals("")) {
-                    aperiod= Integer.parseInt(arabicToenglish(period.getText().toString()));
-                    sq = "nasher Like ''%"+anasher+"%'' And DragoMan Like ''%"+adragoman+"%'' And PrintYear Like ''%"+aprintyear+"%'' And Writer Like ''%"+awriter+"%'' And PrintPeriod = "+aperiod+" And goodname Like ''%"+agoodname+"%''";
+                    aperiod = Integer.parseInt(periodd);
+                    sq = "PrintPeriod = "+aperiod +" ";}
+                else { sq = "PrintPeriod >1 ";}
 
-                }else{
+                if(!anasher.equals("")) { sq = sq + "And nasher Like N''%"+anasher+"%'' ";}
+                if(!adragoman.equals("")) { sq = sq + "And DragoMan Like N''%"+adragoman+"%'' ";}
+                if(!awriter.equals("")) { sq = sq + "And Writer Like N''%"+awriter+"%'' ";}
+                if(!aprintyear.equals("")) { sq = sq + "And PrintYear Like N''%"+aprintyear+"%'' ";}
+                if(!srch.equals("")) { sq = sq + "And GoodName Like N''%"+srch+"%'' ";}
 
-                    sq = "nasher Like ''%"+anasher+"%'' And DragoMan Like ''%"+adragoman+"%'' And PrintYear Like ''%"+aprintyear+"%'' And Writer Like ''%"+awriter+"%'' And PrintPeriod >1 And goodname Like ''%"+agoodname+"%''";
-
-                }
+                PageNo=0;
                 allgood(srch,sq);
                 Toast.makeText(GrpActivity.this, "انجام شد ", Toast.LENGTH_SHORT).show();
             }

@@ -144,6 +144,8 @@ Intent intent;
                             public void run() {
                                 srch = arabicToenglish(editable.toString());
                                 srch= srch.replaceAll(" ","%");
+                                PageNo=0;
+
                                 allgood(srch,"");
                             }
                         },1000);
@@ -197,15 +199,19 @@ Intent intent;
                 String periodd = arabicToenglish(period.getText().toString());
                 String awriter = arabicToenglish(writer.getText().toString());
                 String aprintyear = arabicToenglish(printyear.getText().toString());
+
                 if(!periodd.equals("")) {
-                    aperiod= Integer.parseInt(arabicToenglish(period.getText().toString()));
-                    sq = "nasher Like ''%"+anasher+"%'' And DragoMan Like ''%"+adragoman+"%'' And PrintYear Like ''%"+aprintyear+"%'' And Writer Like ''%"+awriter+"%'' And PrintPeriod = "+aperiod+" And goodname Like ''%"+srch+"%''";
+                    aperiod = Integer.parseInt(periodd);
+                    sq = "PrintPeriod = "+aperiod +" ";}
+                else { sq = "PrintPeriod >1 ";}
+                if(!anasher.equals("")) { sq = sq + "And nasher Like N''%"+anasher+"%'' ";}
+                if(!adragoman.equals("")) { sq = sq + "And DragoMan Like N''%"+adragoman+"%'' ";}
+                if(!awriter.equals("")) { sq = sq + "And Writer Like N''%"+awriter+"%'' ";}
+                if(!aprintyear.equals("")) { sq = sq + "And PrintYear Like N''%"+aprintyear+"%'' ";}
+                if(!srch.equals("")) { sq = sq + "And GoodName Like N''%"+srch+"%'' ";}
 
-                }else{
 
-                     sq = "nasher Like ''%"+anasher+"%'' And DragoMan Like ''%"+adragoman+"%'' And PrintYear Like ''%"+aprintyear+"%'' And Writer Like ''%"+awriter+"%'' And PrintPeriod >1 And goodname Like ''%"+srch+"%''";
-
-                }
+                PageNo=0;
                 allgood(srch,sq);
                 Toast.makeText(SearchActivity.this, "انجام شد ", Toast.LENGTH_SHORT).show();
 

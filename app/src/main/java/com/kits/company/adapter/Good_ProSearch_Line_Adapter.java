@@ -154,7 +154,7 @@ public class Good_ProSearch_Line_Adapter extends RecyclerView.Adapter<Good_ProSe
                     .into(holder.img);
             holder.img.setVisibility(View.VISIBLE);
 
-            call2 = apiInterface_image.GetImage("getImage",goodView.getGoodCode().toString(),0,110);
+            call2 = apiInterface_image.GetImage("getImage",goodView.getGoodCode().toString(),0,100);
             call2.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call2, Response<String> response) {
