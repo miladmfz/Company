@@ -127,58 +127,73 @@ public class Good_ProSearch_Line_Adapter extends RecyclerView.Adapter<Good_ProSe
 
 
 
+        if(!goods.get(position).getGoodImageName().equals("")){
+            Glide.with(holder.img)
+                    .asBitmap()
+                    .load(R.drawable.white)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .fitCenter()
+                    .into(holder.img);
+            holder.img.setVisibility(View.VISIBLE);
 
-        call2 = apiInterface_image.GetImage("getImage",goodView.getGoodCode().toString(),0,70);
-        call2.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call2, Response<String> response) {
-                if (response.isSuccessful()) {
+            Glide.with(holder.img)
+                    .asBitmap()
+                    .load(Base64.decode(goods.get(position).getGoodImageName(), Base64.DEFAULT))
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .fitCenter()
+                    .into(holder.img);
 
-                    assert response.body() != null;
+
+
+        }else{
+            Glide.with(holder.img)
+                    .asBitmap()
+                    .load(R.drawable.white)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .fitCenter()
+                    .into(holder.img);
+            holder.img.setVisibility(View.VISIBLE);
+
+            call2 = apiInterface_image.GetImage("getImage",goodView.getGoodCode().toString(),0,110);
+            call2.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call2, Response<String> response) {
+                    if (response.isSuccessful()) {
+
+                        assert response.body() != null;
                         try {
-                        if(!response.body().equals("no_photo")) {
+                            if(!response.body().equals("no_photo")) {
+                                goods.get(position).setGoodImageName(response.body());
+                                Glide.with(holder.img)
+                                        .asBitmap()
+                                        .load(Base64.decode(response.body(), Base64.DEFAULT))
+                                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                        .fitCenter()
+                                        .into(holder.img);
 
-                            Glide.with(holder.img)
+                            } else {
+                                Glide.with(holder.img)
+                                        .asBitmap()
+                                        .load(R.drawable.no_photo)
+                                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                        .fitCenter()
+                                        .into(holder.img);
 
-                                    .asBitmap()
-                                    .load(Base64.decode(response.body(), Base64.DEFAULT))
-                                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                                    .placeholder(R.drawable.no_photo)
-                                    .error(R.drawable.no_photo) //6
-                                    .fallback(R.drawable.no_photo)
-
-                                    .fitCenter()
-                                    .into(holder.img);
-                            holder.img.setVisibility(View.VISIBLE);
-
-
-                        } else {
-                            Glide.with(holder.img)
-                                    .asBitmap()
-                                    .load(R.drawable.no_photo)
-                                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                                    .placeholder(R.drawable.no_photo)
-                                    .error(R.drawable.no_photo) //6
-                                    .fallback(R.drawable.no_photo)
-
-                                    .fitCenter()
-                                    .into(holder.img).onDestroy();
-
-                            holder.img.setVisibility(View.VISIBLE);
-
-                        }
+                            }
                         } catch (Exception e) {
                             e.getMessage();
                         }
 
 
+                    }
                 }
-            }
-            @Override
-            public void onFailure(Call<String> call2, Throwable t) {
-                Log.e("onFailure",""+t.toString());
-            }
-        });
+                @Override
+                public void onFailure(Call<String> call2, Throwable t) {
+                    Log.e("onFailure",""+t.toString());
+                }
+            });
+        }
+
 
         holder.rltv.setOnClickListener(new View.OnClickListener()
         {

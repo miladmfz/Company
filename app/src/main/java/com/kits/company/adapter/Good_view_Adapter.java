@@ -77,7 +77,7 @@ public class Good_view_Adapter extends RecyclerView.Adapter<Good_view_Adapter.Go
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final GoodViewHolder holder, int position)
+    public void onBindViewHolder(@NonNull final GoodViewHolder holder,final int position)
     {
         code=0;
         final int myps= position;
@@ -114,50 +114,73 @@ public class Good_view_Adapter extends RecyclerView.Adapter<Good_view_Adapter.Go
         name=goodView.getGoodName();
         String SERVER_IP_ADDRESS = mContext.getString(R.string.SERVERIP);
 
-        call2 = apiInterface_image.GetImage("getImage",goodView.getGoodCode().toString(),0,200);
+        if(!goods.get(position).getGoodImageName().equals("")){
+            Glide.with(holder.img)
+                    .asBitmap()
+                    .load(R.drawable.white)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .fitCenter()
+                    .into(holder.img);
+            holder.img.setVisibility(View.VISIBLE);
 
-        call2.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call2, Response<String> response) {
-                if (response.isSuccessful()) {
-                    assert response.body() != null;
-                    try {
-                    if(!response.body().equals("no_photo")) {
-                        Glide.with(holder.img)
-                                .asBitmap()
-                                .load(Base64.decode(response.body(), Base64.DEFAULT))
-                                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                                .placeholder(R.drawable.no_photo)
-                                .error(R.drawable.no_photo) //6
-                                .fallback(R.drawable.no_photo)
+            Glide.with(holder.img)
+                    .asBitmap()
+                    .load(Base64.decode(goods.get(position).getGoodImageName(), Base64.DEFAULT))
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .fitCenter()
+                    .into(holder.img);
 
-                                .fitCenter()
-                                .into(holder.img);
-                        holder.img.setVisibility(View.VISIBLE);
-                    }else {
-                        Glide.with(holder.img)
-                                .asBitmap()
-                                .load(R.drawable.no_photo)
-                                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                                .placeholder(R.drawable.no_photo)
-                                .error(R.drawable.no_photo) //6
-                                .fallback(R.drawable.no_photo)
 
-                                .fitCenter()
-                                .into(holder.img);
-                        holder.img.setVisibility(View.VISIBLE);
 
-                    }
-                    } catch (Exception e) {
-                        e.getMessage();
+        }else{
+            Glide.with(holder.img)
+                    .asBitmap()
+                    .load(R.drawable.white)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .fitCenter()
+                    .into(holder.img);
+            holder.img.setVisibility(View.VISIBLE);
+
+            call2 = apiInterface_image.GetImage("getImage",goodView.getGoodCode().toString(),0,110);
+            call2.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call2, Response<String> response) {
+                    if (response.isSuccessful()) {
+
+                        assert response.body() != null;
+                        try {
+                            if(!response.body().equals("no_photo")) {
+                                goods.get(position).setGoodImageName(response.body());
+                                Glide.with(holder.img)
+                                        .asBitmap()
+                                        .load(Base64.decode(response.body(), Base64.DEFAULT))
+                                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                        .fitCenter()
+                                        .into(holder.img);
+
+                            } else {
+                                Glide.with(holder.img)
+                                        .asBitmap()
+                                        .load(R.drawable.no_photo)
+                                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                        .fitCenter()
+                                        .into(holder.img);
+
+                            }
+                        } catch (Exception e) {
+                            e.getMessage();
+                        }
+
+
                     }
                 }
-            }
-            @Override
-            public void onFailure(Call<String> call2, Throwable t) {
-                Log.e("onFailure",""+t.toString());
-            }
-        });
+                @Override
+                public void onFailure(Call<String> call2, Throwable t) {
+                    Log.e("onFailure",""+t.toString());
+                }
+            });
+        }
+
 
         holder.rltv.setOnClickListener(new View.OnClickListener()
         {
