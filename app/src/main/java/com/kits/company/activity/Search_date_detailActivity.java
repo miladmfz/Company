@@ -161,22 +161,20 @@ public class Search_date_detailActivity extends AppCompatActivity {
                                         public void onResponse(Call<GoodRespons> call, Response<GoodRespons> response) {
                                             ArrayList<Good> goods = response.body().getGoods();
                                             Good good= goods.get(0);
-                                            Call<String> call2 = apiInterface.InsertBasket("Insertbasket", "DeviceCode", Integer.parseInt(s[0]), Integer.parseInt(amo)+good.getBasketAmount(), Integer.parseInt(s[1]), "test", shPref.getString("mobile", null));
-                                            call2.enqueue(new Callback<String>() {
+                                            Call<GoodBuyRespons> call2 = apiInterface.InsertBasket("Insertbasket", "DeviceCode", Integer.parseInt(s[0]), Integer.parseInt(amo)+good.getBasketAmount(), Integer.parseInt(s[1]), "test", shPref.getString("mobile", null));
+                                            call2.enqueue(new Callback<GoodBuyRespons>() {
                                                 @Override
-                                                public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+                                                public void onResponse(Call<GoodBuyRespons> call, retrofit2.Response<GoodBuyRespons> response) {
                                                     Log.e("onResponse", "" + response.body());
-                                                    assert response.body() != null;
-                                                    if (response.body().equals("1")) {
+                                                    goodbuys = response.body().getGoodsbuy();
+                                                    if (goodbuys.get(0).getErrCode() > 0){
+                                                        Toast.makeText(Search_date_detailActivity.this, goodbuys.get(0).getErrDesc()+"برای"+s[2], Toast.LENGTH_SHORT).show();
+                                                    }else{
                                                         setupBadge();
-                                                    }else {
-                                                        Toast toast = Toast.makeText(Search_date_detailActivity.this, " موجودی "+s[2]+" کمتر از این مقدار می باشد", Toast.LENGTH_SHORT);
-                                                        toast.setGravity(Gravity.CENTER, 10, 10);
-                                                        toast.show();
                                                     }
                                                 }
                                                 @Override
-                                                public void onFailure(Call<String> call, Throwable t) {
+                                                public void onFailure(Call<GoodBuyRespons> call, Throwable t) {
                                                     Log.e("onFailure", "" + t.toString());
                                                 }
                                             });

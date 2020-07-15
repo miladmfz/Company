@@ -236,12 +236,10 @@ public class GrpActivity extends AppCompatActivity {
                     totalItemCount =   gridLayoutManager.getItemCount();
                     pastVisiblesItems =   gridLayoutManager.findFirstVisibleItemPosition();
 
-
                     if (loading) {
                         if ((visibleItemCount + pastVisiblesItems) >= totalItemCount-2) {
                             loading = false;
                             Log.e("rc_...", "Last Item Wow !");
-                            // Do pagination.. i.e. fetch new data
                             PageNo++;
                             allgood_more(srch,sq);
                         }
@@ -285,22 +283,21 @@ public class GrpActivity extends AppCompatActivity {
                                         public void onResponse(Call<GoodRespons> call, Response<GoodRespons> response) {
                                             ArrayList<Good> goods = response.body().getGoods();
                                             Good good= goods.get(0);
-                                            Call<String> call2 = apiInterface.InsertBasket("Insertbasket", "DeviceCode", Integer.parseInt(s[0]), Integer.parseInt(amo)+good.getBasketAmount(), Integer.parseInt(s[1]), "test", shPref.getString("mobile", null));
-                                            call2.enqueue(new Callback<String>() {
+                                            Call<GoodBuyRespons> call2 = apiInterface.InsertBasket("Insertbasket", "DeviceCode", Integer.parseInt(s[0]), Integer.parseInt(amo)+good.getBasketAmount(), Integer.parseInt(s[1]), "test", shPref.getString("mobile", null));
+                                            call2.enqueue(new Callback<GoodBuyRespons>() {
                                                 @Override
-                                                public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+                                                public void onResponse(Call<GoodBuyRespons> call, retrofit2.Response<GoodBuyRespons> response) {
                                                     Log.e("onResponse", "" + response.body());
                                                     assert response.body() != null;
-                                                    if (response.body().equals("1")) {
+                                                    goodbuys = response.body().getGoodsbuy();
+                                                    if (goodbuys.get(0).getErrCode() > 0){
+                                                        Toast.makeText(GrpActivity.this, goodbuys.get(0).getErrDesc()+"برای"+s[2], Toast.LENGTH_SHORT).show();
+                                                    }else{
                                                         setupBadge();
-                                                    }else {
-                                                        Toast toast = Toast.makeText(GrpActivity.this, " موجودی "+s[2]+" کمتر از این مقدار می باشد", Toast.LENGTH_SHORT);
-                                                        toast.setGravity(Gravity.CENTER, 10, 10);
-                                                        toast.show();
                                                     }
                                                 }
                                                 @Override
-                                                public void onFailure(Call<String> call, Throwable t) {
+                                                public void onFailure(Call<GoodBuyRespons> call, Throwable t) {
                                                     Log.e("onFailure", "" + t.toString());
                                                 }
                                             });
@@ -318,8 +315,6 @@ public class GrpActivity extends AppCompatActivity {
                                     good.setCheck(false);
                                 }
                                 Multi_buy.clear();
-                                //set_rc_good();
-
                                 if(Objects.equals(shPref.getString("view", null), "grid")){
                                     adapter.multi_select=false;
                                     adapter.notifyDataSetChanged();
@@ -338,12 +333,8 @@ public class GrpActivity extends AppCompatActivity {
                         }
                     }
                 });
-
             }
         });
-
-
-
     }
 
 
@@ -351,7 +342,6 @@ public class GrpActivity extends AppCompatActivity {
 
 
         Call<GoodGroupRespons> call = apiInterface.Getgrp("GoodGroupInfo", id);
-
         call.enqueue(new Callback<GoodGroupRespons>() {
             @Override
             public void onResponse(Call<GoodGroupRespons> call, Response<GoodGroupRespons> response) {
@@ -363,10 +353,8 @@ public class GrpActivity extends AppCompatActivity {
                     rc_grp.setAdapter(adapter);
                     rc_grp.setItemAnimator(new DefaultItemAnimator());
                     prog.setVisibility(View.GONE);
-
                 }
             }
-
             @Override
             public void onFailure(Call<GoodGroupRespons> call, Throwable t) {
                 rc_grp.setVisibility(View.GONE);
@@ -390,7 +378,6 @@ public class GrpActivity extends AppCompatActivity {
                         rc_good.setLayoutManager(gridLayoutManager);
                         rc_good.setAdapter(adapter);
                         rc_good.setItemAnimator(new FlipInTopXAnimator());
-
                     }else{
                         adapter = new Good_ProSearch_Adapter(goods, GrpActivity.this);
                         adapter_line = new Good_ProSearch_Line_Adapter(goods, GrpActivity.this);
@@ -402,20 +389,16 @@ public class GrpActivity extends AppCompatActivity {
                     item_multi.findItem(R.id.menu_grid).setVisible(true);
                     prog.setVisibility(View.GONE);
                     loading = true;
-
                 }
             }
-
             @Override
             public void onFailure(Call<GoodRespons> call, Throwable t) {
-
                 rc_good.setVisibility(View.GONE);
                 prog.setVisibility(View.GONE);
                 Toast toast =Toast.makeText(GrpActivity.this, "کالایی یافت نشد", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER, 10, 10);
                 toast.show();            }
         });
-
     }
 
 
@@ -435,9 +418,7 @@ public class GrpActivity extends AppCompatActivity {
                         adapter_line.notifyDataSetChanged();
                     }
                     prog.setVisibility(View.GONE);
-
                     loading = true;
-
                 }
             }
 
@@ -446,8 +427,6 @@ public class GrpActivity extends AppCompatActivity {
                 Toast.makeText(GrpActivity.this, "کالای بیشتری موجود نیست", Toast.LENGTH_SHORT).show();
                 prog.setVisibility(View.GONE);
                 loading = true;
-
-
             }
         });
 
@@ -494,7 +473,6 @@ public class GrpActivity extends AppCompatActivity {
                 onOptionsItemSelected(menuItem);
             }
         });
-
         return true;
     }
     @Override
@@ -519,7 +497,6 @@ public class GrpActivity extends AppCompatActivity {
 
 
             if(Objects.equals(shPref.getString("view", null), "grid")){
-
                 item_multi.findItem(R.id.menu_grid).setIcon(R.drawable.ic_view_grid_24dp);
                 sEdit.putString("view","line");
                 sEdit.apply();
@@ -530,7 +507,6 @@ public class GrpActivity extends AppCompatActivity {
                 rc_good.setAdapter(adapter_line);
 
             }else{
-
                 item_multi.findItem(R.id.menu_grid).setIcon(R.drawable.ic_view_line_24dp);
                 sEdit.putString("view","grid");
                 sEdit.apply();
@@ -540,8 +516,6 @@ public class GrpActivity extends AppCompatActivity {
                 gridLayoutManager.scrollToPosition(pastVisiblesItems+2);
                 rc_good.setLayoutManager(gridLayoutManager);
                 rc_good.setAdapter(adapter);
-
-
             }
             return true;
         }
@@ -554,11 +528,9 @@ public class GrpActivity extends AppCompatActivity {
             if(Objects.equals(shPref.getString("view", null), "grid")){
                 adapter.multi_select=false;
                 adapter.notifyDataSetChanged();
-
             }else{
                 adapter_line.multi_select=false;
                 adapter_line.notifyDataSetChanged();
-
             }
             fab.setVisibility(View.GONE);
             return true;
@@ -569,11 +541,9 @@ public class GrpActivity extends AppCompatActivity {
     public void setupBadge() {
 
         if (textCartItemCount != null) {
-
             if (textCartItemCount.getVisibility() != View.GONE) {
                 textCartItemCount.setVisibility(View.GONE);
             }
-
             Call<GoodBuyRespons> call2 = apiInterface.GetbasketSum("BasketSum",shPref.getString("mobile", null));
             call2.enqueue(new Callback<GoodBuyRespons>() {
                 @Override
@@ -581,7 +551,6 @@ public class GrpActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
                         assert response.body() != null;
                         goodbuys_setupBadge = response.body().getGoodsbuy();
-
                         textCartItemCount.setText(Farsi_number.PerisanNumber(goodbuys_setupBadge.get(0).getSumFacAmount()));
                         if(Integer.parseInt(goodbuys_setupBadge.get(0).getSumFacAmount())>0) {
                             if (textCartItemCount.getVisibility() != View.VISIBLE) {
@@ -593,10 +562,7 @@ public class GrpActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<GoodBuyRespons> call, Throwable t) {
                     Log.e("retrofit_fail",t.getMessage());
-
-
                     Log.e("retrofit_fail",t.getMessage());
-
            }
             });
         }
@@ -616,7 +582,6 @@ public class GrpActivity extends AppCompatActivity {
             fab.setVisibility(View.VISIBLE);
             Multi_buy.add(new String[]{String.valueOf(code_fun), price_fun,name});
             item_multi.findItem(R.id.menu_multi).setVisible(true);
-
         } else {
             int b = 0, c = 0;
             for (String[] s : Multi_buy) {
@@ -632,7 +597,6 @@ public class GrpActivity extends AppCompatActivity {
                 }
                 fab.setVisibility(View.GONE);
                 item_multi.findItem(R.id.menu_multi).setVisible(false);
-
                 set_rc_good();
             }
         }
@@ -648,7 +612,6 @@ public class GrpActivity extends AppCompatActivity {
             rc_good.setLayoutManager(gridLayoutManager);
             rc_good.setAdapter(adapter);
             rc_good.setItemAnimator(new FlipInTopXAnimator());
-
         }else{
             adapter_line = new Good_ProSearch_Line_Adapter(goods, GrpActivity.this);
             adapter_line.multi_select=false;

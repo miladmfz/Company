@@ -77,7 +77,7 @@ public interface APIInterface {
 
     @POST("index.php")
     @FormUrlEncoded
-    Call <String> InsertBasket(@Field("tag") String tag,
+    Call <GoodBuyRespons> InsertBasket(@Field("tag") String tag,
                                @Field("DeviceCode") String DeviceCode,
                                @Field("GoodRef") Integer GoodRef,
                                @Field("FacAmount") Integer FacAmount,

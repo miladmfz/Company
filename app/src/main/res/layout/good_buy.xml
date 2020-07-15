@@ -171,28 +171,41 @@
 
 
 
-            <LinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/good_buy_IsReserved"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_margin="3dp"
                 android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/good_buy_shortage_false1"
+                    android:id="@+id/good_buy_NotReserved"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:layout_weight="0.5"
+                    android:layout_weight="0.9"
                     android:textColor="#FF0000"
                     android:textSize="12sp"
-                    android:text="@string/good_buy_shortage"
+                    android:textStyle="bold"
+                    android:background="#ffffff" />
+
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="right|center"
+                    android:layout_weight="0.1"
+                    android:textColor="#FF0000"
+                    android:textSize="12sp"
+                    android:text="عدد از این کالا مورد سفارش قرار میگیرید"
                     android:textStyle="bold"
                     android:background="#ffffff" />
 
 
 
 
-            </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
 
             <LinearLayout

@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
     ImageView imagebtn1,imagebtn2;
     CardView card_imagebtn1,card_imagebtn2;
     ProgressBar prog;
-    SliderView sliderView;
+    public SliderView sliderView;
     private boolean doubleBackToExitPressedOnce = false;
     SharedPreferences.Editor sEdit;
     LinearLayoutManager horizontalLayoutManager;
@@ -246,7 +246,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
     private void allgrp() {
 
-        Call<GoodGroupRespons> call = apiInterface.Getgrp("GoodGroupInfo",0);
+        Call<GoodGroupRespons> call = apiInterface.Getgrp("GoodGroupInfo",1);
         call.enqueue(new Callback<GoodGroupRespons>() {
             @Override
             public void onResponse(Call<GoodGroupRespons> call, Response<GoodGroupRespons> response) {
@@ -359,7 +359,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                             }
                             @Override
                             public void onFailure(Call<GoodRespons> call, Throwable t) {
-                                Log.e("retrofit_fail",t.getMessage());
+                               // Log.e("retrofit_fail",t.getMessage());
 
 
                             }
@@ -385,7 +385,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                             }
                             @Override
                             public void onFailure(Call<GoodRespons> call, Throwable t) {
-                                Log.e("retrofit_fail",t.getMessage());
+                                //Log.e("retrofit_fail",t.getMessage());
                             }
                         });
 

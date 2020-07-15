@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -82,21 +83,28 @@ public class Good_buy_Adapter extends RecyclerView.Adapter<Good_buy_Adapter.Good
 
         holder.goodnameTextView.setText(Farsi_number.PerisanNumber(goodbuyView.getGoodName()));
         holder.amount.setText(Farsi_number.PerisanNumber(goodbuyView.getFacAmount().toString()));
-        holder.priceTextView.setText(Farsi_number.PerisanNumber(decimalFormat.format(Integer.parseInt("" + goodbuyView.getPrice()))));
+        holder.priceTextView.setText(Farsi_number.PerisanNumber(decimalFormat.format(Integer.parseInt("" + goodbuyView.getSellPrice()))));
 
         holder.maxsellpriceTextView.setText(Farsi_number.PerisanNumber(decimalFormat.format(Integer.parseInt("" + goodbuyView.getMaxSellPrice()))));
-        holder.total.setText(Farsi_number.PerisanNumber(decimalFormat.format(goodbuyView.getPrice()*goodbuyView.getFacAmount())));
-        holder.offer.setText(Farsi_number.PerisanNumber((100 - ((goodbuyView.getPrice() * 100) / goodbuyView.getMaxSellPrice())) + " درصد تخفیف "));
+        holder.total.setText(Farsi_number.PerisanNumber(decimalFormat.format(goodbuyView.getSellPrice()*goodbuyView.getFacAmount())));
+        holder.offer.setText(Farsi_number.PerisanNumber((100 - ((goodbuyView.getSellPrice() * 100) / goodbuyView.getMaxSellPrice())) + " درصد تخفیف "));
+        holder.good_buy_NotReserved.setText(goodbuyView.getNotReserved());
 
-
-        if (goodbuyView.getHasStackAmount() == 1) {
-            holder.good_buy_shortage_f1.getLayoutParams().height = 1;
+        if (goodbuyView.getIsReserved().equals("1")) {
+            holder.good_buy_IsReserved.setVisibility(View.GONE);
         } else {
-            holder.good_buy_shortage_f1.getLayoutParams().height = 30;
+            if(Integer.parseInt(goodbuyView.getNotReserved())>0){
+                holder.good_buy_IsReserved.setVisibility(View.VISIBLE);
+            }else{
+                holder.good_buy_IsReserved.setVisibility(View.GONE);
+            }
         }
 
 
-        call2 = apiInterface_image.GetImage("getImage",goodbuyView.getGoodCode().toString(),0,250);
+
+
+
+        call2 = apiInterface_image.GetImage("getImage",goodbuyView.getGoodCode().toString(),0,120);
         call2.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call2, Response<String> response) {
@@ -107,11 +115,7 @@ public class Good_buy_Adapter extends RecyclerView.Adapter<Good_buy_Adapter.Good
                         Glide.with(holder.img)
                                 .asBitmap()
                                 .load(Base64.decode(response.body(), Base64.DEFAULT))
-                                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                                .placeholder(R.drawable.no_photo)
-                                .error(R.drawable.no_photo) //6
-                                .fallback(R.drawable.no_photo)
-                                .override(200, 200)
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
                                 .fitCenter()
                                 .into(holder.img);
                         holder.img.setVisibility(View.VISIBLE);
@@ -120,11 +124,7 @@ public class Good_buy_Adapter extends RecyclerView.Adapter<Good_buy_Adapter.Good
                         Glide.with(holder.img)
                                 .asBitmap()
                                 .load(R.drawable.no_photo)
-                                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                                .placeholder(R.drawable.no_photo)
-                                .error(R.drawable.no_photo) //6
-                                .fallback(R.drawable.no_photo)
-                                .override(200, 200)
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
                                 .fitCenter()
                                 .into(holder.img);
                         holder.img.setVisibility(View.VISIBLE);
@@ -226,7 +226,8 @@ public class Good_buy_Adapter extends RecyclerView.Adapter<Good_buy_Adapter.Good
         private TextView priceTextView;
         private TextView total;
         private TextView amount;
-        private TextView good_buy_shortage_f1;
+        private TextView good_buy_NotReserved;
+        private LinearLayoutCompat good_buy_IsReserved;
         private TextView offer;
         private Button btndlt;
         private ImageView pluse;
@@ -240,7 +241,8 @@ public class Good_buy_Adapter extends RecyclerView.Adapter<Good_buy_Adapter.Good
             maxsellpriceTextView = itemView.findViewById(R.id.good_buy_maxprice);
             priceTextView = itemView.findViewById(R.id.good_buy_price);
             amount = itemView.findViewById(R.id.good_buy_amount);
-            good_buy_shortage_f1 = itemView.findViewById(R.id.good_buy_shortage_false1);
+            good_buy_NotReserved = itemView.findViewById(R.id.good_buy_NotReserved);
+            good_buy_IsReserved = itemView.findViewById(R.id.good_buy_IsReserved);
             total = itemView.findViewById(R.id.good_buy_total);
             img = itemView.findViewById(R.id.good_buy_img);
             btndlt = itemView.findViewById(R.id.good_buy_btndlt);

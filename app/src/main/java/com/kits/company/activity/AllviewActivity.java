@@ -59,7 +59,6 @@ public class AllviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_allview);
 
-
         InternetConnection ic =new  InternetConnection(getApplicationContext());
         if(ic.has()){
             init();
@@ -83,17 +82,10 @@ public class AllviewActivity extends AppCompatActivity {
 
         companies = new ArrayList<>();
 
-
-
-
-
-
         final ArrayList<Product> Product_child2 = new ArrayList<>();
 
 
-
-
-        Call<GoodGroupRespons> call = apiInterface.Getgrp("GoodGroupInfo",0);
+        Call<GoodGroupRespons> call = apiInterface.Getgrp("GoodGroupInfo",1);
         call.enqueue(new Callback<GoodGroupRespons>() {
             @Override
             public void onResponse(Call<GoodGroupRespons> call, Response<GoodGroupRespons> response) {
@@ -121,7 +113,6 @@ public class AllviewActivity extends AppCompatActivity {
                                 cm = new Company(goodGroups_parent.getName(), Product_child,goodGroups_parent.getGroupCode(),goodGroups_parent.getChildNo());
                                 companies.add(cm);
 
-
                             }
                         });
 
@@ -145,9 +136,7 @@ public class AllviewActivity extends AppCompatActivity {
             }
         }, 2000);
 
-
     }
-
 
 
 

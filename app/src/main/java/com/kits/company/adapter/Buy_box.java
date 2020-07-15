@@ -29,12 +29,15 @@ import com.kits.company.R;
 import com.kits.company.activity.BuyActivity;
 import com.kits.company.activity.DetailActivity;
 import com.kits.company.activity.FavoriteActivity;
+import com.kits.company.activity.FinalbuyActivity;
 import com.kits.company.activity.GrpActivity;
 import com.kits.company.activity.MainActivity;
 import com.kits.company.activity.SearchActivity;
 import com.kits.company.activity.Search_date_detailActivity;
 import com.kits.company.model.Farsi_number;
 import com.kits.company.model.Good;
+import com.kits.company.model.GoodBuy;
+import com.kits.company.model.GoodBuyRespons;
 import com.kits.company.model.GoodRespons;
 import com.kits.company.webService.APIClient;
 import com.kits.company.webService.APIInterface;
@@ -55,7 +58,7 @@ public class Buy_box {
     private APIInterface apiInterface = APIClient.getCleint().create(APIInterface.class);
     private SharedPreferences shPref;
     int last_amount=0;
-
+    ArrayList<GoodBuy> goodbuys;
 
     public Buy_box(Context mContext)
     {
@@ -150,66 +153,59 @@ public class Buy_box {
 
                  if(!amo.equals("")) {
                      if(Integer.parseInt(amo)>0) {
-                         Call<String> call = apiInterface.InsertBasket("Insertbasket", "DeviceCode", code, Integer.parseInt(amo)+last_amount, Integer.parseInt(pr), "test", shPref.getString("mobile", null));
-                         call.enqueue(new Callback<String>() {
+                         Call<GoodBuyRespons> call = apiInterface.InsertBasket("Insertbasket", "DeviceCode", code, Integer.parseInt(amo)+last_amount, Integer.parseInt(pr), "test", shPref.getString("mobile", null));
+                         call.enqueue(new Callback<GoodBuyRespons>() {
                              @Override
-                             public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+                             public void onResponse(Call<GoodBuyRespons> call, retrofit2.Response<GoodBuyRespons> response) {
                                  Log.e("onResponse", "" + response.body());
                                  assert response.body() != null;
-                                 if (response.body().equals("1")) {
 
-                                     Toast toast = Toast.makeText(mContext, "کالای مورد نظر به سبد خرید اضافه شد", Toast.LENGTH_SHORT);
+                                 goodbuys = response.body().getGoodsbuy();
 
-                                     if(mContext.getClass().getName().equals("com.kits.company.activity.SearchActivity")){
-                                         SearchActivity activity= (SearchActivity) mContext;
-                                         activity.setupBadge();
+                                 if (goodbuys.get(0).getErrCode() > 0){
+                                     Toast.makeText(mContext, goodbuys.get(0).getErrDesc(), Toast.LENGTH_SHORT).show();
 
-                                     }
+                                 }else{
+                                         Toast toast = Toast.makeText(mContext, "کالای مورد نظر به سبد خرید اضافه شد", Toast.LENGTH_SHORT);
+                                         if(mContext.getClass().getName().equals("com.kits.company.activity.SearchActivity")){
+                                             SearchActivity activity= (SearchActivity) mContext;
+                                             activity.setupBadge();
+                                         }
 
-                                     if(mContext.getClass().getName().equals("com.kits.company.activity.Search_date_detailActivity")){
-                                         Search_date_detailActivity activity= (Search_date_detailActivity) mContext;
-                                         activity.setupBadge();
+                                         if(mContext.getClass().getName().equals("com.kits.company.activity.Search_date_detailActivity")){
+                                             Search_date_detailActivity activity= (Search_date_detailActivity) mContext;
+                                             activity.setupBadge();
+                                         }
 
-                                     }
+                                         if(mContext.getClass().getName().equals("com.kits.company.activity.GrpActivity")){
+                                             GrpActivity activity= (GrpActivity) mContext;
+                                             activity.setupBadge();
+                                         }
 
-                                     if(mContext.getClass().getName().equals("com.kits.company.activity.GrpActivity")){
-                                         GrpActivity activity= (GrpActivity) mContext;
-                                         activity.setupBadge();
+                                         if(mContext.getClass().getName().equals("com.kits.company.activity.MainActivity")){
+                                             MainActivity activity= (MainActivity) mContext;
+                                             activity.setupBadge();
+                                         }
 
-                                     }
+                                         if(mContext.getClass().getName().equals("com.kits.company.activity.FavoriteActivity")){
+                                             FavoriteActivity activity= (FavoriteActivity) mContext;
+                                             activity.setupBadge();
+                                         }
 
-                                     if(mContext.getClass().getName().equals("com.kits.company.activity.MainActivity")){
-                                         MainActivity activity= (MainActivity) mContext;
-                                         activity.setupBadge();
+                                         if(mContext.getClass().getName().equals("com.kits.company.activity.DetailActivity")){
+                                             DetailActivity activity= (DetailActivity) mContext;
+                                             activity.setupBadge();
+                                         }
 
-                                     }
+                                         toast.setGravity(Gravity.CENTER, 10, 10);
+                                         toast.show();
+                                         dialog.dismiss();
 
-                                     if(mContext.getClass().getName().equals("com.kits.company.activity.FavoriteActivity")){
-                                         FavoriteActivity activity= (FavoriteActivity) mContext;
-                                         activity.setupBadge();
-
-                                     }
-
-                                     if(mContext.getClass().getName().equals("com.kits.company.activity.DetailActivity")){
-                                         DetailActivity activity= (DetailActivity) mContext;
-                                         activity.setupBadge();
-                                     }
-
-
-                                     toast.setGravity(Gravity.CENTER, 10, 10);
-                                     toast.show();
-                                     dialog.dismiss();
-
-                                 }else {
-                                     Toast toast = Toast.makeText(mContext, "موجودی کمتر از این مقدار می باشد", Toast.LENGTH_SHORT);
-                                     toast.setGravity(Gravity.CENTER, 10, 10);
-                                     toast.show();
-                                     dialog.dismiss();
                                  }
                              }
 
                              @Override
-                             public void onFailure(Call<String> call, Throwable t) {
+                             public void onFailure(Call<GoodBuyRespons> call, Throwable t) {
                                  Log.e("onFailure", "" + t.toString());
                              }
                          });
@@ -313,28 +309,26 @@ public class Buy_box {
                 if(!amo.equals("")) {
                     if(Integer.parseInt(amo)>0) {
 
-                        Call<String> call = apiInterface.InsertBasket("Insertbasket", "DeviceCode", code, Integer.parseInt(amo)+facamount, Integer.parseInt(pr), "test", shPref.getString("mobile", null));
-                        call.enqueue(new Callback<String>() {
+                        Call<GoodBuyRespons> call = apiInterface.InsertBasket("Insertbasket", "DeviceCode", code, Integer.parseInt(amo)+facamount, Integer.parseInt(pr), "test", shPref.getString("mobile", null));
+                        call.enqueue(new Callback<GoodBuyRespons>() {
                             @Override
-                            public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+                            public void onResponse(Call<GoodBuyRespons> call, retrofit2.Response<GoodBuyRespons> response) {
                                 Log.e("onResponse", "" + response.body());
                                 assert response.body() != null;
-                                if (response.body().equals("1")) {
 
+                                goodbuys = response.body().getGoodsbuy();
+
+                                if (goodbuys.get(0).getErrCode() > 0){
+                                    Toast.makeText(mContext, goodbuys.get(0).getErrDesc(), Toast.LENGTH_SHORT).show();
+                                }else{
                                     BuyActivity activity = (BuyActivity) mContext;
                                     activity.buyrefresh(position, Integer.parseInt(amo));
-
-                                    dialog.dismiss();
-                                } else {
-                                    Toast toast = Toast.makeText(mContext, "موجودی کمتر از این مقدار می باشد", Toast.LENGTH_SHORT);
-                                    toast.setGravity(Gravity.CENTER, 10, 10);
-                                    toast.show();
                                     dialog.dismiss();
                                 }
-                            }
 
+                            }
                             @Override
-                            public void onFailure(Call<String> call, Throwable t) {
+                            public void onFailure(Call<GoodBuyRespons> call, Throwable t) {
                                 Log.e("onFailure", "" + t.toString());
                             }
                         });
@@ -355,31 +349,25 @@ public class Buy_box {
 
     public void basketdsolo( String sellprice ,int goodcode, final int facamount,final int position) {
 
-        Call<String> call = apiInterface.InsertBasket("Insertbasket", "DeviceCode", goodcode,facamount, Integer.valueOf(sellprice), "test", shPref.getString("mobile", null));
-        call.enqueue(new Callback<String>() {
+        Call<GoodBuyRespons> call = apiInterface.InsertBasket("Insertbasket", "DeviceCode", goodcode,facamount, Integer.valueOf(sellprice), "test", shPref.getString("mobile", null));
+        call.enqueue(new Callback<GoodBuyRespons>() {
             @Override
-            public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+            public void onResponse(Call<GoodBuyRespons> call, retrofit2.Response<GoodBuyRespons> response) {
                 Log.e("onResponse", "" + response.body());
                 assert response.body() != null;
 
-
-
-                if (response.body().equals("1")) {
-
+                goodbuys = response.body().getGoodsbuy();
+                if (goodbuys.get(0).getErrCode() > 0){
+                    Toast.makeText(mContext, goodbuys.get(0).getErrDesc(), Toast.LENGTH_SHORT).show();
+                }else{
                     BuyActivity activity = (BuyActivity) mContext;
                     activity.buyrefresh(position,facamount);
-
-                } else {
-                    Toast toast = Toast.makeText(mContext, "موجودی کمتر از این مقدار می باشد", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 10, 10);
-                    toast.show();
                 }
-
 
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<GoodBuyRespons> call, Throwable t) {
                 Log.e("onFailure", "" + t.toString());
             }
         });

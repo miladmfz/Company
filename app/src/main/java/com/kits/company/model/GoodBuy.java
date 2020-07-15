@@ -49,6 +49,49 @@ public class GoodBuy implements Serializable {
     @SerializedName("PreFactorDate")
     private String PreFactorDate;
 
+    @SerializedName("Reserved")
+    private String Reserved;
+
+    @SerializedName("NotReserved")
+    private String NotReserved;
+
+    @SerializedName("IsReserved")
+    private String IsReserved;
+
+    @SerializedName("SellPrice")
+    private Integer SellPrice;
+
+    public Integer getSellPrice() {
+        return SellPrice;
+    }
+
+    public void setSellPrice(Integer sellPrice) {
+        SellPrice = sellPrice;
+    }
+
+    public String getReserved() {
+        return Reserved;
+    }
+
+    public void setReserved(String reserved) {
+        Reserved = reserved;
+    }
+
+    public String getNotReserved() {
+        return NotReserved;
+    }
+
+    public void setNotReserved(String notReserved) {
+        NotReserved = notReserved;
+    }
+
+    public String getIsReserved() {
+        return IsReserved;
+    }
+
+    public void setIsReserved(String isReserved) {
+        IsReserved = isReserved;
+    }
 
     public Integer getErrCode() {
         return ErrCode;

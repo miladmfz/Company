@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,8 +13,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
@@ -21,8 +20,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.kits.company.R;
 import com.kits.company.activity.DetailActivity;
+import com.kits.company.activity.MainActivity;
 import com.kits.company.model.Good;
-import com.kits.company.webService.APIClient;
 import com.kits.company.webService.APIInterface;
 import com.kits.company.webService.API_image;
 import com.smarteist.autoimageslider.IndicatorAnimations;
@@ -83,6 +82,12 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.GoodViewHolde
                     .load("http://"+SERVER_IP_ADDRESS+goodView.getGoodImageUrl())
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(holder.imageViewBackground);
+
+
+            MainActivity activity = (MainActivity) mcontext;
+            activity.sliderView.getLayoutParams().height=Integer.parseInt(String.valueOf(activity.sliderView.getMeasuredWidthAndState()/3));
+
+
 
         }else {
             Call<String> call2 = apiInterface_image.GetImage("getImage", code.toString(),position,400);
