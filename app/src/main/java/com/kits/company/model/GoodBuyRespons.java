@@ -8,6 +8,8 @@ public class GoodBuyRespons {
 
     @SerializedName("Goodsbuy")
     private ArrayList<GoodBuy> Goodsbuy;
+    @SerializedName("arrayGoodsbuy_name")
+    private ArrayList<GoodBuy> arrayGoodsbuy_name;
 
     public ArrayList<GoodBuy> getGoodsbuy() {
         return Goodsbuy;

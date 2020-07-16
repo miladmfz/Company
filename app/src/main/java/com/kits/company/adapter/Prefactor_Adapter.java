@@ -93,6 +93,7 @@ public class Prefactor_Adapter extends RecyclerView.Adapter<Prefactor_Adapter.Go
 
                 intent = new Intent(mContext, BuyhistoryDetialActivity.class);
                 intent.putExtra("id", preFactorview.getPreFactorCode());
+                intent.putExtra("ReservedRows", "2");
                 mContext.startActivity(intent);
             }
 

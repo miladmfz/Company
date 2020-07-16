@@ -148,8 +148,19 @@ public class FinalbuyActivity extends AppCompatActivity {
                                                 startActivity(getIntent());
                                             }else{
                                                 if(goodbuys.get(0).getPreFactorCode()>0) {
-                                                    Toast.makeText(FinalbuyActivity.this, "پیش فاکتور با موفقیت ثبت شد", Toast.LENGTH_SHORT).show();
-                                                    finish();
+                                                    if(Integer.parseInt(goodbuys.get(0).getNotReserved())>0)
+                                                    {
+                                                        Toast.makeText(FinalbuyActivity.this, "پیش فاکتور با موفقیت ثبت شد", Toast.LENGTH_SHORT).show();
+                                                        finish();
+                                                        intent = new Intent(FinalbuyActivity.this, BuyhistoryDetialActivity.class);
+                                                        intent.putExtra("id", String.valueOf(goodbuys.get(0).getPreFactorCode()));
+                                                        intent.putExtra("ReservedRows", "1");
+                                                        startActivity(intent);
+                                                    }else {
+                                                        Toast.makeText(FinalbuyActivity.this, "پیش فاکتور با موفقیت ثبت شد", Toast.LENGTH_SHORT).show();
+                                                        finish();
+                                                    }
+
                                                 }else{
                                                     Toast toast =Toast.makeText(FinalbuyActivity.this, "لطفا مقادیر کالا هارا بررسی کنید", Toast.LENGTH_SHORT);
                                                     toast.setGravity(Gravity.CENTER, 10, 10);

@@ -77,7 +77,7 @@ public class BuyhistoryActivity extends AppCompatActivity {
 
 
 
-        Call<PreFactorRespons> call = apiInterface.BasketPreFactor("BasketHistory",shPref.getString("mobile", null),"0");
+        Call<PreFactorRespons> call = apiInterface.BasketPreFactor("BasketHistory",shPref.getString("mobile", null),"0","0");
         call.enqueue(new Callback<PreFactorRespons>() {
             @Override
             public void onResponse(Call<PreFactorRespons> call, Response<PreFactorRespons> response) {

@@ -95,7 +95,8 @@ public interface APIInterface {
     @FormUrlEncoded
     Call<PreFactorRespons> BasketPreFactor(@Field("tag") String tag  ,
                                            @Field("Mobile") String Mobile,
-                                           @Field("Code") String Code);
+                                           @Field("Code") String Code,
+                                           @Field("ReservedRows") String ReservedRows);
 
 
     @POST("index.php")

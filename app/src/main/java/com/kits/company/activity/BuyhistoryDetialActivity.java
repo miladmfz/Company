@@ -37,6 +37,7 @@ public class BuyhistoryDetialActivity extends AppCompatActivity {
     private APIInterface apiInterface = APIClient.getCleint().create(APIInterface.class);
     ProgressBar prog;
     Integer code=0;
+    Integer ReservedRows=2;
     Prefactor_Detail_Adapter adapter;
     Intent intent;
 
@@ -71,6 +72,7 @@ public class BuyhistoryDetialActivity extends AppCompatActivity {
     public void intent() {
         Bundle data = getIntent().getExtras();
         code = Integer.parseInt(data.getString("id"));
+        ReservedRows = Integer.parseInt(data.getString("ReservedRows"));
     }
 
     public void init() {
@@ -81,7 +83,8 @@ public class BuyhistoryDetialActivity extends AppCompatActivity {
 
 
 
-        Call<PreFactorRespons> call = apiInterface.BasketPreFactor("BasketHistory",shPref.getString("mobile", null),code.toString());
+        Call<PreFactorRespons> call = apiInterface.BasketPreFactor("BasketHistory",shPref.getString("mobile", null),code.toString(),ReservedRows.toString());
+
         call.enqueue(new Callback<PreFactorRespons>() {
             @Override
             public void onResponse(Call<PreFactorRespons> call, Response<PreFactorRespons> response) {
