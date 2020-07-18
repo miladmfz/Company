@@ -58,7 +58,17 @@ public class PreFactor {
     private String SumPrice;
     @SerializedName("SumnPrice")
     private String SumnPrice;
+    @SerializedName("IsReserved")
+    private Integer IsReserved;
 
+
+    public Integer getIsReserved() {
+        return IsReserved;
+    }
+
+    public void setIsReserved(Integer isReserved) {
+        IsReserved = isReserved;
+    }
 
     public Integer getFacAmount() {
         return FacAmount;

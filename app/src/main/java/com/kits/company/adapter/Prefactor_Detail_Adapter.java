@@ -81,8 +81,18 @@ public class Prefactor_Detail_Adapter extends RecyclerView.Adapter<Prefactor_Det
         holder.total.setText(Farsi_number.PerisanNumber(String.valueOf(preFactorview.getFacAmount()*preFactorview.getPrice())));
         holder.amount.setText(Farsi_number.PerisanNumber(preFactorview.getFacAmount().toString()));
 
+        if(preFactorview.getIsReserved()==1){
+            holder.good_ReservedRow.setText("در انبار موجود می باشد");
+            holder.good_ReservedRow.setTextColor(mContext.getResources().getColor(R.color.green_900));
 
-        call2 = apiInterface_image.GetImage("getImage",preFactorview.getGoodCode().toString(),0,200);
+        }else{
+            holder.good_ReservedRow.setText("مورد سفارش قرار گرفت");
+            holder.good_ReservedRow.setTextColor(mContext.getResources().getColor(R.color.red_300));
+
+        }
+
+
+        call2 = apiInterface_image.GetImage("getImage",preFactorview.getGoodCode().toString(),0,110);
         call2.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call2, Response<String> response) {
@@ -94,22 +104,14 @@ public class Prefactor_Detail_Adapter extends RecyclerView.Adapter<Prefactor_Det
                         Glide.with(holder.img)
                                 .asBitmap()
                                 .load(Base64.decode(response.body(), Base64.DEFAULT))
-                                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                                .placeholder(R.drawable.no_photo)
-                                .error(R.drawable.no_photo) //6
-                                .fallback(R.drawable.no_photo)
-                                .override(200, 200)
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
                                 .fitCenter()
                                 .into(holder.img);
                     }else {
                         Glide.with(holder.img)
                                 .asBitmap()
                                 .load(R.drawable.no_photo)
-                                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                                .placeholder(R.drawable.no_photo)
-                                .error(R.drawable.no_photo) //6
-                                .fallback(R.drawable.no_photo)
-                                .override(200, 200)
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
                                 .fitCenter()
                                 .into(holder.img);
                     }
@@ -134,6 +136,7 @@ public class Prefactor_Detail_Adapter extends RecyclerView.Adapter<Prefactor_Det
     }
     class GoodViewHolder extends RecyclerView.ViewHolder {
         private TextView goodnameTextView;
+        private TextView good_ReservedRow;
         private TextView maxsellpriceTextView;
         private TextView priceTextView;
         private TextView total;
@@ -144,6 +147,7 @@ public class Prefactor_Detail_Adapter extends RecyclerView.Adapter<Prefactor_Det
         GoodViewHolder(View itemView) {
             super(itemView);
             goodnameTextView = itemView.findViewById(R.id.good_buy_history_name);
+            good_ReservedRow = itemView.findViewById(R.id.good_buy_history_ReservedRow);
             amount = itemView.findViewById(R.id.good_buy_history_amount);
             priceTextView = itemView.findViewById(R.id.good_buy_history_price);
             total = itemView.findViewById(R.id.good_buy_history_total);

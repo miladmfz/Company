@@ -59,10 +59,50 @@
 
             </LinearLayout>
 
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+
+
+                <TextView
+                    android:layout_width="155dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/good_buy_ReservedRows"
+                    android:layout_gravity="center"
+
+                    android:layout_weight="0.25"
+                    android:gravity="center_vertical"
+                    android:textColor="#000000"
+                    android:textSize="12sp"
+                    android:textStyle="bold"/>
+
+
+
+                <TextView
+                    android:id="@+id/good_buy_history_ReservedRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/good_buy_ReservedRows"
+                    android:layout_weight="0.25"
+                    android:textColor="@color/grey_1000"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:textStyle="bold"
+
+                    />
+
+
+            </LinearLayout>
+
             <androidx.viewpager.widget.ViewPager
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/grey_500" />
+                android:background="@color/grey_500"/>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
