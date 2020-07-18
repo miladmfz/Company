@@ -1,5 +1,6 @@
 package com.kits.company.webService;
 
+import com.kits.company.model.ColumnRespons;
 import com.kits.company.model.GoodBuyRespons;
 import com.kits.company.model.GoodGroupRespons;
 import com.kits.company.model.GoodRespons;
@@ -59,6 +60,11 @@ public interface APIInterface {
     @POST("index.php")
     @FormUrlEncoded
     Call<GoodGroupRespons> Getkowsar_grp(@Field("tag") String tag );
+
+    @POST("index.php")
+    @FormUrlEncoded
+    Call<ColumnRespons> asd(@Field("tag") String tag ,
+                            @Field("Parent") Integer Parent);
 
 
 

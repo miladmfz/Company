@@ -34,6 +34,8 @@ import com.kits.company.adapter.Buy_box;
 import com.kits.company.adapter.Good_view_Adapter;
 import com.kits.company.adapter.InternetConnection;
 import com.kits.company.adapter.SliderAdapter;
+import com.kits.company.model.Column;
+import com.kits.company.model.ColumnRespons;
 import com.kits.company.model.Farsi_number;
 import com.kits.company.model.Good;
 import com.kits.company.model.GoodBuy;
@@ -83,6 +85,16 @@ public class DetailActivity extends AppCompatActivity {
 
     Good_view_Adapter adapter;
 
+
+
+
+    ArrayList<Column> Columns;
+    LinearLayoutCompat line1,line2;
+    TextView line_label1,line_label2;
+    TextView line_data1,line_data2;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +124,113 @@ public class DetailActivity extends AppCompatActivity {
         id = data.getInt("id");
     }
 
+//
+//    public void init_test()  {
+//
+//
+//        Call<ColumnRespons> call = apiInterface.asd("GetColumnList",0);
+//        call.enqueue(new Callback<ColumnRespons>() {
+//            @Override
+//            public void onResponse(Call<ColumnRespons> call, Response<ColumnRespons> response) {
+//                if (response.isSuccessful()) {
+//                    Columns = response.body().getColumns();
+//                    for ( Column Column : Columns){
+//                        Log.e("cm_0",""+Column.getColumnName());
+//                        Log.e("cm_1",""+Column.getColumnDesc());
+//                        Log.e("cm_2",""+Column.getGoodType());
+//                        Log.e("cm_3",""+Column.getDetailVisible());
+//                        Log.e("cm__","_________");
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ColumnRespons> call, Throwable t) {
+//
+//            }
+//        });
+//
+//        config_test();
+//
+//
+//
+//
+//
+//    }
+//
+//    public void config_test() {
+//
+//
+//
+//
+//
+//        line1 =  findViewById(R.id.DetailActivity_line1);
+//        line_label1 =  findViewById(R.id.DetailActivity_line_label1);
+//        line_data1 =  findViewById(R.id.DetailActivity_line_data1);
+//
+//
+//
+//
+//    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public void init() {
 
@@ -123,6 +242,7 @@ public class DetailActivity extends AppCompatActivity {
         btnbuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Buy_box buy_box = new Buy_box(DetailActivity.this);
                 buy_box.buydialog(name,price,code);
 
@@ -244,11 +364,6 @@ public class DetailActivity extends AppCompatActivity {
 
 
     }
-
-
-
-
-
     private void SliderView(){
 
         sliderView = findViewById(R.id.DetailActivity_imageSlider);
@@ -262,10 +377,6 @@ public class DetailActivity extends AppCompatActivity {
         sliderView.setScrollTimeInSec(3); //set scroll delay in seconds :
         sliderView.startAutoCycle();
     }
-
-
-
-
     public void good_groups(){
         Call<GoodRespons> call31= apiInterface.GetLikeGood("goodinfo",id,PageNo);
         call31.enqueue(new Callback<GoodRespons>() {
@@ -292,9 +403,6 @@ public class DetailActivity extends AppCompatActivity {
 
 
     }
-
-
-
     public void good_groups_more(){
         Call<GoodRespons> call31= apiInterface.GetLikeGood("goodinfo",id,PageNo);
         call31.enqueue(new Callback<GoodRespons>() {
@@ -324,10 +432,6 @@ public class DetailActivity extends AppCompatActivity {
 
 
     }
-
-
-
-
     public void good_call()  {
         Call<GoodRespons> call = apiInterface.GetAllGood
                 ("goodinfo","","goodcode="+id,0,0,shPref.getString("mobile", null),0);
@@ -461,9 +565,6 @@ public class DetailActivity extends AppCompatActivity {
 
 
     }
-
-
-
     public void config() {
 
         goodcode =  findViewById(R.id.DetailActivity_code);
@@ -566,9 +667,6 @@ public class DetailActivity extends AppCompatActivity {
             });
         }
     }
-
-
-
     @Override
     public void onResume(){
         super.onResume();

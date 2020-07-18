@@ -73,13 +73,17 @@
                     />
 
             </com.google.android.material.card.MaterialCardView>
+
+
+
+
             <LinearLayout
-                android:id="@+id/grp_main_linearlayout"
+                android:id="@+id/mainactivity_linearlayout_test"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="visible"
-                >
+                android:visibility="visible">
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/mainactivity_test"
                     android:layout_width="match_parent"
@@ -93,6 +97,21 @@
                     app:backgroundTint="@color/red_900"
                     android:textSize="42sp"
                     android:visibility="gone" />
+
+            </LinearLayout>
+
+
+
+
+
+            <LinearLayout
+                android:id="@+id/grp_main_linearlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible"
+                >
+
 
                 <TextView
                     android:layout_width="match_parent"
