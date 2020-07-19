@@ -64,7 +64,7 @@ public interface APIInterface {
     @POST("index.php")
     @FormUrlEncoded
     Call<ColumnRespons> asd(@Field("tag") String tag ,
-                            @Field("Parent") Integer Parent);
+                            @Field("GoodCode") Integer GoodCode);
 
 
 

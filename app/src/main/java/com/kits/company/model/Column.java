@@ -14,8 +14,8 @@ public class Column {
     @SerializedName("ColumnDesc")
     private String ColumnDesc;
 
-    @SerializedName("DetailVisible")
-    private Integer DetailVisible;
+    @SerializedName("SortOrder")
+    private Integer SortOrder;
 
 
     public String getGoodType() {
@@ -42,11 +42,11 @@ public class Column {
         ColumnDesc = columnDesc;
     }
 
-    public Integer getDetailVisible() {
-        return DetailVisible;
+    public Integer getSortOrder() {
+        return SortOrder;
     }
 
-    public void setDetailVisible(Integer detailVisible) {
-        DetailVisible = detailVisible;
+    public void setSortOrder(Integer sortOrder) {
+        SortOrder = sortOrder;
     }
 }

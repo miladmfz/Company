@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.widget.LinearLayoutCompat;
 
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +28,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.button.MaterialButton;
 import com.kits.company.R;
@@ -70,7 +72,7 @@ public class DetailActivity extends AppCompatActivity {
     Button btnbuy;
     MaterialButton favorite;
     RecyclerView rc_likegood;
-    Integer id,code=0,conter =1,img_count=0,basketamount=0;
+    Integer id,conter =1,img_count=0,basketamount=0;
     Intent intent;
     SharedPreferences shPref ;
     DecimalFormat decimalFormat= new DecimalFormat("0,000");
@@ -124,127 +126,22 @@ public class DetailActivity extends AppCompatActivity {
         id = data.getInt("id");
     }
 
-//
-//    public void init_test()  {
-//
-//
-//        Call<ColumnRespons> call = apiInterface.asd("GetColumnList",0);
-//        call.enqueue(new Callback<ColumnRespons>() {
-//            @Override
-//            public void onResponse(Call<ColumnRespons> call, Response<ColumnRespons> response) {
-//                if (response.isSuccessful()) {
-//                    Columns = response.body().getColumns();
-//                    for ( Column Column : Columns){
-//                        Log.e("cm_0",""+Column.getColumnName());
-//                        Log.e("cm_1",""+Column.getColumnDesc());
-//                        Log.e("cm_2",""+Column.getGoodType());
-//                        Log.e("cm_3",""+Column.getDetailVisible());
-//                        Log.e("cm__","_________");
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ColumnRespons> call, Throwable t) {
-//
-//            }
-//        });
-//
-//        config_test();
-//
-//
-//
-//
-//
-//    }
-//
-//    public void config_test() {
-//
-//
-//
-//
-//
-//        line1 =  findViewById(R.id.DetailActivity_line1);
-//        line_label1 =  findViewById(R.id.DetailActivity_line_label1);
-//        line_data1 =  findViewById(R.id.DetailActivity_line_data1);
-//
-//
-//
-//
-//    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public void init() {
 
         shPref = getSharedPreferences("profile", Context.MODE_PRIVATE);
         config();
-        good_call();
+       // good_call();
         good_groups();
+        cl();
+
 
         btnbuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 Buy_box buy_box = new Buy_box(DetailActivity.this);
-                buy_box.buydialog(name,price,code);
+                buy_box.buydialog(name,price,id);
 
             }
         });
@@ -255,7 +152,8 @@ public class DetailActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if(favorite_bol==1){
-                    Call<String> call = apiInterface.Favorite_action("Favorite_action",  shPref.getString("mobile", null),code,1);
+
+                    Call<String> call = apiInterface.Favorite_action("Favorite_action",  shPref.getString("mobile", null),id,1);
                     call.enqueue(new Callback<String>() {
                         @Override
                         public void onResponse(Call<String> call, retrofit2.Response<String> response) {
@@ -281,7 +179,7 @@ public class DetailActivity extends AppCompatActivity {
 
                 }else {
 
-                    Call<String> call = apiInterface.Favorite_action("Favorite_action", shPref.getString("mobile", null),code,0);
+                    Call<String> call = apiInterface.Favorite_action("Favorite_action", shPref.getString("mobile", null),id,0);
                     call.enqueue(new Callback<String>() {
                         @Override
                         public void onResponse(Call<String> call, retrofit2.Response<String> response) {
@@ -311,32 +209,6 @@ public class DetailActivity extends AppCompatActivity {
 
 
 
-        tv_detail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(conter==1) {
-                    line_detail.setVisibility(View.VISIBLE);
-                    line_property.setVisibility(View.GONE);
-                    tv_property.setBackgroundResource(R.drawable.detail_tab_gray);
-                    tv_detail.setBackgroundResource(R.drawable.detail_tab);
-                    conter = conter - 1;
-                }
-            }
-        });
-
-
-        tv_property.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(conter==0) {
-                    line_detail.setVisibility(View.GONE);
-                    line_property.setVisibility(View.VISIBLE);
-                    tv_property.setBackgroundResource(R.drawable.detail_tab);
-                    tv_detail.setBackgroundResource(R.drawable.detail_tab_gray);
-                    conter = conter + 1;
-                }
-            }
-        });
 
 
         rc_likegood.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -367,7 +239,7 @@ public class DetailActivity extends AppCompatActivity {
     private void SliderView(){
 
         sliderView = findViewById(R.id.DetailActivity_imageSlider);
-        SliderAdapter adapter = new SliderAdapter(this,code,img_count,goods,true);
+        SliderAdapter adapter = new SliderAdapter(this,id,img_count,goods,true);
         sliderView.setSliderAdapter(adapter);
         sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
         sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
@@ -432,162 +304,122 @@ public class DetailActivity extends AppCompatActivity {
 
 
     }
-    public void good_call()  {
-        Call<GoodRespons> call = apiInterface.GetAllGood
-                ("goodinfo","","goodcode="+id,0,0,shPref.getString("mobile", null),0);
-        call.enqueue(new Callback<GoodRespons>() {
+
+    public void cl() {
+        Call<ColumnRespons> call = apiInterface.asd("GetColumnList",id);
+        call.enqueue(new Callback<ColumnRespons>() {
             @Override
-            public void onResponse(Call<GoodRespons> call, Response<GoodRespons> response) {
+            public void onResponse(Call<ColumnRespons> call, Response<ColumnRespons> response) {
                 if (response.isSuccessful()) {
-                    goods = response.body().getGoods();
-                    Good good= goods.get(0);
+                    Columns = response.body().getColumns();
 
-                    ImageName=good.getGoodExplain6();
-                    goodcode.setText(Farsi_number.PerisanNumber(good.getGoodCode()+""));
-                    code=good.getGoodCode();
-                    price=good.getSellPrice();
-                    name=good.getGoodName();
-                    basketamount=good.getBasketAmount();
-                    img_count=good.getImageCount();
-                    goodname.setText(Farsi_number.PerisanNumber(good.getGoodName()+""));
-                    sellprice.setText(Farsi_number.PerisanNumber(good.getSellPrice()+""));
-                    if(good.getMaxSellPrice().equals(Integer.parseInt(good.getSellPrice())))
-                    {
-                        maxsellpriceTextView.setVisibility(View.GONE);
-                    }else{
-                        maxsellpriceTextView.setVisibility(View.VISIBLE);
-                        SpannableString spannableString =new SpannableString( Farsi_number.PerisanNumber(decimalFormat.format(Integer.parseInt(""+good.getMaxSellPrice()))));
-                        spannableString.setSpan(new StrikethroughSpan(),0,good.getMaxSellPrice().toString().length(), Spanned.SPAN_MARK_MARK);
-                        maxsellpriceTextView.setText(spannableString);
-                    }
-                    SliderView();
+                    Call<GoodRespons> call2 = apiInterface.GetAllGood
+                            ("goodinfo","","goodcode="+id,0,0,shPref.getString("mobile", null),0);
+                    call2.enqueue(new Callback<GoodRespons>() {
+                        @Override
+                        public void onResponse(Call<GoodRespons> call, Response<GoodRespons> response) {
+                            if (response.isSuccessful()) {
+                                goods = response.body().getGoods();
+                                final Good good= goods.get(0);
 
+                                goodname.setText(Farsi_number.PerisanNumber(good.getGoodName()+""));
+                                sellprice.setText(Farsi_number.PerisanNumber(good.getSellPrice()+""));
+                                if(good.getMaxSellPrice().equals(Integer.parseInt(good.getSellPrice())))
+                                {
+                                    maxsellpriceTextView.setVisibility(View.GONE);
+                                }else{
+                                    maxsellpriceTextView.setVisibility(View.VISIBLE);
+                                    SpannableString spannableString =new SpannableString( Farsi_number.PerisanNumber(decimalFormat.format(Integer.parseInt(""+good.getMaxSellPrice()))));
+                                    spannableString.setSpan(new StrikethroughSpan(),0,good.getMaxSellPrice().toString().length(), Spanned.SPAN_MARK_MARK);
+                                    maxsellpriceTextView.setText(spannableString);
+                                }
 
-                    if(good.getWriter() != null){
-                        writer.setText(Farsi_number.PerisanNumber(good.getWriter()+""));
-                    }else {
-                        writer.setText("");
-                    }
+                                if(good.getHasStackAmount()==0){
+                                    btnbuy.setText("ناموجود");
+                                    btnbuy.setClickable(false);
+                                    btnbuy.setTextColor(DetailActivity.this.getResources().getColor(R.color.white));
+                                    btnbuy.setBackgroundColor(DetailActivity.this.getResources().getColor(R.color.red_300));
+                                }
+                                prog.setVisibility(View.GONE);
+                                favorite_bol=good.getIsFavorite();
+                                if(good.getIsFavorite()>0){
+                                    favorite.setIconResource(R.drawable.ic_favorite_black_24dp);
+                                    favorite.setIconTintResource(R.color.red_900);
 
-                    if(good.getDragoMan() != null){
-                        dragoman.setText(Farsi_number.PerisanNumber(good.getDragoMan()+""));
-                    }else {
-                        dragoman.setText("");
-                    }
+                                }else {
+                                    favorite.setIconResource(R.drawable.ic_favorite_border_black_24dp);
+                                    favorite.setIconTintResource(R.color.grey_900);
+                                }
 
-                    if(good.getNasher() != null){
-                        nasher.setText(Farsi_number.PerisanNumber(good.getNasher()+""));
-                    }else {
-                        nasher.setText("");
-                    }
+                                SliderView();
+                                for ( Column Column : Columns){
 
-                    if(good.getTahvilDate() != null){
-                        tahvildate.setText(Farsi_number.PerisanNumber(good.getTahvilDate()+""));
-                    }else {
-                        tahvildate.setText("");
-                    }
+                                    LinearLayoutCompat ll =  findViewById(R.id.DetailActivity_line_property);
+                                    ll.setOrientation(LinearLayoutCompat.VERTICAL);
+                                    LinearLayoutCompat ll_1= new LinearLayoutCompat(DetailActivity.this);
+                                    ll_1.setOrientation(LinearLayoutCompat.HORIZONTAL);
+                                    ll_1.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT,LinearLayoutCompat.LayoutParams.WRAP_CONTENT));
+                                    ll_1.setWeightSum(1);
 
-                    if(good.getPrintPeriod() != null){
-                        printperiod.setText(good.getPrintPeriod());
-                    }else {
-                        printperiod.setText("");
-                    }
+                                    TextView extra_TextView1 = new TextView(DetailActivity.this);
+                                    extra_TextView1.setText(Farsi_number.PerisanNumber(Column.getColumnDesc()));
+                                    extra_TextView1.setBackgroundResource(R.color.grey_20);
+                                    extra_TextView1.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT,LinearLayoutCompat.LayoutParams.MATCH_PARENT, (float) 0.7));
+                                    extra_TextView1.setTextSize(18);
+                                    extra_TextView1.setPadding(2,2,2,2);
+                                    extra_TextView1.setGravity(Gravity.CENTER);
+                                    extra_TextView1.setTextColor(getResources().getColor(R.color.grey_800));
+                                    ll_1.addView(extra_TextView1);
 
-                    if(good.getCoverType() != null){
-                        covertype.setText(Farsi_number.PerisanNumber(good.getCoverType()+""));
-                    }else {
-                        covertype.setText("");
-                    }
+                                    TextView extra_TextView2 = new TextView(DetailActivity.this);
+                                    extra_TextView2.setText(Farsi_number.PerisanNumber(good.getGoodFieldValue(Column.getColumnName())));
+                                    extra_TextView2.setBackgroundResource(R.color.white);
+                                    extra_TextView2.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT,LinearLayoutCompat.LayoutParams.MATCH_PARENT, (float) 0.3));
+                                    extra_TextView2.setTextSize(18);
+                                    extra_TextView2.setPadding(2,2,2,2);
+                                    extra_TextView2.setGravity(Gravity.CENTER);
+                                    extra_TextView2.setTextColor(getResources().getColor(R.color.grey_800));
+                                    ll_1.addView(extra_TextView2);
 
-                    if(good.getSize() != null){
-                        size.setText(Farsi_number.PerisanNumber(good.getSize()+""));
-                    }else {
-                        size.setText("");
-                    }
+                                    ViewPager extra_ViewPager=new ViewPager(DetailActivity.this);
+                                    extra_ViewPager.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT,2));
+                                    extra_ViewPager.setBackgroundResource(R.color.grey_40);
 
-                    if(good.getPageNo() != null){
-                        pageno.setText(good.getPageNo());
-                    }else {
-                        pageno.setText("");
-                    }
+                                    ll.addView(ll_1);
+                                    ll.addView(extra_ViewPager);
+                                }
+                            }
+                        }
 
-                    if(good.getGroupsWhitoutCode() != null){
-                        grp.setText(Farsi_number.PerisanNumber(good.getGroupsWhitoutCode()+""));
-                    }else {
-                        grp.setText("");
-                    }
+                        @Override
+                        public void onFailure(Call<GoodRespons> call, Throwable t) {
 
-                    if(good.getISBN() != null){
-                        isbn.setText(Farsi_number.PerisanNumber(good.getISBN()+""));
-                    }else {
-                        isbn.setText("");
-                    }
+                            finish();
+                            Log.e("retrofit_fail",t.getMessage());
+                        }
+                    });
 
-
-                    if(good.getDetails() != null){
-                        details.setText(Farsi_number.PerisanNumber(good.getDetails()+""));
-                    }else {
-                        details.setText("");
-                    }
-
-
-                    if(good.getHasStackAmount()==0){
-                        btnbuy.setText("ناموجود");
-                        btnbuy.setClickable(false);
-                        btnbuy.setTextColor(DetailActivity.this.getResources().getColor(R.color.white));
-                        btnbuy.setBackgroundColor(DetailActivity.this.getResources().getColor(R.color.red_300));
-                    }
-                    prog.setVisibility(View.GONE);
-                    favorite_bol=good.getIsFavorite();
-                    if(good.getIsFavorite()>0){
-                        favorite.setIconResource(R.drawable.ic_favorite_black_24dp);
-                        favorite.setIconTintResource(R.color.red_900);
-
-                    }else {
-                        favorite.setIconResource(R.drawable.ic_favorite_border_black_24dp);
-                        favorite.setIconTintResource(R.color.grey_900);
-                    }
 
                 }
             }
 
             @Override
-            public void onFailure(Call<GoodRespons> call, Throwable t) {
-
-                finish();
-                Log.e("retrofit_fail",t.getMessage());
-
+            public void onFailure(Call<ColumnRespons> call, Throwable t) {
 
             }
         });
 
 
-
-
     }
-    public void config() {
 
-        goodcode =  findViewById(R.id.DetailActivity_code);
+    public void config() {
         goodname =  findViewById(R.id.DetailActivity_name);
         sellprice =  findViewById(R.id.DetailActivity_sellprice);
          maxsellpriceTextView =  findViewById(R.id.DetailActivity_maxsellprice);
-         writer =  findViewById(R.id.DetailActivity_writer);
-         dragoman =  findViewById(R.id.DetailActivity_dragoman);
-         nasher =  findViewById(R.id.DetailActivity_nasher);
-         tahvildate =  findViewById(R.id.DetailActivity_tahvildate);
-         printperiod =  findViewById(R.id.DetailActivity_printperiod);
-         covertype =  findViewById(R.id.DetailActivity_covertype);
-         size =  findViewById(R.id.DetailActivity_size);
-         pageno =  findViewById(R.id.DetailActivity_pageno);
-         grp =  findViewById(R.id.DetailActivity_grp);
-         isbn =  findViewById(R.id.DetailActivity_isbn);
          rc_likegood =  findViewById(R.id.detailactivity_rc);
-         details =  findViewById(R.id.DetailActivity_details);
          btnbuy = findViewById(R.id.DetailActivity_btnbuy);
          line_property = findViewById(R.id.DetailActivity_line_property);
-         line_detail = findViewById(R.id.DetailActivity_line_details);
          tv_property = findViewById(R.id.tv_property);
-         tv_detail = findViewById(R.id.tv_detail);
          sliderView = findViewById(R.id.DetailActivity_imageSlider);
          line_slideshow = findViewById(R.id.DetailActivity_ln_imageSlider);
          prog = findViewById(R.id.DetailActivity_prog);

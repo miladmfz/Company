@@ -321,6 +321,48 @@ public class Good implements Serializable {
     public String getGoodImageName() {return GoodImageName;}
     public void setGoodImageName(String goodImageName) {GoodImageName = goodImageName;}
 
+    public String getGoodFieldValue(String AKey)
+    {
+        String iKey = AKey.toLowerCase();
+        String Res = "";
+        if(iKey.equals("goodname")){Res = GoodName;}
+        else if(iKey.equals("goodcode")){Res = GoodCode.toString();}
+        else if(iKey.equals("goodmaincode")){Res = GoodMainCode;}
+        else if(iKey.equals("goodsubcode")){Res = GoodSubCode;}
+        else if(iKey.equals("sellpercent")){Res = SellPercent;}
+        else if(iKey.equals("sellprice")){Res = SellPrice;}
+        else if(iKey.equals("maxsellprice")){Res = MaxSellPrice.toString();}
+        else if(iKey.equals("goodexplain1")){Res = GoodExplain1;}
+        else if(iKey.equals("goodexplain2")){Res = GoodExplain2;}
+        else if(iKey.equals("goodexplain3")){Res = GoodExplain3;}
+        else if(iKey.equals("goodexplain4")){Res = GoodExplain4;}
+        else if(iKey.equals("goodexplain5")){Res = GoodExplain5;}
+        else if(iKey.equals("goodexplain6")){Res = GoodExplain6;}
+        else if(iKey.equals("goodtype")){Res = GoodType;}
+        else if(iKey.equals("barcode")){Res = BarCode;}
+        else if(iKey.equals("isbn")){Res = ISBN;}
+        else if(iKey.equals("writer")){Res = Writer;}
+        else if(iKey.equals("dragoman")){Res = DragoMan;}
+        else if(iKey.equals("nasher")){Res = Nasher;}
+        else if(iKey.equals("tahvildate")){Res = TahvilDate;}
+        else if(iKey.equals("printperiod")){Res = PrintPeriod;}
+        else if(iKey.equals("printyear")){Res = PrintYear;}
+        else if(iKey.equals("size")){Res = Size;}
+        else if(iKey.equals("covertype")){Res = CoverType;}
+        else if(iKey.equals("pageno")){Res = PageNo;}
+        else if(iKey.equals("bulletingroupname")){Res = BulletinGroupName;}
+        else if(iKey.equals("groupswhitoutcode")){Res = GroupsWhitoutCode;}
+        else if(iKey.equals("goodimagename")){Res = GoodImageName;}
+        else if(iKey.equals("goodimageurl")){Res = GoodImageUrl;}
+        else if(iKey.equals("details")){Res = Details;}
+        else if(iKey.equals("itam_show")){Res = Itam_Show;}
+        else if(iKey.equals("imagecount")){Res = ImageCount.toString();}
+        else if(iKey.equals("basketamount")){Res = BasketAmount.toString();}
+        else if(iKey.equals("isfavorite")){Res = IsFavorite.toString();}
+        else if(iKey.equals("hasstackamount")){Res = HasStackAmount.toString();}
+        return Res;
+    }
+
     //    @SerializedName("state")
 //     private Integer state;
 //

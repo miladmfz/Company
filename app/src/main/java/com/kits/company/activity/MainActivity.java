@@ -11,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -25,6 +26,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StrikethroughSpan;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -133,8 +135,8 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
             test.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    test_fun();
 
-                    //test_fun();
                 }
             });
 
@@ -174,168 +176,11 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
 
     }
-//
-//    public void test_fun() {
-//        Call<ColumnRespons> call = apiInterface.asd("GetColumnList",0);
-//        call.enqueue(new Callback<ColumnRespons>() {
-//            @Override
-//            public void onResponse(Call<ColumnRespons> call, Response<ColumnRespons> response) {
-//                if (response.isSuccessful()) {
-//                    Columns = response.body().getColumns();
-//                    for ( Column Column : Columns){
-//                        Log.e("cm_0",""+Column.getColumnName());
-//                        Log.e("cm_1",""+Column.getColumnDesc());
-//                        Log.e("cm_2",""+Column.getGoodType());
-//                        Log.e("cm_3",""+Column.getDetailVisible());
-//                        Log.e("cm__","_________");
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ColumnRespons> call, Throwable t) {
-//
-//            }
-//        });
-//
-//
-//        Call<GoodRespons> call2 = apiInterface.GetAllGood
-//                ("goodinfo","","goodcode=110704",0,0,shPref.getString("mobile", null),0);
-//        call2.enqueue(new Callback<GoodRespons>() {
-//            @Override
-//            public void onResponse(Call<GoodRespons> call, Response<GoodRespons> response) {
-//                if (response.isSuccessful()) {
-//                    goods = response.body().getGoods();
-//                    Good good= goods.get(0);
-//
-//                    ImageName=good.getGoodExplain6();
-//                    goodcode.setText(Farsi_number.PerisanNumber(good.getGoodCode()+""));
-//                    code=good.getGoodCode();
-//                    price=good.getSellPrice();
-//                    name=good.getGoodName();
-//                    basketamount=good.getBasketAmount();
-//                    img_count=good.getImageCount();
-//                    goodname.setText(Farsi_number.PerisanNumber(good.getGoodName()+""));
-//                    sellprice.setText(Farsi_number.PerisanNumber(good.getSellPrice()+""));
-//                    if(good.getMaxSellPrice().equals(Integer.parseInt(good.getSellPrice())))
-//                    {
-//                        maxsellpriceTextView.setVisibility(View.GONE);
-//                    }else{
-//                        maxsellpriceTextView.setVisibility(View.VISIBLE);
-//                        SpannableString spannableString =new SpannableString( Farsi_number.PerisanNumber(decimalFormat.format(Integer.parseInt(""+good.getMaxSellPrice()))));
-//                        spannableString.setSpan(new StrikethroughSpan(),0,good.getMaxSellPrice().toString().length(), Spanned.SPAN_MARK_MARK);
-//                        maxsellpriceTextView.setText(spannableString);
-//                    }
-//                    SliderView();
-//
-//
-//                    if(good.getWriter() != null){
-//                        writer.setText(Farsi_number.PerisanNumber(good.getWriter()+""));
-//                    }else {
-//                        writer.setText("");
-//                    }
-//
-//                    if(good.getDragoMan() != null){
-//                        dragoman.setText(Farsi_number.PerisanNumber(good.getDragoMan()+""));
-//                    }else {
-//                        dragoman.setText("");
-//                    }
-//
-//                    if(good.getNasher() != null){
-//                        nasher.setText(Farsi_number.PerisanNumber(good.getNasher()+""));
-//                    }else {
-//                        nasher.setText("");
-//                    }
-//
-//                    if(good.getTahvilDate() != null){
-//                        tahvildate.setText(Farsi_number.PerisanNumber(good.getTahvilDate()+""));
-//                    }else {
-//                        tahvildate.setText("");
-//                    }
-//
-//                    if(good.getPrintPeriod() != null){
-//                        printperiod.setText(good.getPrintPeriod());
-//                    }else {
-//                        printperiod.setText("");
-//                    }
-//
-//                    if(good.getCoverType() != null){
-//                        covertype.setText(Farsi_number.PerisanNumber(good.getCoverType()+""));
-//                    }else {
-//                        covertype.setText("");
-//                    }
-//
-//                    if(good.getSize() != null){
-//                        size.setText(Farsi_number.PerisanNumber(good.getSize()+""));
-//                    }else {
-//                        size.setText("");
-//                    }
-//
-//                    if(good.getPageNo() != null){
-//                        pageno.setText(good.getPageNo());
-//                    }else {
-//                        pageno.setText("");
-//                    }
-//
-//                    if(good.getGroupsWhitoutCode() != null){
-//                        grp.setText(Farsi_number.PerisanNumber(good.getGroupsWhitoutCode()+""));
-//                    }else {
-//                        grp.setText("");
-//                    }
-//
-//                    if(good.getISBN() != null){
-//                        isbn.setText(Farsi_number.PerisanNumber(good.getISBN()+""));
-//                    }else {
-//                        isbn.setText("");
-//                    }
-//
-//
-//                    if(good.getDetails() != null){
-//                        details.setText(Farsi_number.PerisanNumber(good.getDetails()+""));
-//                    }else {
-//                        details.setText("");
-//                    }
-//
-//
-//                    if(good.getHasStackAmount()==0){
-//                        btnbuy.setText("ناموجود");
-//                        btnbuy.setClickable(false);
-//                        btnbuy.setTextColor(DetailActivity.this.getResources().getColor(R.color.white));
-//                        btnbuy.setBackgroundColor(DetailActivity.this.getResources().getColor(R.color.red_300));
-//                    }
-//                    prog.setVisibility(View.GONE);
-//                    favorite_bol=good.getIsFavorite();
-//                    if(good.getIsFavorite()>0){
-//                        favorite.setIconResource(R.drawable.ic_favorite_black_24dp);
-//                        favorite.setIconTintResource(R.color.red_900);
-//
-//                    }else {
-//                        favorite.setIconResource(R.drawable.ic_favorite_border_black_24dp);
-//                        favorite.setIconTintResource(R.color.grey_900);
-//                    }
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<GoodRespons> call, Throwable t) {
-//
-//                finish();
-//                Log.e("retrofit_fail",t.getMessage());
-//
-//
-//            }
-//        });
-//
-//        LinearLayout ll =  findViewById(R.id.mainactivity_linearlayout_test);
-//        extra = new Button(this);
-//        extra.setText("extra"+i);
-//        extra.setId(i*1000);
-//        Log.e("extra.getId",""+extra.getId());
-//        ll.addView(extra);
-//        i++;
-//
-//    }
+
+    public void test_fun() {
+
+
+    }
 
     public void init() {
 
