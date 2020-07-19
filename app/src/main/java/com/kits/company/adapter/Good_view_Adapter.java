@@ -105,13 +105,13 @@ public class Good_view_Adapter extends RecyclerView.Adapter<Good_view_Adapter.Go
         }
 
 
-        holder.goodnameTextView.setText(Farsi_number.PerisanNumber(goodView.getGoodExplain5()));
+        holder.goodnameTextView.setText(Farsi_number.PerisanNumber(goodView.getGoodFieldValue("GoodName")));
 
 
 
-        code=goodView.getGoodCode();
+        code=Integer.parseInt(goodView.getGoodFieldValue("GoodCode"));
         price=goodView.getSellPrice();
-        name=goodView.getGoodName();
+        name=goodView.getGoodFieldValue("GoodName");
         String SERVER_IP_ADDRESS = mContext.getString(R.string.SERVERIP);
 
         if(!goods.get(position).getGoodImageName().equals("")){
@@ -141,7 +141,7 @@ public class Good_view_Adapter extends RecyclerView.Adapter<Good_view_Adapter.Go
                     .into(holder.img);
             holder.img.setVisibility(View.VISIBLE);
 
-            call2 = apiInterface_image.GetImage("getImage",goodView.getGoodCode().toString(),0,150);
+            call2 = apiInterface_image.GetImage("getImage",goodView.getGoodFieldValue("GoodCode"),0,150);
             call2.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call2, Response<String> response) {
@@ -191,7 +191,7 @@ public class Good_view_Adapter extends RecyclerView.Adapter<Good_view_Adapter.Go
 
                 Good goodView = goods.get(myps);
                 intent = new Intent(mContext, DetailActivity.class);
-                intent.putExtra("id", goodView.getGoodCode());
+                intent.putExtra("id", Integer.parseInt(goodView.getGoodFieldValue("GoodCode")));
                 mContext.startActivity(intent);
             }
 
@@ -206,7 +206,7 @@ public class Good_view_Adapter extends RecyclerView.Adapter<Good_view_Adapter.Go
             public void onClick(View view) {
 
                 Buy_box buy_box = new Buy_box(mContext);
-                buy_box.buydialog(goodView.getGoodName(),goodView.getSellPrice(),goodView.getGoodCode());
+                buy_box.buydialog(goodView.getGoodFieldValue("GoodName"),goodView.getSellPrice(),Integer.parseInt(goodView.getGoodFieldValue("GoodCode")));
 
             }
         });

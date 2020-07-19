@@ -85,7 +85,7 @@ public class Buy_box {
         final TextView sumprice = dialog.findViewById(R.id.box_buy_sumprice);
 
 
-        tv_goodname.setText(Farsi_number.PerisanNumber(goodname));
+        tv_goodname.setText(goodname);
         price.setText(Farsi_number.PerisanNumber(sellprice));
         Call<GoodRespons> call = apiInterface.GetAllGood
                 ("goodinfo","","goodcode="+goodcode,0,0,shPref.getString("mobile", null),0);

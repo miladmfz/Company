@@ -77,9 +77,8 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.GoodViewHolde
         if(code.equals(0)) {
             goodView = goods.get(position);
 
-            Log.e("goodurl()",goodView.getGoodImageUrl());
             Glide.with(holder.itemView)
-                    .load("http://"+SERVER_IP_ADDRESS+goodView.getGoodImageUrl())
+                    .load("http://"+SERVER_IP_ADDRESS+goodView.getGoodFieldValue("goodimageurl"))
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(holder.imageViewBackground);
 
@@ -143,10 +142,10 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.GoodViewHolde
                     image_zome_view();
                 }else {
                     try {
-                        if (Integer.parseInt(goodView.getGoodName().substring(2)) > 0) {
+                        if (Integer.parseInt(goodView.getGoodFieldValue("GoodName").substring(2)) > 0) {
 
                             intent = new Intent(mcontext, DetailActivity.class);
-                            intent.putExtra("id", Integer.parseInt(goods.get(position).getGoodName().substring(2)));
+                            intent.putExtra("id", Integer.parseInt(goods.get(position).getGoodFieldValue("GoodName").substring(2)));
                             mcontext.startActivity(intent);
                         }
                     }catch (Exception e)

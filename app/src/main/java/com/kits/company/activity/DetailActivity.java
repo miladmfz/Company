@@ -86,15 +86,7 @@ public class DetailActivity extends AppCompatActivity {
     SharedPreferences.Editor sEdit;
 
     Good_view_Adapter adapter;
-
-
-
-
     ArrayList<Column> Columns;
-    LinearLayoutCompat line1,line2;
-    TextView line_label1,line_label2;
-    TextView line_data1,line_data2;
-
 
 
     @Override
@@ -131,9 +123,9 @@ public class DetailActivity extends AppCompatActivity {
 
         shPref = getSharedPreferences("profile", Context.MODE_PRIVATE);
         config();
-       // good_call();
+        good_call();
         good_groups();
-        cl();
+
 
 
         btnbuy.setOnClickListener(new View.OnClickListener() {
@@ -305,7 +297,7 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
-    public void cl() {
+    public void good_call() {
         Call<ColumnRespons> call = apiInterface.asd("GetColumnList",id);
         call.enqueue(new Callback<ColumnRespons>() {
             @Override
@@ -321,8 +313,10 @@ public class DetailActivity extends AppCompatActivity {
                             if (response.isSuccessful()) {
                                 goods = response.body().getGoods();
                                 final Good good= goods.get(0);
-
-                                goodname.setText(Farsi_number.PerisanNumber(good.getGoodName()+""));
+                                name=good.getGoodFieldValue("GoodName");
+                                price=good.getGoodFieldValue("SellPrice");
+                                id=Integer.parseInt(good.getGoodFieldValue("GoodCode"));
+                                goodname.setText(Farsi_number.PerisanNumber(good.getGoodFieldValue("GoodName")));
                                 sellprice.setText(Farsi_number.PerisanNumber(good.getSellPrice()+""));
                                 if(good.getMaxSellPrice().equals(Integer.parseInt(good.getSellPrice())))
                                 {

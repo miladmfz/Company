@@ -431,8 +431,6 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                     {
                         sliderView.setVisibility(View.VISIBLE);
                         for (final Good Goodss : banner_goods) {
-                            Log.e("company_gn",Goodss.getGoodName());
-                            Log.e("company_gurl",Goodss.getGoodImageUrl());
                             SliderAdapter adapter = new SliderAdapter(MainActivity.this,0,banner_goods.size(),banner_goods,false);
                             sliderView.setSliderAdapter(adapter);
                             sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
