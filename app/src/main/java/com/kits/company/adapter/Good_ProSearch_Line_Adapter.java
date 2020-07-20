@@ -127,7 +127,7 @@ public class Good_ProSearch_Line_Adapter extends RecyclerView.Adapter<Good_ProSe
 
 
 
-        if(!goods.get(position).getGoodImageName().equals("")){
+        if(!goods.get(position).getGoodFieldValue("GoodImageName").equals("")){
             Glide.with(holder.img)
                     .asBitmap()
                     .load(R.drawable.white)
@@ -138,7 +138,7 @@ public class Good_ProSearch_Line_Adapter extends RecyclerView.Adapter<Good_ProSe
 
             Glide.with(holder.img)
                     .asBitmap()
-                    .load(Base64.decode(goods.get(position).getGoodImageName(), Base64.DEFAULT))
+                    .load(Base64.decode(goods.get(position).getGoodFieldValue("GoodImageName"), Base64.DEFAULT))
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .fitCenter()
                     .into(holder.img);

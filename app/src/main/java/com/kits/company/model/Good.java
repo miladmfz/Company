@@ -86,9 +86,6 @@ public class Good implements Serializable {
     public void setCheck(boolean check) {
         Check = check;
     }
-
-
-    public String getGoodImageName() {return GoodImageName;}
     public void setGoodImageName(String goodImageName) {GoodImageName = goodImageName;}
 
 

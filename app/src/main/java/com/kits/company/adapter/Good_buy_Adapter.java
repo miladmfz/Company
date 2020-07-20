@@ -81,19 +81,19 @@ public class Good_buy_Adapter extends RecyclerView.Adapter<Good_buy_Adapter.Good
 
         holder.img.setVisibility(View.INVISIBLE);
 
-        holder.goodnameTextView.setText(Farsi_number.PerisanNumber(goodbuyView.getGoodName()));
+        holder.goodnameTextView.setText(Farsi_number.PerisanNumber(goodbuyView.getGoodBuyFieldValue("GoodName")));
         holder.amount.setText(Farsi_number.PerisanNumber(goodbuyView.getFacAmount().toString()));
         holder.priceTextView.setText(Farsi_number.PerisanNumber(decimalFormat.format(Integer.parseInt("" + goodbuyView.getSellPrice()))));
 
-        holder.maxsellpriceTextView.setText(Farsi_number.PerisanNumber(decimalFormat.format(Integer.parseInt("" + goodbuyView.getMaxSellPrice()))));
+        holder.maxsellpriceTextView.setText(Farsi_number.PerisanNumber(decimalFormat.format(Integer.parseInt(goodbuyView.getGoodBuyFieldValue("MaxSellPrice")))));
         holder.total.setText(Farsi_number.PerisanNumber(decimalFormat.format(goodbuyView.getSellPrice()*goodbuyView.getFacAmount())));
-        holder.offer.setText(Farsi_number.PerisanNumber((100 - ((goodbuyView.getSellPrice() * 100) / goodbuyView.getMaxSellPrice())) + " درصد تخفیف "));
-        holder.good_buy_NotReserved.setText(goodbuyView.getNotReserved());
+        holder.offer.setText(Farsi_number.PerisanNumber((100 - ((goodbuyView.getSellPrice() * 100) / Integer.parseInt(goodbuyView.getGoodBuyFieldValue("MaxSellPrice")))) + " درصد تخفیف "));
+        holder.good_buy_NotReserved.setText(goodbuyView.getGoodBuyFieldValue("NotReserved"));
 
-        if (goodbuyView.getIsReserved().equals("1")) {
+        if (goodbuyView.getGoodBuyFieldValue("IsReserved").equals("1")) {
             holder.good_buy_IsReserved.setVisibility(View.GONE);
         } else {
-            if(Integer.parseInt(goodbuyView.getNotReserved())>0){
+            if(Integer.parseInt(goodbuyView.getGoodBuyFieldValue("NotReserved"))>0){
                 holder.good_buy_IsReserved.setVisibility(View.VISIBLE);
             }else{
                 holder.good_buy_IsReserved.setVisibility(View.GONE);
@@ -104,7 +104,7 @@ public class Good_buy_Adapter extends RecyclerView.Adapter<Good_buy_Adapter.Good
 
 
 
-        call2 = apiInterface_image.GetImage("getImage",goodbuyView.getGoodCode().toString(),0,120);
+        call2 = apiInterface_image.GetImage("getImage",goodbuyView.getGoodBuyFieldValue("GoodCode"),0,120);
         call2.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call2, Response<String> response) {
@@ -156,7 +156,7 @@ public class Good_buy_Adapter extends RecyclerView.Adapter<Good_buy_Adapter.Good
                             public void onClick(DialogInterface dialogInterface, int i) {
 
                                 Buy_box buy_box = new Buy_box(mContext);
-                                buy_box.deletegoodfrombasket(goodbuyView.getGoodCode());
+                                buy_box.deletegoodfrombasket(Integer.parseInt(goodbuyView.getGoodBuyFieldValue("GoodCode")));
                                 Intent bag = new Intent(mContext, BuyActivity.class);
                                 ((Activity) mContext).finish();
                                 ((Activity) mContext).overridePendingTransition(0, 0);
@@ -182,7 +182,7 @@ public class Good_buy_Adapter extends RecyclerView.Adapter<Good_buy_Adapter.Good
             @Override
             public void onClick(View view) {
                 Buy_box buy_box = new Buy_box(mContext);
-                buy_box.basketdialog(goodbuyView.getGoodName(),goodbuyView.getPrice().toString(),goodbuyView.getGoodCode(),goodbuyView.getFacAmount(),position);
+                buy_box.basketdialog(goodbuyView.getGoodBuyFieldValue("GoodName"),goodbuyView.getPrice().toString(),Integer.parseInt(goodbuyView.getGoodBuyFieldValue("GoodCode")),goodbuyView.getFacAmount(),position);
 
             }
         });
@@ -193,7 +193,7 @@ public class Good_buy_Adapter extends RecyclerView.Adapter<Good_buy_Adapter.Good
             public void onClick(View view) {
                 amount=goodbuyView.getFacAmount();
                 Buy_box buy_box = new Buy_box(mContext);
-                buy_box.basketdsolo(goodbuyView.getPrice().toString(),goodbuyView.getGoodCode(),amount+1,position);
+                buy_box.basketdsolo(goodbuyView.getPrice().toString(),Integer.parseInt(goodbuyView.getGoodBuyFieldValue("GoodCode")),amount+1,position);
             }
         });
 
@@ -207,7 +207,7 @@ public class Good_buy_Adapter extends RecyclerView.Adapter<Good_buy_Adapter.Good
 
                 }else {
                     Buy_box buy_box = new Buy_box(mContext);
-                    buy_box.basketdsolo(goodbuyView.getPrice().toString(),goodbuyView.getGoodCode(),amount-1,position);
+                    buy_box.basketdsolo(goodbuyView.getPrice().toString(),Integer.parseInt(goodbuyView.getGoodBuyFieldValue("GoodCode")),amount-1,position);
                 }
             }
         });

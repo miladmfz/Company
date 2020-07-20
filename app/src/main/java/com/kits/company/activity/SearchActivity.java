@@ -284,7 +284,7 @@ Intent intent;
                                                     assert response.body() != null;
                                                     goodbuys = response.body().getGoodsbuy();
                                                     if (goodbuys.get(0).getErrCode() > 0){
-                                                        Toast.makeText(SearchActivity.this, goodbuys.get(0).getErrDesc()+"برای"+s[2], Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(SearchActivity.this, goodbuys.get(0).getGoodBuyFieldValue("ErrDesc")+"برای"+s[2], Toast.LENGTH_SHORT).show();
                                                     }else{
                                                         setupBadge();
                                                     }
@@ -522,8 +522,8 @@ Intent intent;
                         assert response.body() != null;
                         goodbuys_setupBadge = response.body().getGoodsbuy();
 
-                        textCartItemCount.setText(Farsi_number.PerisanNumber(goodbuys_setupBadge.get(0).getSumFacAmount()));
-                        if(Integer.parseInt(goodbuys_setupBadge.get(0).getSumFacAmount())>0) {
+                        textCartItemCount.setText(Farsi_number.PerisanNumber(goodbuys_setupBadge.get(0).getGoodBuyFieldValue("SumFacAmount")));
+                        if(Integer.parseInt(goodbuys_setupBadge.get(0).getGoodBuyFieldValue("SumFacAmount"))>0) {
                             if (textCartItemCount.getVisibility() != View.VISIBLE) {
                                 textCartItemCount.setVisibility(View.VISIBLE);
                             }

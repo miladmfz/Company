@@ -94,10 +94,10 @@ public class FinalbuyActivity extends AppCompatActivity {
                     assert response.body() != null;
                     goodbuys = response.body().getGoodsbuy();
 
-                    if(Integer.parseInt(goodbuys.get(0).getSumFacAmount())>0) {
-                        textView3.setText(Farsi_number.PerisanNumber(goodbuys.get(0).getSumFacAmount()));
-                        textView4.setText(Farsi_number.PerisanNumber(decimalFormat.format(Integer.parseInt(goodbuys.get(0).getSumPrice()))));
-                        textView2.setText(Farsi_number.PerisanNumber(goodbuys.get(0).getCountGood()));
+                    if(Integer.parseInt(goodbuys.get(0).getGoodBuyFieldValue("SumFacAmount"))>0) {
+                        textView3.setText(Farsi_number.PerisanNumber(goodbuys.get(0).getGoodBuyFieldValue("SumFacAmount")));
+                        textView4.setText(Farsi_number.PerisanNumber(decimalFormat.format(Integer.parseInt(goodbuys.get(0).getGoodBuyFieldValue("SumPrice")))));
+                        textView2.setText(Farsi_number.PerisanNumber(goodbuys.get(0).getGoodBuyFieldValue("CountGood")));
                     }else{
                         Toast.makeText(FinalbuyActivity.this, "سبد خرید خالی می باشد", Toast.LENGTH_SHORT).show();
                         finish();;
@@ -141,14 +141,14 @@ public class FinalbuyActivity extends AppCompatActivity {
 
                                             if(goodbuys.get(0).getErrCode()>0)
                                             {
-                                                Toast toast =Toast.makeText(FinalbuyActivity.this, goodbuys.get(0).getErrDesc(), Toast.LENGTH_SHORT);
+                                                Toast toast =Toast.makeText(FinalbuyActivity.this, goodbuys.get(0).getGoodBuyFieldValue("ErrDesc"), Toast.LENGTH_SHORT);
                                                 toast.setGravity(Gravity.CENTER, 10, 10);
                                                 toast.show();
                                                 finish();
                                                 startActivity(getIntent());
                                             }else{
                                                 if(goodbuys.get(0).getPreFactorCode()>0) {
-                                                    if(Integer.parseInt(goodbuys.get(0).getNotReserved())>0)
+                                                    if(Integer.parseInt(goodbuys.get(0).getGoodBuyFieldValue("NotReserved"))>0)
                                                     {
                                                         Toast.makeText(FinalbuyActivity.this, "پیش فاکتور با موفقیت ثبت شد", Toast.LENGTH_SHORT).show();
                                                         finish();

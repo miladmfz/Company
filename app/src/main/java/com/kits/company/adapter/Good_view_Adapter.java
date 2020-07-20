@@ -114,7 +114,7 @@ public class Good_view_Adapter extends RecyclerView.Adapter<Good_view_Adapter.Go
         name=goodView.getGoodFieldValue("GoodName");
         String SERVER_IP_ADDRESS = mContext.getString(R.string.SERVERIP);
 
-        if(!goods.get(position).getGoodImageName().equals("")){
+        if(!goods.get(position).getGoodFieldValue("GoodImageName").equals("")){
             Glide.with(holder.img)
                     .asBitmap()
                     .load(R.drawable.white)
@@ -125,7 +125,7 @@ public class Good_view_Adapter extends RecyclerView.Adapter<Good_view_Adapter.Go
 
             Glide.with(holder.img)
                     .asBitmap()
-                    .load(Base64.decode(goods.get(position).getGoodImageName(), Base64.DEFAULT))
+                    .load(Base64.decode(goods.get(position).getGoodFieldValue("GoodImageName"), Base64.DEFAULT))
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .fitCenter()
                     .into(holder.img);

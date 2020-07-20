@@ -137,10 +137,10 @@ public class BuyActivity extends AppCompatActivity {
                     assert response.body() != null;
                      goodbuys_sum = response.body().getGoodsbuy();
 
-                    if(Integer.parseInt(goodbuys_sum.get(0).getSumFacAmount())>0) {
-                        Buy_amount.setText(Farsi_number.PerisanNumber(goodbuys_sum.get(0).getSumFacAmount()));
-                        Buy_price.setText(Farsi_number.PerisanNumber(decimalFormat.format(Integer.parseInt(goodbuys_sum.get(0).getSumPrice()))));
-                        Buy_row.setText(Farsi_number.PerisanNumber(goodbuys_sum.get(0).getCountGood()));
+                    if(Integer.parseInt(goodbuys_sum.get(0).getGoodBuyFieldValue("SumFacAmount"))>0) {
+                        Buy_amount.setText(Farsi_number.PerisanNumber(goodbuys_sum.get(0).getGoodBuyFieldValue("SumFacAmount")));
+                        Buy_price.setText(Farsi_number.PerisanNumber(decimalFormat.format(Integer.parseInt(goodbuys_sum.get(0).getGoodBuyFieldValue("SumPrice")))));
+                        Buy_row.setText(Farsi_number.PerisanNumber(goodbuys_sum.get(0).getGoodBuyFieldValue("CountGood")));
                     }else{
                         Toast.makeText(BuyActivity.this, "سبد خرید خالی می باشد", Toast.LENGTH_SHORT).show();
                         finish();;
@@ -247,10 +247,10 @@ public class BuyActivity extends AppCompatActivity {
                     assert response.body() != null;
                      goodbuys_sum= response.body().getGoodsbuy();
 
-                    if(Integer.parseInt(goodbuys_sum.get(0).getSumFacAmount())>0) {
-                        Buy_amount.setText(Farsi_number.PerisanNumber(goodbuys_sum.get(0).getSumFacAmount()));
-                        Buy_price.setText(Farsi_number.PerisanNumber(decimalFormat.format(Integer.parseInt(goodbuys_sum.get(0).getSumPrice()))));
-                        Buy_row.setText(Farsi_number.PerisanNumber(goodbuys_sum.get(0).getCountGood()));
+                    if(Integer.parseInt(goodbuys_sum.get(0).getGoodBuyFieldValue("SumFacAmount"))>0) {
+                        Buy_amount.setText(Farsi_number.PerisanNumber(goodbuys_sum.get(0).getGoodBuyFieldValue("SumFacAmount")));
+                        Buy_price.setText(Farsi_number.PerisanNumber(decimalFormat.format(Integer.parseInt(goodbuys_sum.get(0).getGoodBuyFieldValue("SumPrice")))));
+                        Buy_row.setText(Farsi_number.PerisanNumber(goodbuys_sum.get(0).getGoodBuyFieldValue("CountGood")));
                     }else{
                         Toast.makeText(BuyActivity.this, "سبد خرید خالی می باشد", Toast.LENGTH_SHORT).show();
                         finish();;

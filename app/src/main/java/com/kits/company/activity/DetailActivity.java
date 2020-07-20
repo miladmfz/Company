@@ -478,8 +478,8 @@ public class DetailActivity extends AppCompatActivity {
                         assert response.body() != null;
                         goodbuys = response.body().getGoodsbuy();
 
-                        textCartItemCount.setText(Farsi_number.PerisanNumber(goodbuys.get(0).getSumFacAmount()));
-                        if(Integer.parseInt(goodbuys.get(0).getSumFacAmount())>0) {
+                        textCartItemCount.setText(Farsi_number.PerisanNumber(goodbuys.get(0).getGoodBuyFieldValue("SumFacAmount")));
+                        if(Integer.parseInt(goodbuys.get(0).getGoodBuyFieldValue("SumFacAmount"))>0) {
                             if (textCartItemCount.getVisibility() != View.VISIBLE) {
                                 textCartItemCount.setVisibility(View.VISIBLE);
                             }

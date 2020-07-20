@@ -163,7 +163,7 @@ public class Buy_box {
                                  goodbuys = response.body().getGoodsbuy();
 
                                  if (goodbuys.get(0).getErrCode() > 0){
-                                     Toast.makeText(mContext, goodbuys.get(0).getErrDesc(), Toast.LENGTH_SHORT).show();
+                                     Toast.makeText(mContext, goodbuys.get(0).getGoodBuyFieldValue("ErrDesc"), Toast.LENGTH_SHORT).show();
 
                                  }else{
                                          Toast toast = Toast.makeText(mContext, "کالای مورد نظر به سبد خرید اضافه شد", Toast.LENGTH_SHORT);
@@ -319,7 +319,7 @@ public class Buy_box {
                                 goodbuys = response.body().getGoodsbuy();
 
                                 if (goodbuys.get(0).getErrCode() > 0){
-                                    Toast.makeText(mContext, goodbuys.get(0).getErrDesc(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext, goodbuys.get(0).getGoodBuyFieldValue("ErrDesc"), Toast.LENGTH_SHORT).show();
                                 }else{
                                     BuyActivity activity = (BuyActivity) mContext;
                                     activity.buyrefresh(position, Integer.parseInt(amo));
@@ -358,7 +358,7 @@ public class Buy_box {
 
                 goodbuys = response.body().getGoodsbuy();
                 if (goodbuys.get(0).getErrCode() > 0){
-                    Toast.makeText(mContext, goodbuys.get(0).getErrDesc(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, goodbuys.get(0).getGoodBuyFieldValue("ErrDesc"), Toast.LENGTH_SHORT).show();
                 }else{
                     BuyActivity activity = (BuyActivity) mContext;
                     activity.buyrefresh(position,facamount);

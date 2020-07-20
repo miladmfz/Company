@@ -168,7 +168,7 @@ public class Search_date_detailActivity extends AppCompatActivity {
                                                     Log.e("onResponse", "" + response.body());
                                                     goodbuys = response.body().getGoodsbuy();
                                                     if (goodbuys.get(0).getErrCode() > 0){
-                                                        Toast.makeText(Search_date_detailActivity.this, goodbuys.get(0).getErrDesc()+"برای"+s[2], Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(Search_date_detailActivity.this, goodbuys.get(0).getGoodBuyFieldValue("ErrDesc")+"برای"+s[2], Toast.LENGTH_SHORT).show();
                                                     }else{
                                                         setupBadge();
                                                     }
@@ -401,8 +401,8 @@ public class Search_date_detailActivity extends AppCompatActivity {
                         assert response.body() != null;
                         goodbuys_setupBadge = response.body().getGoodsbuy();
 
-                        textCartItemCount.setText(Farsi_number.PerisanNumber(goodbuys_setupBadge.get(0).getSumFacAmount()));
-                        if(Integer.parseInt(goodbuys_setupBadge.get(0).getSumFacAmount())>0) {
+                        textCartItemCount.setText(Farsi_number.PerisanNumber(goodbuys_setupBadge.get(0).getGoodBuyFieldValue("SumFacAmount")));
+                        if(Integer.parseInt(goodbuys_setupBadge.get(0).getGoodBuyFieldValue("SumFacAmount"))>0) {
                             if (textCartItemCount.getVisibility() != View.VISIBLE) {
                                 textCartItemCount.setVisibility(View.VISIBLE);
                             }

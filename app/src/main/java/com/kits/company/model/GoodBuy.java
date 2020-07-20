@@ -16,216 +16,124 @@ public class GoodBuy implements Serializable {
     private Integer Price;
     @SerializedName("ProcessStatus")
     private Integer ProcessStatus;
-    @SerializedName("MobileNo")
-    private String MobileNo;
     @SerializedName("ImageCount")
     private Integer ImageCount;
     @SerializedName("GoodCode")
     private Integer GoodCode;
-    @SerializedName("GoodName")
-    private String GoodName;
     @SerializedName("MaxSellPrice")
     private Integer MaxSellPrice;
-
     @SerializedName("SellPrice1Str")
     private Integer SellPrice1Str;
     @SerializedName("HasStackAmount")
     private Integer HasStackAmount;
-
+    @SerializedName("PreFactorCode")
+    private Integer PreFactorCode;
+    @SerializedName("ErrCode")
+    private Integer ErrCode;
+    @SerializedName("SellPrice")
+    private Integer SellPrice;
+    @SerializedName("MobileNo")
+    private String MobileNo;
+    @SerializedName("GoodName")
+    private String GoodName;
     @SerializedName("SumFacAmount")
     private String SumFacAmount;
     @SerializedName("SumPrice")
     private String SumPrice;
     @SerializedName("CountGood")
     private String CountGood;
-
-    @SerializedName("PreFactorCode")
-    private Integer PreFactorCode;
-    @SerializedName("ErrCode")
-    private Integer ErrCode;
     @SerializedName("ErrDesc")
     private String ErrDesc;
-
     @SerializedName("PreFactorDate")
     private String PreFactorDate;
-
     @SerializedName("Reserved")
     private String Reserved;
-
     @SerializedName("NotReserved")
     private String NotReserved;
-
     @SerializedName("IsReserved")
     private String IsReserved;
 
-    @SerializedName("SellPrice")
-    private Integer SellPrice;
+
+    public void setFacAmount(Integer facAmount) { FacAmount = facAmount; }
+
+
+
+
+
 
     public Integer getSellPrice() {
         return SellPrice;
     }
-
-    public void setSellPrice(Integer sellPrice) {
-        SellPrice = sellPrice;
-    }
-
-    public String getReserved() {
-        return Reserved;
-    }
-
-    public void setReserved(String reserved) {
-        Reserved = reserved;
-    }
-
-    public String getNotReserved() {
-        return NotReserved;
-    }
-
-    public void setNotReserved(String notReserved) {
-        NotReserved = notReserved;
-    }
-
-    public String getIsReserved() {
-        return IsReserved;
-    }
-
-    public void setIsReserved(String isReserved) {
-        IsReserved = isReserved;
-    }
-
     public Integer getErrCode() {
         return ErrCode;
     }
-
-    public void setErrCode(Integer errCode) {
-        ErrCode = errCode;
-    }
-
-    public String getErrDesc() {
-        return ErrDesc;
-    }
-
-    public void setErrDesc(String errDesc) {
-        ErrDesc = errDesc;
-    }
-
     public Integer getPreFactorCode() {
         return PreFactorCode;
     }
-
-    public void setPreFactorCode(Integer preFactorCode) {
-        PreFactorCode = preFactorCode;
-    }
-
-    public String getPreFactorDate() {
-        return PreFactorDate;
-    }
-
-    public void setPreFactorDate(String preFactorDate) {
-        PreFactorDate = preFactorDate;
-    }
-
-    public String getSumFacAmount() {
-        return SumFacAmount;
-    }
-
-    public void setSumFacAmount(String sumFacAmount) {
-        SumFacAmount = sumFacAmount;
-    }
-
-    public String getSumPrice() {
-        return SumPrice;
-    }
-
-    public void setSumPrice(String sumPrice) {
-        SumPrice = sumPrice;
-    }
-
-    public String getCountGood() {
-        return CountGood;
-    }
-
-    public void setCountGood(String countGood) {
-        CountGood = countGood;
-    }
-
     public Integer getFacAmount() {
         return FacAmount;
     }
-
-    public void setFacAmount(Integer facAmount) {
-        FacAmount = facAmount;
-    }
-
     public Integer getPrice() {
         return Price;
     }
 
-    public void setPrice(Integer price) {
-        Price = price;
+
+
+
+
+
+
+
+    public String getGoodBuyFieldValue(String AKey)
+    {
+
+        String iKey = AKey.toLowerCase();
+        String Res = "";
+        if(iKey.equals("goodname")){Res = GoodName;}
+        else if(iKey.equals("goodcode"))        {if(GoodCode==null)Res ="";else Res = GoodCode.toString();}
+        else if(iKey.equals("sellprice"))       {if(SellPrice==null)Res ="";else Res = SellPrice.toString();}
+        else if(iKey.equals("errcode"))         {if(ErrCode==null)Res ="";else Res = ErrCode.toString();}
+        else if(iKey.equals("prefactorcode"))   {if(PreFactorCode==null)Res ="";else Res = PreFactorCode.toString();}
+        else if(iKey.equals("facamount"))       {if(FacAmount==null)Res ="";else Res = FacAmount.toString();}
+        else if(iKey.equals("price"))           {if(Price==null)Res ="";else Res = Price.toString();}
+        else if(iKey.equals("maxsellprice"))    {if(MaxSellPrice==null)Res ="";else Res = MaxSellPrice.toString();}
+        else if(iKey.equals("errdesc"))         {if(ErrDesc==null)Res ="";else Res = ErrDesc;}
+        else if(iKey.equals("sumfacamount"))    {if(SumFacAmount==null)Res ="";else Res = SumFacAmount;}
+        else if(iKey.equals("sumprice"))        {if(SumPrice==null)Res ="";else Res = SumPrice;}
+        else if(iKey.equals("countgood"))       {if(CountGood==null)Res ="";else Res = CountGood;}
+        else if(iKey.equals("notreserved"))     {if(NotReserved==null)Res ="";else Res = NotReserved;}
+        else if(iKey.equals("isreserved"))      {if(IsReserved==null)Res ="";else Res = IsReserved;}
+        return Res;
+
     }
 
-    public Integer getProcessStatus() {
-        return ProcessStatus;
-    }
 
-    public void setProcessStatus(Integer processStatus) {
-        ProcessStatus = processStatus;
-    }
 
-    public String getMobileNo() {
-        return MobileNo;
-    }
 
-    public void setMobileNo(String mobileNo) {
-        MobileNo = mobileNo;
-    }
 
-    public Integer getImageCount() {
-        return ImageCount;
-    }
 
-    public void setImageCount(Integer imageCount) {
-        ImageCount = imageCount;
-    }
 
-    public Integer getGoodCode() {
-        return GoodCode;
-    }
 
-    public void setGoodCode(Integer goodCode) {
-        GoodCode = goodCode;
-    }
 
-    public String getGoodName() {
-        return GoodName;
-    }
 
-    public void setGoodName(String goodName) {
-        GoodName = goodName;
-    }
 
-    public Integer getMaxSellPrice() {
-        return MaxSellPrice;
-    }
 
-    public void setMaxSellPrice(Integer maxSellPrice) {
-        MaxSellPrice = maxSellPrice;
-    }
 
-    public Integer getSellPrice1Str() {
-        return SellPrice1Str;
-    }
 
-    public void setSellPrice1Str(Integer sellPrice1Str) {
-        SellPrice1Str = sellPrice1Str;
-    }
 
-    public Integer getHasStackAmount() {
-        return HasStackAmount;
-    }
 
-    public void setHasStackAmount(Integer hasStackAmount) {
-        HasStackAmount = hasStackAmount;
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
