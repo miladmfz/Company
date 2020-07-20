@@ -5,7 +5,13 @@ public class Farsi_number {
     private static String[] persianNumbers = new String[]{ "۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹" };
 
     public static String PerisanNumber(String text) {
+
+        if(text==null){
+
+            return "";
+        }
         if (text.length() == 0) {
+
             return "";
         }
         String out = "";

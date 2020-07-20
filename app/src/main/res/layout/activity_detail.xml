@@ -252,6 +252,10 @@
                             android:text="جزئیات محصول"
                             android:textColor="#000000"
                             android:textSize="18dp" />
+                    <androidx.viewpager.widget.ViewPager
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/grey_40" />
 
 
 

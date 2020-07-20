@@ -298,7 +298,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void good_call() {
-        Call<ColumnRespons> call = apiInterface.asd("GetColumnList",id);
+        Call<ColumnRespons> call = apiInterface.GetColumn("GetColumnList",id);
         call.enqueue(new Callback<ColumnRespons>() {
             @Override
             public void onResponse(Call<ColumnRespons> call, Response<ColumnRespons> response) {
@@ -306,7 +306,7 @@ public class DetailActivity extends AppCompatActivity {
                     Columns = response.body().getColumns();
 
                     Call<GoodRespons> call2 = apiInterface.GetAllGood
-                            ("goodinfo","","goodcode="+id,0,0,shPref.getString("mobile", null),0);
+                            ("goodinfo",id,"","",0,0,shPref.getString("mobile", null),0);
                     call2.enqueue(new Callback<GoodRespons>() {
                         @Override
                         public void onResponse(Call<GoodRespons> call, Response<GoodRespons> response) {
@@ -317,26 +317,27 @@ public class DetailActivity extends AppCompatActivity {
                                 price=good.getGoodFieldValue("SellPrice");
                                 id=Integer.parseInt(good.getGoodFieldValue("GoodCode"));
                                 goodname.setText(Farsi_number.PerisanNumber(good.getGoodFieldValue("GoodName")));
-                                sellprice.setText(Farsi_number.PerisanNumber(good.getSellPrice()+""));
-                                if(good.getMaxSellPrice().equals(Integer.parseInt(good.getSellPrice())))
+                                sellprice.setText(Farsi_number.PerisanNumber(good.getGoodFieldValue("SellPrice")));
+                                if(good.getGoodFieldValue("MaxSellPrice").equals(good.getGoodFieldValue("SellPrice")))
                                 {
                                     maxsellpriceTextView.setVisibility(View.GONE);
                                 }else{
                                     maxsellpriceTextView.setVisibility(View.VISIBLE);
-                                    SpannableString spannableString =new SpannableString( Farsi_number.PerisanNumber(decimalFormat.format(Integer.parseInt(""+good.getMaxSellPrice()))));
-                                    spannableString.setSpan(new StrikethroughSpan(),0,good.getMaxSellPrice().toString().length(), Spanned.SPAN_MARK_MARK);
+                                    SpannableString spannableString =new SpannableString( Farsi_number.PerisanNumber(decimalFormat.format(Integer.parseInt(good.getGoodFieldValue("MaxSellPrice")))));
+                                    spannableString.setSpan(new StrikethroughSpan(),0,good.getGoodFieldValue("MaxSellPrice").length(), Spanned.SPAN_MARK_MARK);
                                     maxsellpriceTextView.setText(spannableString);
                                 }
 
-                                if(good.getHasStackAmount()==0){
+                                if(Integer.parseInt(good.getGoodFieldValue("HasStackAmount")) ==0){
+
                                     btnbuy.setText("ناموجود");
                                     btnbuy.setClickable(false);
                                     btnbuy.setTextColor(DetailActivity.this.getResources().getColor(R.color.white));
                                     btnbuy.setBackgroundColor(DetailActivity.this.getResources().getColor(R.color.red_300));
                                 }
                                 prog.setVisibility(View.GONE);
-                                favorite_bol=good.getIsFavorite();
-                                if(good.getIsFavorite()>0){
+                                favorite_bol=Integer.parseInt(good.getGoodFieldValue("IsFavorite"))                                ;
+                                if(Integer.parseInt(good.getGoodFieldValue("IsFavorite")) >0){
                                     favorite.setIconResource(R.drawable.ic_favorite_black_24dp);
                                     favorite.setIconTintResource(R.color.red_900);
 
@@ -348,39 +349,41 @@ public class DetailActivity extends AppCompatActivity {
                                 SliderView();
                                 for ( Column Column : Columns){
 
-                                    LinearLayoutCompat ll =  findViewById(R.id.DetailActivity_line_property);
-                                    ll.setOrientation(LinearLayoutCompat.VERTICAL);
-                                    LinearLayoutCompat ll_1= new LinearLayoutCompat(DetailActivity.this);
-                                    ll_1.setOrientation(LinearLayoutCompat.HORIZONTAL);
-                                    ll_1.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT,LinearLayoutCompat.LayoutParams.WRAP_CONTENT));
-                                    ll_1.setWeightSum(1);
+                                    if(Column.getSortOrder()>0) {
+                                        LinearLayoutCompat ll = findViewById(R.id.DetailActivity_line_property);
+                                        ll.setOrientation(LinearLayoutCompat.VERTICAL);
+                                        LinearLayoutCompat ll_1 = new LinearLayoutCompat(DetailActivity.this);
+                                        ll_1.setOrientation(LinearLayoutCompat.HORIZONTAL);
+                                        ll_1.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT));
+                                        ll_1.setWeightSum(1);
 
-                                    TextView extra_TextView1 = new TextView(DetailActivity.this);
-                                    extra_TextView1.setText(Farsi_number.PerisanNumber(Column.getColumnDesc()));
-                                    extra_TextView1.setBackgroundResource(R.color.grey_20);
-                                    extra_TextView1.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT,LinearLayoutCompat.LayoutParams.MATCH_PARENT, (float) 0.7));
-                                    extra_TextView1.setTextSize(18);
-                                    extra_TextView1.setPadding(2,2,2,2);
-                                    extra_TextView1.setGravity(Gravity.CENTER);
-                                    extra_TextView1.setTextColor(getResources().getColor(R.color.grey_800));
-                                    ll_1.addView(extra_TextView1);
+                                        TextView extra_TextView1 = new TextView(DetailActivity.this);
+                                        extra_TextView1.setText(Farsi_number.PerisanNumber(Column.getColumnDesc()));
+                                        extra_TextView1.setBackgroundResource(R.color.grey_20);
+                                        extra_TextView1.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.MATCH_PARENT, (float) 0.7));
+                                        extra_TextView1.setTextSize(18);
+                                        extra_TextView1.setPadding(2, 2, 2, 2);
+                                        extra_TextView1.setGravity(Gravity.CENTER);
+                                        extra_TextView1.setTextColor(getResources().getColor(R.color.grey_800));
+                                        ll_1.addView(extra_TextView1);
 
-                                    TextView extra_TextView2 = new TextView(DetailActivity.this);
-                                    extra_TextView2.setText(Farsi_number.PerisanNumber(good.getGoodFieldValue(Column.getColumnName())));
-                                    extra_TextView2.setBackgroundResource(R.color.white);
-                                    extra_TextView2.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT,LinearLayoutCompat.LayoutParams.MATCH_PARENT, (float) 0.3));
-                                    extra_TextView2.setTextSize(18);
-                                    extra_TextView2.setPadding(2,2,2,2);
-                                    extra_TextView2.setGravity(Gravity.CENTER);
-                                    extra_TextView2.setTextColor(getResources().getColor(R.color.grey_800));
-                                    ll_1.addView(extra_TextView2);
+                                        TextView extra_TextView2 = new TextView(DetailActivity.this);
+                                        extra_TextView2.setText(Farsi_number.PerisanNumber(good.getGoodFieldValue(Column.getColumnName())));
+                                        extra_TextView2.setBackgroundResource(R.color.white);
+                                        extra_TextView2.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.MATCH_PARENT, (float) 0.3));
+                                        extra_TextView2.setTextSize(18);
+                                        extra_TextView2.setPadding(2, 2, 2, 2);
+                                        extra_TextView2.setGravity(Gravity.CENTER);
+                                        extra_TextView2.setTextColor(getResources().getColor(R.color.grey_1000));
+                                        ll_1.addView(extra_TextView2);
 
-                                    ViewPager extra_ViewPager=new ViewPager(DetailActivity.this);
-                                    extra_ViewPager.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT,2));
-                                    extra_ViewPager.setBackgroundResource(R.color.grey_40);
+                                        ViewPager extra_ViewPager = new ViewPager(DetailActivity.this);
+                                        extra_ViewPager.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, 3));
+                                        extra_ViewPager.setBackgroundResource(R.color.grey_40);
 
-                                    ll.addView(ll_1);
-                                    ll.addView(extra_ViewPager);
+                                        ll.addView(ll_1);
+                                        ll.addView(extra_ViewPager);
+                                    }
                                 }
                             }
                         }

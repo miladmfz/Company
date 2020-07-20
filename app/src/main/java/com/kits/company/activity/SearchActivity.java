@@ -270,13 +270,13 @@ Intent intent;
                                 for (final String[] s : Multi_buy) {
 
                                     Call<GoodRespons> call_amount = apiInterface.GetAllGood
-                                            ("goodinfo","","goodcode="+ Integer.parseInt(s[0]),0,0,shPref.getString("mobile", null),0);
+                                            ("goodinfo",0,"","goodcode="+ Integer.parseInt(s[0]),0,0,shPref.getString("mobile", null),0);
                                     call_amount.enqueue(new Callback<GoodRespons>() {
                                         @Override
                                         public void onResponse(Call<GoodRespons> call, Response<GoodRespons> response) {
                                             ArrayList<Good> goods = response.body().getGoods();
                                             Good good= goods.get(0);
-                                            Call<GoodBuyRespons> call2 = apiInterface.InsertBasket("Insertbasket", "DeviceCode", Integer.parseInt(s[0]), Integer.parseInt(amo)+good.getBasketAmount(), Integer.parseInt(s[1]), "test", shPref.getString("mobile", null));
+                                            Call<GoodBuyRespons> call2 = apiInterface.InsertBasket("Insertbasket", "DeviceCode", Integer.parseInt(s[0]), Integer.parseInt(amo)+Integer.parseInt(good.getGoodFieldValue("BasketAmount")), Integer.parseInt(s[1]), "test", shPref.getString("mobile", null));
                                             call2.enqueue(new Callback<GoodBuyRespons>() {
                                                 @Override
                                                 public void onResponse(Call<GoodBuyRespons> call, retrofit2.Response<GoodBuyRespons> response) {
@@ -338,7 +338,7 @@ Intent intent;
     private void allgood(String edtsearch,String where) {
         prog.setVisibility(View.VISIBLE);
         Call<GoodRespons> call = apiInterface.GetAllGood
-                ("goodinfo", edtsearch, where,0,PageNo,shPref.getString("mobile", null),0);
+                ("goodinfo", 0,edtsearch, where,0,PageNo,shPref.getString("mobile", null),0);
         call.enqueue(new Callback<GoodRespons>() {
             @Override
             public void onResponse(Call<GoodRespons> call, Response<GoodRespons> response) {
@@ -388,7 +388,7 @@ Intent intent;
     private void allgood_more(String edtsearch,String where) {
         prog.setVisibility(View.VISIBLE);
         Call<GoodRespons> call = apiInterface.GetAllGood
-                ("goodinfo", edtsearch, where,0,PageNo,shPref.getString("mobile", null),0);
+                ("goodinfo",0, edtsearch, where,0,PageNo,shPref.getString("mobile", null),0);
         call.enqueue(new Callback<GoodRespons>() {
             @Override
             public void onResponse(Call<GoodRespons> call, Response<GoodRespons> response) {

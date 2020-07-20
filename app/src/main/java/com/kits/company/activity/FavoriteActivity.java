@@ -108,7 +108,7 @@ public class FavoriteActivity extends AppCompatActivity {
     private void allgood() {
 
         call = apiInterface.GetAllGood
-                ("goodinfo", "" , "",0,PageNo,shPref.getString("mobile", null),1);
+                ("goodinfo", 0,"" , "",0,PageNo,shPref.getString("mobile", null),1);
         call.enqueue(new Callback<GoodRespons>() {
             @Override
             public void onResponse(Call<GoodRespons> call, Response<GoodRespons> response) {
@@ -139,7 +139,7 @@ public class FavoriteActivity extends AppCompatActivity {
     private void allgood_more() {
         prog.setVisibility(View.VISIBLE);
          call = apiInterface.GetAllGood
-                ("goodinfo", "", "",0,PageNo,shPref.getString("mobile", null),1);
+                ("goodinfo", 0,"", "",0,PageNo,shPref.getString("mobile", null),1);
         call.enqueue(new Callback<GoodRespons>() {
             @Override
             public void onResponse(Call<GoodRespons> call, Response<GoodRespons> response) {

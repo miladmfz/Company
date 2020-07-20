@@ -352,7 +352,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
                         grp1.setText(Groups_defult.get(0).getName());
                         Call<GoodRespons> call2 = apiInterface.GetAllGood
-                                ("goodinfo","","",Groups_defult.get(0).getGroupCode(),0,shPref.getString("mobile", null),0);
+                                ("goodinfo",0,"","",Groups_defult.get(0).getGroupCode(),0,shPref.getString("mobile", null),0);
                         call2.enqueue(new Callback<GoodRespons>() {
                             @Override
                             public void onResponse(Call<GoodRespons> call, Response<GoodRespons> response) {
@@ -379,7 +379,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                         grp2.setText(Groups_defult.get(1).getName());
 
                         Call<GoodRespons> call3 = apiInterface.GetAllGood
-                                ("goodinfo","","",Groups_defult.get(1).getGroupCode(),0,shPref.getString("mobile", null),0 );
+                                ("goodinfo",0,"","",Groups_defult.get(1).getGroupCode(),0,shPref.getString("mobile", null),0 );
                         call3.enqueue(new Callback<GoodRespons>() {
                             @Override
                             public void onResponse(Call<GoodRespons> call, Response<GoodRespons> response) {

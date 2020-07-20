@@ -88,15 +88,15 @@ public class Buy_box {
         tv_goodname.setText(goodname);
         price.setText(Farsi_number.PerisanNumber(sellprice));
         Call<GoodRespons> call = apiInterface.GetAllGood
-                ("goodinfo","","goodcode="+goodcode,0,0,shPref.getString("mobile", null),0);
+                ("goodinfo",0,"","goodcode="+goodcode,0,0,shPref.getString("mobile", null),0);
         call.enqueue(new Callback<GoodRespons>() {
             @Override
             public void onResponse(Call<GoodRespons> call, Response<GoodRespons> response) {
                 if (response.isSuccessful()) {
                     ArrayList<Good> goods = response.body().getGoods();
                     Good good= goods.get(0);
-                    amount.setHint(""+good.getBasketAmount());
-                    last_amount=last_amount+good.getBasketAmount();
+                    amount.setHint(good.getGoodFieldValue("BasketAmount"));
+                    last_amount=last_amount+Integer.parseInt(good.getGoodFieldValue("BasketAmount"));
                 }
             }
 

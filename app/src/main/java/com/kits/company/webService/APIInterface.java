@@ -35,6 +35,7 @@ public interface APIInterface {
     @POST("index.php")
     @FormUrlEncoded
     Call<GoodRespons> GetAllGood(@Field("tag") String tag  ,
+                                 @Field("GoodCode") Integer GoodCode,
                                  @Field("SearchTarget") String SearchTarget,
                                  @Field("Where") String Where,
                                  @Field("GroupCode") Integer GroupCode,
@@ -63,7 +64,7 @@ public interface APIInterface {
 
     @POST("index.php")
     @FormUrlEncoded
-    Call<ColumnRespons> asd(@Field("tag") String tag ,
+    Call<ColumnRespons> GetColumn(@Field("tag") String tag ,
                             @Field("GoodCode") Integer GoodCode);
 
 

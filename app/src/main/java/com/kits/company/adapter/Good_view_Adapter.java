@@ -83,16 +83,16 @@ public class Good_view_Adapter extends RecyclerView.Adapter<Good_view_Adapter.Go
         final int myps= position;
         final Good goodView = goods.get(position);
 
-        if(goodView.getHasStackAmount()>0) {
-            if (goodView.getMaxSellPrice().equals(Integer.parseInt(goodView.getSellPrice()))) {
+        if(Integer.parseInt(goodView.getGoodFieldValue("HasStackAmount"))>0) {
+            if (goodView.getGoodFieldValue("MaxSellPrice").equals(goodView.getGoodFieldValue("SellPrice"))) {
                 holder.maxsellpriceTextView.setVisibility(View.GONE);
             } else {
                 holder.maxsellpriceTextView.setVisibility(View.VISIBLE);
-                SpannableString spannableString = new SpannableString(Farsi_number.PerisanNumber(decimalFormat.format(Integer.parseInt("" + goodView.getMaxSellPrice()))));
-                spannableString.setSpan(new StrikethroughSpan(), 0, goodView.getMaxSellPrice().toString().length(), Spanned.SPAN_MARK_MARK);
+                SpannableString spannableString = new SpannableString(Farsi_number.PerisanNumber(decimalFormat.format(Integer.parseInt(goodView.getGoodFieldValue("MaxSellPrice")))));
+                spannableString.setSpan(new StrikethroughSpan(), 0, goodView.getGoodFieldValue("MaxSellPrice").length(), Spanned.SPAN_MARK_MARK);
                 holder.maxsellpriceTextView.setText(spannableString);
             }
-            holder.sellpercent.setText(Farsi_number.PerisanNumber(decimalFormat.format(Integer.parseInt(""+goodView.getSellPrice()))));
+            holder.sellpercent.setText(Farsi_number.PerisanNumber(decimalFormat.format(Integer.parseInt(goodView.getGoodFieldValue("SellPrice")))));
             holder.btnadd.setVisibility(View.VISIBLE);
             holder.sellpercent.setTextColor(mContext.getResources().getColor(R.color.green_900));
 
@@ -110,7 +110,7 @@ public class Good_view_Adapter extends RecyclerView.Adapter<Good_view_Adapter.Go
 
 
         code=Integer.parseInt(goodView.getGoodFieldValue("GoodCode"));
-        price=goodView.getSellPrice();
+        price=goodView.getGoodFieldValue("SellPrice");
         name=goodView.getGoodFieldValue("GoodName");
         String SERVER_IP_ADDRESS = mContext.getString(R.string.SERVERIP);
 
@@ -206,7 +206,7 @@ public class Good_view_Adapter extends RecyclerView.Adapter<Good_view_Adapter.Go
             public void onClick(View view) {
 
                 Buy_box buy_box = new Buy_box(mContext);
-                buy_box.buydialog(goodView.getGoodFieldValue("GoodName"),goodView.getSellPrice(),Integer.parseInt(goodView.getGoodFieldValue("GoodCode")));
+                buy_box.buydialog(goodView.getGoodFieldValue("GoodName"),goodView.getGoodFieldValue("SellPrice"),Integer.parseInt(goodView.getGoodFieldValue("GoodCode")));
 
             }
         });

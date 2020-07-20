@@ -93,16 +93,16 @@ public class Good_ProSearch_Line_Adapter extends RecyclerView.Adapter<Good_ProSe
         holder.img.setVisibility(View.INVISIBLE);
 
 
-        if(goodView.getHasStackAmount()>0) {
-            if (goodView.getMaxSellPrice().equals(Integer.parseInt(goodView.getSellPrice()))) {
+        if(Integer.parseInt(goodView.getGoodFieldValue("HasStackAmount"))>0) {
+            if (goodView.getGoodFieldValue("MaxSellPrice").equals(goodView.getGoodFieldValue("SellPrice"))) {
                 holder.maxsellpriceTextView.setVisibility(View.GONE);
             } else {
                 holder.maxsellpriceTextView.setVisibility(View.VISIBLE);
-                SpannableString spannableString = new SpannableString(Farsi_number.PerisanNumber(decimalFormat.format(Integer.parseInt("" + goodView.getMaxSellPrice()))));
-                spannableString.setSpan(new StrikethroughSpan(), 0, goodView.getMaxSellPrice().toString().length(), Spanned.SPAN_MARK_MARK);
+                SpannableString spannableString = new SpannableString(Farsi_number.PerisanNumber(decimalFormat.format(Integer.parseInt(goodView.getGoodFieldValue("MaxSellPrice")))));
+                spannableString.setSpan(new StrikethroughSpan(), 0, goodView.getGoodFieldValue("MaxSellPrice").length(), Spanned.SPAN_MARK_MARK);
                 holder.maxsellpriceTextView.setText(spannableString);
             }
-            holder.sellpercent.setText(Farsi_number.PerisanNumber(decimalFormat.format(Integer.parseInt(""+goodView.getSellPrice()))));
+            holder.sellpercent.setText(Farsi_number.PerisanNumber(decimalFormat.format(Integer.parseInt(goodView.getGoodFieldValue("SellPrice")))));
             holder.btnadd.setVisibility(View.VISIBLE);
             holder.sellpercent.setTextColor(mContext.getResources().getColor(R.color.green_900));
             holder.rltv.setCheckable(true);
@@ -121,7 +121,7 @@ public class Good_ProSearch_Line_Adapter extends RecyclerView.Adapter<Good_ProSe
 
 
         code=Integer.parseInt(goodView.getGoodFieldValue("GoodCode"));
-        price=goodView.getSellPrice();
+        price=goodView.getGoodFieldValue("SellPrice");
         name=goodView.getGoodFieldValue("GoodName");
 
 
@@ -202,34 +202,34 @@ public class Good_ProSearch_Line_Adapter extends RecyclerView.Adapter<Good_ProSe
             {
 
                 if(multi_select){
-                    if(goodView.getHasStackAmount()>0) {
+                    if(Integer.parseInt(goodView.getGoodFieldValue("HasStackAmount"))>0) {
                         holder.rltv.setChecked(!holder.rltv.isChecked());
                         goods.get(position).setCheck(!goods.get(position).isCheck());
                         if (goods.get(position).isCheck()) {
                             if (mContext.getClass().getName().equals("com.kits.company.activity.SearchActivity")) {
                                 SearchActivity activity = (SearchActivity) mContext;
-                                activity.good_select_function(goodView.getSellPrice(), Integer.parseInt(goodView.getGoodFieldValue("GoodCode")), goodView.getGoodFieldValue("GoodName"), 1);
+                                activity.good_select_function(goodView.getGoodFieldValue("SellPrice"), Integer.parseInt(goodView.getGoodFieldValue("GoodCode")), goodView.getGoodFieldValue("GoodName"), 1);
                             }
                             if (mContext.getClass().getName().equals("com.kits.company.activity.Search_date_detailActivity")) {
                                 Search_date_detailActivity activity = (Search_date_detailActivity) mContext;
-                                activity.good_select_function(goodView.getSellPrice(), Integer.parseInt(goodView.getGoodFieldValue("GoodCode")), goodView.getGoodFieldValue("GoodName"), 1);
+                                activity.good_select_function(goodView.getGoodFieldValue("SellPrice"), Integer.parseInt(goodView.getGoodFieldValue("GoodCode")), goodView.getGoodFieldValue("GoodName"), 1);
                             }
                             if (mContext.getClass().getName().equals("com.kits.company.activity.GrpActivity")) {
                                 GrpActivity activity = (GrpActivity) mContext;
-                                activity.good_select_function(goodView.getSellPrice(), Integer.parseInt(goodView.getGoodFieldValue("GoodCode")), goodView.getGoodFieldValue("GoodName"), 1);
+                                activity.good_select_function(goodView.getGoodFieldValue("SellPrice"), Integer.parseInt(goodView.getGoodFieldValue("GoodCode")), goodView.getGoodFieldValue("GoodName"), 1);
                             }
                         } else {
                             if (mContext.getClass().getName().equals("com.kits.company.activity.SearchActivity")) {
                                 SearchActivity activity = (SearchActivity) mContext;
-                                activity.good_select_function(goodView.getSellPrice(), Integer.parseInt(goodView.getGoodFieldValue("GoodCode")), goodView.getGoodFieldValue("GoodName"), 0);
+                                activity.good_select_function(goodView.getGoodFieldValue("SellPrice"), Integer.parseInt(goodView.getGoodFieldValue("GoodCode")), goodView.getGoodFieldValue("GoodName"), 0);
                             }
                             if (mContext.getClass().getName().equals("com.kits.company.activity.Search_date_detailActivity")) {
                                 Search_date_detailActivity activity = (Search_date_detailActivity) mContext;
-                                activity.good_select_function(goodView.getSellPrice(), Integer.parseInt(goodView.getGoodFieldValue("GoodCode")), goodView.getGoodFieldValue("GoodName"), 0);
+                                activity.good_select_function(goodView.getGoodFieldValue("SellPrice"), Integer.parseInt(goodView.getGoodFieldValue("GoodCode")), goodView.getGoodFieldValue("GoodName"), 0);
                             }
                             if (mContext.getClass().getName().equals("com.kits.company.activity.GrpActivity")) {
                                 GrpActivity activity = (GrpActivity) mContext;
-                                activity.good_select_function(goodView.getSellPrice(), Integer.parseInt(goodView.getGoodFieldValue("GoodCode")), goodView.getGoodFieldValue("GoodName"), 0);
+                                activity.good_select_function(goodView.getGoodFieldValue("SellPrice"), Integer.parseInt(goodView.getGoodFieldValue("GoodCode")), goodView.getGoodFieldValue("GoodName"), 0);
                             }
 
                         }
@@ -254,7 +254,7 @@ public class Good_ProSearch_Line_Adapter extends RecyclerView.Adapter<Good_ProSe
             public void onClick(View view) {
 
                 Buy_box buy_box = new Buy_box(mContext);
-                buy_box.buydialog(goodView.getGoodFieldValue("GoodName"),goodView.getSellPrice(),Integer.parseInt(goodView.getGoodFieldValue("GoodCode")));
+                buy_box.buydialog(goodView.getGoodFieldValue("GoodName"),goodView.getGoodFieldValue("SellPrice"),Integer.parseInt(goodView.getGoodFieldValue("GoodCode")));
 
             }
         });
@@ -269,35 +269,35 @@ public class Good_ProSearch_Line_Adapter extends RecyclerView.Adapter<Good_ProSe
             public boolean onLongClick(View view) {
                 multi_select=true;
 
-                if(goodView.getHasStackAmount()>0) {
+                if(Integer.parseInt(goodView.getGoodFieldValue("HasStackAmount"))>0) {
                     holder.rltv.setChecked(!holder.rltv.isChecked());
                     goods.get(position).setCheck(!goods.get(position).isCheck());
 
                     if (goods.get(position).isCheck()) {
                         if (mContext.getClass().getName().equals("com.kits.company.activity.SearchActivity")) {
                             SearchActivity activity = (SearchActivity) mContext;
-                            activity.good_select_function(goodView.getSellPrice(), Integer.parseInt(goodView.getGoodFieldValue("GoodCode")), goodView.getGoodFieldValue("GoodName"), 1);
+                            activity.good_select_function(goodView.getGoodFieldValue("SellPrice"), Integer.parseInt(goodView.getGoodFieldValue("GoodCode")), goodView.getGoodFieldValue("GoodName"), 1);
                         }
                         if (mContext.getClass().getName().equals("com.kits.company.activity.Search_date_detailActivity")) {
                             Search_date_detailActivity activity = (Search_date_detailActivity) mContext;
-                            activity.good_select_function(goodView.getSellPrice(), Integer.parseInt(goodView.getGoodFieldValue("GoodCode")), goodView.getGoodFieldValue("GoodName"), 1);
+                            activity.good_select_function(goodView.getGoodFieldValue("SellPrice"), Integer.parseInt(goodView.getGoodFieldValue("GoodCode")), goodView.getGoodFieldValue("GoodName"), 1);
                         }
                         if (mContext.getClass().getName().equals("com.kits.company.activity.GrpActivity")) {
                             GrpActivity activity = (GrpActivity) mContext;
-                            activity.good_select_function(goodView.getSellPrice(), Integer.parseInt(goodView.getGoodFieldValue("GoodCode")), goodView.getGoodFieldValue("GoodName"), 1);
+                            activity.good_select_function(goodView.getGoodFieldValue("SellPrice"), Integer.parseInt(goodView.getGoodFieldValue("GoodCode")), goodView.getGoodFieldValue("GoodName"), 1);
                         }
                     } else {
                         if (mContext.getClass().getName().equals("com.kits.company.activity.SearchActivity")) {
                             SearchActivity activity = (SearchActivity) mContext;
-                            activity.good_select_function(goodView.getSellPrice(), Integer.parseInt(goodView.getGoodFieldValue("GoodCode")), goodView.getGoodFieldValue("GoodName"), 0);
+                            activity.good_select_function(goodView.getGoodFieldValue("SellPrice"), Integer.parseInt(goodView.getGoodFieldValue("GoodCode")), goodView.getGoodFieldValue("GoodName"), 0);
                         }
                         if (mContext.getClass().getName().equals("com.kits.company.activity.Search_date_detailActivity")) {
                             Search_date_detailActivity activity = (Search_date_detailActivity) mContext;
-                            activity.good_select_function(goodView.getSellPrice(), Integer.parseInt(goodView.getGoodFieldValue("GoodCode")), goodView.getGoodFieldValue("GoodName"), 0);
+                            activity.good_select_function(goodView.getGoodFieldValue("SellPrice"), Integer.parseInt(goodView.getGoodFieldValue("GoodCode")), goodView.getGoodFieldValue("GoodName"), 0);
                         }
                         if (mContext.getClass().getName().equals("com.kits.company.activity.GrpActivity")) {
                             GrpActivity activity = (GrpActivity) mContext;
-                            activity.good_select_function(goodView.getSellPrice(), Integer.parseInt(goodView.getGoodFieldValue("GoodCode")), goodView.getGoodFieldValue("GoodName"), 0);
+                            activity.good_select_function(goodView.getGoodFieldValue("SellPrice"), Integer.parseInt(goodView.getGoodFieldValue("GoodCode")), goodView.getGoodFieldValue("GoodName"), 0);
                         }
 
                     }
