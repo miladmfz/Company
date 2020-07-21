@@ -167,7 +167,7 @@ public class Search_date_detailActivity extends AppCompatActivity {
                                                 public void onResponse(Call<GoodBuyRespons> call, retrofit2.Response<GoodBuyRespons> response) {
                                                     Log.e("onResponse", "" + response.body());
                                                     goodbuys = response.body().getGoodsbuy();
-                                                    if (goodbuys.get(0).getErrCode() > 0){
+                                                    if (Integer.parseInt(goodbuys.get(0).getGoodBuyFieldValue("ErrCode"))> 0){
                                                         Toast.makeText(Search_date_detailActivity.this, goodbuys.get(0).getGoodBuyFieldValue("ErrDesc")+"برای"+s[2], Toast.LENGTH_SHORT).show();
                                                     }else{
                                                         setupBadge();

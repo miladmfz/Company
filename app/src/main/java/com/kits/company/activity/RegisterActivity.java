@@ -207,23 +207,23 @@ public class RegisterActivity extends AppCompatActivity {
                                 ArrayList<User> users = response.body().getUsers();
                                 TextView status = findViewById(R.id.registration_status);
 
-                                if (Integer.parseInt(users.get(0).getXUserCode())>0) {
+                                if (Integer.parseInt(users.get(0).getUserFieldValue("XUserCode"))>0) {
                                     intent = new Intent(RegisterActivity.this, ProfileActivity.class);
                                     intent.putExtra("id", 2);
-                                    intent.putExtra("XUserName", users.get(0).getXUserName());
-                                    intent.putExtra("XRandomCode", users.get(0).getXRandomCode());
+                                    intent.putExtra("XUserName", users.get(0).getUserFieldValue("XUserName"));
+                                    intent.putExtra("XRandomCode", users.get(0).getUserFieldValue("XRandomCode"));
                                     intent.putExtra("mobile_recovery", mobile_recovery);
-                                    Log.e("getXRandomCode", users.get(0).getXRandomCode());
+                                    Log.e("getXRandomCode", users.get(0).getUserFieldValue("XRandomCode"));
                                     startActivity(intent);
                                 }
 
-                                if (users.get(0).getXUserCode().equals("-1")) {
+                                if (users.get(0).getUserFieldValue("XUserCode").equals("-1")) {
                                     status.setText("این نام کاربری قبلا ثبت شده است");
                                     Toast.makeText(RegisterActivity.this, "این نام کاربری قبلا ثبت شده است", Toast.LENGTH_SHORT).show();
                                     status.setVisibility(View.VISIBLE);
                                     status.setTextColor(ContextCompat.getColor(RegisterActivity.this, R.color.red_900));
                                 }
-                                if (users.get(0).getXUserCode().equals("-2")) {
+                                if (users.get(0).getUserFieldValue("XUserCode").equals("-2")) {
                                     Toast.makeText(RegisterActivity.this, "شماره وارد شده صحیح نمی باشد", Toast.LENGTH_SHORT).show();
                                     status.setVisibility(View.VISIBLE);
                                     status.setTextColor(ContextCompat.getColor(RegisterActivity.this, R.color.red_900));
@@ -343,7 +343,7 @@ public class RegisterActivity extends AppCompatActivity {
                     ArrayList<User> users = response.body().getUsers();
                     TextView status = findViewById(R.id.registration_status);
 
-                    if (Integer.parseInt(users.get(0).getXUserCode())>0) {
+                    if (Integer.parseInt(users.get(0).getUserFieldValue("XUserCode"))>0) {
                         status.setText("ثبت نام با موفقیت انجام شد");
                         status.setVisibility(View.VISIBLE);
                         status.setTextColor(ContextCompat.getColor(RegisterActivity.this, R.color.green_900));
@@ -353,7 +353,7 @@ public class RegisterActivity extends AppCompatActivity {
                         intent = new Intent(RegisterActivity.this, ProfileActivity.class);
                         intent.putExtra("id", 3);
 
-                        intent.putExtra("XRandomCode", users.get(0).getXRandomCode());
+                        intent.putExtra("XRandomCode", users.get(0).getUserFieldValue("XRandomCode"));
                         intent.putExtra("mobile_recovery", emobile);
 
                         finish();
@@ -361,13 +361,13 @@ public class RegisterActivity extends AppCompatActivity {
 
                     }
 
-                    if (users.get(0).getXUserCode().equals("-1")) {
+                    if (users.get(0).getUserFieldValue("XUserCode").equals("-1")) {
                         status.setText("این نام کاربری قبلا ثبت شده است");
                         Toast.makeText(RegisterActivity.this, "این نام کاربری قبلا ثبت شده است", Toast.LENGTH_SHORT).show();
                         status.setVisibility(View.VISIBLE);
                         status.setTextColor(ContextCompat.getColor(RegisterActivity.this, R.color.red_900));
                     }
-                    if (users.get(0).getXUserCode().equals("-2")) {
+                    if (users.get(0).getUserFieldValue("XUserCode").equals("-2")) {
                         status.setText("این شماره قبلا ثبت شده است");
                         Toast.makeText(RegisterActivity.this, "این شماره قبلا ثبت شده است", Toast.LENGTH_SHORT).show();
                         status.setVisibility(View.VISIBLE);
@@ -397,23 +397,17 @@ public class RegisterActivity extends AppCompatActivity {
             public void onResponse(Call<UsersRespons> call, Response<UsersRespons> response) {
                 if (response.isSuccessful()) {
                     ArrayList<User> users = response.body().getUsers();
-                    if(Integer.parseInt(users.get(0).getActive()) == 1) {
+                    if(Integer.parseInt(users.get(0).getUserFieldValue("Active")) == 1) {
                         shPref = getSharedPreferences("profile", Context.MODE_PRIVATE);
                         sEdit = shPref.edit();
-                        sEdit.putString("Active", users.get(0).getActive());
-                        sEdit.putString("fname", users.get(0).getFName());
-                        sEdit.putString("lname", users.get(0).getLName());
-                        sEdit.putString("mobile", users.get(0).getMobile());
-                        sEdit.putString("email", users.get(0).getEmail());
-                        sEdit.putString("address", users.get(0).getAddress());
-                        sEdit.putString("PostalCode", users.get(0).getPostalCode());
-                        if(users.get(0).getCustomerName() == null){
-                            sEdit.putString("CustomerName", "مشتری پیش فرض");
-
-                        }else {
-                            sEdit.putString("CustomerName", users.get(0).getCustomerName());
-
-                        }
+                        sEdit.putString("Active", users.get(0).getUserFieldValue("Active"));
+                        sEdit.putString("fname", users.get(0).getUserFieldValue("FName"));
+                        sEdit.putString("lname", users.get(0).getUserFieldValue("LName"));
+                        sEdit.putString("mobile", users.get(0).getUserFieldValue("mobile"));
+                        sEdit.putString("email", users.get(0).getUserFieldValue("email"));
+                        sEdit.putString("address", users.get(0).getUserFieldValue("address"));
+                        sEdit.putString("PostalCode", users.get(0).getUserFieldValue("PostalCode"));
+                        sEdit.putString("CustomerName", users.get(0).getUserFieldValue("CustomerName"));
                         sEdit.putString("img", " ");
                         sEdit.apply();
                         Toast.makeText(RegisterActivity.this, "خوش آمدید", Toast.LENGTH_SHORT).show();
@@ -421,10 +415,10 @@ public class RegisterActivity extends AppCompatActivity {
                         Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                         startActivity(intent);
                     }
-                    if(Integer.parseInt(users.get(0).getActive()) == -1) {
+                    if(Integer.parseInt(users.get(0).getUserFieldValue("Active")) == -1) {
                         Toast.makeText(RegisterActivity.this, "نام کاربری یا رمز عبور اشتباه می باشد", Toast.LENGTH_SHORT).show();
                     }
-                    if(Integer.parseInt(users.get(0).getActive()) == -2) {
+                    if(Integer.parseInt(users.get(0).getUserFieldValue("Active")) == -2) {
                         Toast.makeText(RegisterActivity.this, "کاربری شما غیر فعال شده است", Toast.LENGTH_SHORT).show();
                     }
                 }

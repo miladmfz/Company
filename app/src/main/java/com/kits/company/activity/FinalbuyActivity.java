@@ -139,7 +139,7 @@ public class FinalbuyActivity extends AppCompatActivity {
                                             assert response.body() != null;
                                             goodbuys = response.body().getGoodsbuy();
 
-                                            if(goodbuys.get(0).getErrCode()>0)
+                                            if(Integer.parseInt(goodbuys.get(0).getGoodBuyFieldValue("ErrCode"))>0)
                                             {
                                                 Toast toast =Toast.makeText(FinalbuyActivity.this, goodbuys.get(0).getGoodBuyFieldValue("ErrDesc"), Toast.LENGTH_SHORT);
                                                 toast.setGravity(Gravity.CENTER, 10, 10);
@@ -147,13 +147,13 @@ public class FinalbuyActivity extends AppCompatActivity {
                                                 finish();
                                                 startActivity(getIntent());
                                             }else{
-                                                if(goodbuys.get(0).getPreFactorCode()>0) {
+                                                if(Integer.parseInt(goodbuys.get(0).getGoodBuyFieldValue("PreFactorCode"))>0) {
                                                     if(Integer.parseInt(goodbuys.get(0).getGoodBuyFieldValue("NotReserved"))>0)
                                                     {
                                                         Toast.makeText(FinalbuyActivity.this, "پیش فاکتور با موفقیت ثبت شد", Toast.LENGTH_SHORT).show();
                                                         finish();
                                                         intent = new Intent(FinalbuyActivity.this, BuyhistoryDetialActivity.class);
-                                                        intent.putExtra("id", String.valueOf(goodbuys.get(0).getPreFactorCode()));
+                                                        intent.putExtra("id", goodbuys.get(0).getGoodBuyFieldValue("PreFactorCode"));
                                                         intent.putExtra("ReservedRows", "1");
                                                         startActivity(intent);
                                                     }else {

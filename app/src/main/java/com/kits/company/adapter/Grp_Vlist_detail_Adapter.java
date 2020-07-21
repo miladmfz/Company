@@ -48,7 +48,7 @@ public class Grp_Vlist_detail_Adapter extends RecyclerView.Adapter<Grp_Vlist_det
 
         final GoodGroup GoodGroupView = GoodGroups.get(position);
 
-        holder.grpname.setText(GoodGroupView.getName());
+        holder.grpname.setText(GoodGroupView.getGoodGroupFieldValue("Name"));
 
         holder.grpname.setOnClickListener(new View.OnClickListener()
         {
@@ -57,8 +57,8 @@ public class Grp_Vlist_detail_Adapter extends RecyclerView.Adapter<Grp_Vlist_det
             {
 
                 intent = new Intent(mContext, GrpActivity.class);
-                intent.putExtra("id", GoodGroupView.getGroupCode());
-                intent.putExtra("title",GoodGroupView.getName());
+                intent.putExtra("id", Integer.parseInt(GoodGroupView.getGoodGroupFieldValue("groupcode")));
+                intent.putExtra("title",GoodGroupView.getGoodGroupFieldValue("Name"));
                 mContext.startActivity(intent);
             }
         });

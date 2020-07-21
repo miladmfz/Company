@@ -291,12 +291,12 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 if (response.isSuccessful()) {
                     Groups_image = response.body().getGroups();
 
-                    if(Groups_image.get(0).getErrCode()>0)
+                    if(Integer.parseInt(Groups_image.get(0).getGoodGroupFieldValue("ErrCode"))>0)
                     {
-                        Log.e("",""+Groups_image.get(0).getErrDesc());
+                        Log.e("",""+Groups_image.get(0).getGoodGroupFieldValue("ErrDesc"));
                     }else {
-                        image_name1=Groups_image.get(0).getName();
-                        image_id1=Groups_image.get(0).getGroupCode();
+                        image_name1=Groups_image.get(0).getGoodGroupFieldValue("Name");
+                        image_id1=Integer.parseInt(Groups_image.get(0).getGoodGroupFieldValue("groupcode"));
                         Glide.with(imagebtn1)
                                 .load("http://" + getString(R.string.SERVERIP) + "/login/slide_img/imageview1.jpg")
                                 .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -304,8 +304,8 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                         card_imagebtn1.setVisibility(View.VISIBLE);
 
                         if(Groups_image.size()>1) {
-                            image_name2 = Groups_image.get(1).getName();
-                            image_id2 = Groups_image.get(1).getGroupCode();
+                            image_name2 = Groups_image.get(1).getGoodGroupFieldValue("Name");
+                            image_id2 = Integer.parseInt(Groups_image.get(1).getGoodGroupFieldValue("groupcode"));
                             card_imagebtn2.setVisibility(View.VISIBLE);
                             Glide.with(imagebtn2)
                                     .load("http://" + getString(R.string.SERVERIP) + "/login/slide_img/imageview2.jpg")
@@ -341,18 +341,18 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
             public void onResponse(Call<GoodGroupRespons> call, Response<GoodGroupRespons> response) {
                 if (response.isSuccessful()) {
                     Groups_defult = response.body().getGroups();
-                    if(Groups_defult.get(0).getErrCode()>0)
+                    if(Integer.parseInt(Groups_defult.get(0).getGoodGroupFieldValue("ErrCode"))>0)
                     {
-                        Log.e("",""+Groups_defult.get(0).getErrDesc());
+                        Log.e("",""+Groups_defult.get(0).getGoodGroupFieldValue("ErrDesc"));
                     }else {
-                        grp_name1=Groups_defult.get(0).getName();
-                        grp_name2=Groups_defult.get(1).getName();
-                        grp_id1=Groups_defult.get(0).getGroupCode();
-                        grp_id2=Groups_defult.get(1).getGroupCode();
+                        grp_name1=Groups_defult.get(0).getGoodGroupFieldValue("Name");
+                        grp_name2=Groups_defult.get(1).getGoodGroupFieldValue("Name");
+                        grp_id1=Integer.parseInt(Groups_defult.get(0).getGoodGroupFieldValue("groupcode"));
+                        grp_id2=Integer.parseInt(Groups_defult.get(1).getGoodGroupFieldValue("groupcode"));
 
-                        grp1.setText(Groups_defult.get(0).getName());
+                        grp1.setText(Groups_defult.get(0).getGoodGroupFieldValue("Name"));
                         Call<GoodRespons> call2 = apiInterface.GetAllGood
-                                ("goodinfo",0,"","",Groups_defult.get(0).getGroupCode(),0,shPref.getString("mobile", null),0);
+                                ("goodinfo",0,"","",Integer.parseInt(Groups_defult.get(0).getGoodGroupFieldValue("groupcode")),0,shPref.getString("mobile", null),0);
                         call2.enqueue(new Callback<GoodRespons>() {
                             @Override
                             public void onResponse(Call<GoodRespons> call, Response<GoodRespons> response) {
@@ -376,10 +376,10 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
 
 
-                        grp2.setText(Groups_defult.get(1).getName());
+                        grp2.setText(Groups_defult.get(1).getGoodGroupFieldValue("Name"));
 
                         Call<GoodRespons> call3 = apiInterface.GetAllGood
-                                ("goodinfo",0,"","",Groups_defult.get(1).getGroupCode(),0,shPref.getString("mobile", null),0 );
+                                ("goodinfo",0,"","",Integer.parseInt(Groups_defult.get(1).getGoodGroupFieldValue("groupcode")),0,shPref.getString("mobile", null),0 );
                         call3.enqueue(new Callback<GoodRespons>() {
                             @Override
                             public void onResponse(Call<GoodRespons> call, Response<GoodRespons> response) {

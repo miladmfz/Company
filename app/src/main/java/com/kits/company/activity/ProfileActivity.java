@@ -335,7 +335,7 @@ public class ProfileActivity extends AppCompatActivity {
                 if(response.isSuccessful()) {
                     ArrayList<User> users = response.body().getUsers();
 
-                    if (Integer.parseInt(users.get(0).getXUserCode())>0) {
+                    if (Integer.parseInt(users.get(0).getUserFieldValue("XUserCode"))>0) {
                         if(flag.equals("1"))
                         {
                             config();
@@ -344,13 +344,13 @@ public class ProfileActivity extends AppCompatActivity {
                         {
                             shPref = getSharedPreferences("profile", Context.MODE_PRIVATE);
                             sEdit = shPref.edit();
-                            sEdit.putString("Active", users.get(0).getActive());
-                            sEdit.putString("fname", users.get(0).getFName());
-                            sEdit.putString("lname", users.get(0).getLName());
-                            sEdit.putString("mobile", users.get(0).getMobile());
-                            sEdit.putString("email", users.get(0).getEmail());
-                            sEdit.putString("address", users.get(0).getAddress());
-                            sEdit.putString("PostalCode", users.get(0).getPostalCode());
+                            sEdit.putString("Active", users.get(0).getUserFieldValue("Active"));
+                            sEdit.putString("fname", users.get(0).getUserFieldValue("FName"));
+                            sEdit.putString("lname", users.get(0).getUserFieldValue("LName"));
+                            sEdit.putString("mobile", users.get(0).getUserFieldValue("mobile"));
+                            sEdit.putString("email", users.get(0).getUserFieldValue("email"));
+                            sEdit.putString("address", users.get(0).getUserFieldValue("address"));
+                            sEdit.putString("PostalCode", users.get(0).getUserFieldValue("PostalCode"));
                             sEdit.putString("img", " ");
                             sEdit.apply();
                         }
@@ -360,10 +360,10 @@ public class ProfileActivity extends AppCompatActivity {
                         finish();
                         startActivity(intent);
                     }
-                    if (users.get(0).getXUserCode().equals("-1")) {
+                    if (users.get(0).getUserFieldValue("XUserCode").equals("-1")) {
                         Toast.makeText(ProfileActivity.this, "نام کاربری یا رمز عبور اشتباه است", Toast.LENGTH_SHORT).show();
                     }
-                    if (users.get(0).getXUserCode().equals("-2")) {
+                    if (users.get(0).getUserFieldValue("XUserCode").equals("-2")) {
                         Toast.makeText(ProfileActivity.this, "این شماره وجود نداربا مرکز تماس بگیرید", Toast.LENGTH_SHORT).show();
                     }
                 }

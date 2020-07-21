@@ -56,34 +56,6 @@ public class GoodBuy implements Serializable {
 
     public void setFacAmount(Integer facAmount) { FacAmount = facAmount; }
 
-
-
-
-
-
-    public Integer getSellPrice() {
-        return SellPrice;
-    }
-    public Integer getErrCode() {
-        return ErrCode;
-    }
-    public Integer getPreFactorCode() {
-        return PreFactorCode;
-    }
-    public Integer getFacAmount() {
-        return FacAmount;
-    }
-    public Integer getPrice() {
-        return Price;
-    }
-
-
-
-
-
-
-
-
     public String getGoodBuyFieldValue(String AKey)
     {
 
@@ -106,33 +78,6 @@ public class GoodBuy implements Serializable {
         return Res;
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

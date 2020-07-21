@@ -94,23 +94,23 @@ public class AllviewActivity extends AppCompatActivity {
                     for (final GoodGroup goodGroups_parent : res) {
                         final ArrayList<Product> Product_child = new ArrayList<>();
 
-                        Call<GoodGroupRespons> call5 = apiInterface.Getgrp("GoodGroupInfo", goodGroups_parent.getGroupCode());
+                        Call<GoodGroupRespons> call5 = apiInterface.Getgrp("GoodGroupInfo",Integer.parseInt(goodGroups_parent.getGoodGroupFieldValue("groupcode")));
                         call5.enqueue(new Callback<GoodGroupRespons>() {
                             @Override
                             public void onResponse(Call<GoodGroupRespons> call, Response<GoodGroupRespons> response) {
                                 ArrayList<GoodGroup> res = response.body().getGroups();
 
                                 for (final GoodGroup goodGroups_parent1 : res) {
-                                    Product_child.add(new Product(goodGroups_parent1.getName(), goodGroups_parent1.getGroupCode(),goodGroups_parent1.getChildNo()));
+                                    Product_child.add(new Product(goodGroups_parent1.getGoodGroupFieldValue("Name"), Integer.parseInt(goodGroups_parent1.getGoodGroupFieldValue("groupcode")),Integer.parseInt(goodGroups_parent1.getGoodGroupFieldValue("ChildNo"))));
                                 }
-                                cm = new Company(goodGroups_parent.getName(), Product_child,goodGroups_parent.getGroupCode(),goodGroups_parent.getChildNo());
+                                cm = new Company(goodGroups_parent.getGoodGroupFieldValue("Name"), Product_child,Integer.parseInt(goodGroups_parent.getGoodGroupFieldValue("groupcode")),Integer.parseInt(goodGroups_parent.getGoodGroupFieldValue("ChildNo")));
                                 companies.add(cm);
 
                             }
 
                             @Override
                             public void onFailure(Call<GoodGroupRespons> call, Throwable t) {
-                                cm = new Company(goodGroups_parent.getName(), Product_child,goodGroups_parent.getGroupCode(),goodGroups_parent.getChildNo());
+                                cm = new Company(goodGroups_parent.getGoodGroupFieldValue("Name"), Product_child,Integer.parseInt(goodGroups_parent.getGoodGroupFieldValue("groupcode")),Integer.parseInt(goodGroups_parent.getGoodGroupFieldValue("ChildNo")));
                                 companies.add(cm);
 
                             }

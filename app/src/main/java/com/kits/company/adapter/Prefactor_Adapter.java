@@ -78,11 +78,11 @@ public class Prefactor_Adapter extends RecyclerView.Adapter<Prefactor_Adapter.Go
         final int myps= position;
         final PreFactor preFactorview = preFactors.get(position);
 
-        holder.factordate.setText(Farsi_number.PerisanNumber(preFactorview.getPreFactorDate()));
-        holder.factorcode.setText(Farsi_number.PerisanNumber(preFactorview.getPreFactorCode()));
-        holder.factorrow.setText(Farsi_number.PerisanNumber(preFactorview.getRowsCount()));
-        holder.factorsumamount.setText(Farsi_number.PerisanNumber(preFactorview.getSumAmount()));
-        holder.factorprice.setText(Farsi_number.PerisanNumber(preFactorview.getSumPrice()));
+        holder.factordate.setText(Farsi_number.PerisanNumber(preFactorview.getPreFactorFieldValue("PreFactorDate")));
+        holder.factorcode.setText(Farsi_number.PerisanNumber(preFactorview.getPreFactorFieldValue("PreFactorCode")));
+        holder.factorrow.setText(Farsi_number.PerisanNumber(preFactorview.getPreFactorFieldValue("RowsCount")));
+        holder.factorsumamount.setText(Farsi_number.PerisanNumber(preFactorview.getPreFactorFieldValue("SumAmount")));
+        holder.factorprice.setText(Farsi_number.PerisanNumber(preFactorview.getPreFactorFieldValue("SumPrice")));
 
         holder.rltv.setOnClickListener(new View.OnClickListener()
         {
@@ -92,7 +92,7 @@ public class Prefactor_Adapter extends RecyclerView.Adapter<Prefactor_Adapter.Go
 
 
                 intent = new Intent(mContext, BuyhistoryDetialActivity.class);
-                intent.putExtra("id", preFactorview.getPreFactorCode());
+                intent.putExtra("id", preFactorview.getPreFactorFieldValue("PreFactorCode"));
                 intent.putExtra("ReservedRows", "2");
                 mContext.startActivity(intent);
             }

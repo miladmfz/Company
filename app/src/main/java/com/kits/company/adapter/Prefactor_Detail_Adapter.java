@@ -75,13 +75,13 @@ public class Prefactor_Detail_Adapter extends RecyclerView.Adapter<Prefactor_Det
     public void onBindViewHolder(@NonNull final GoodViewHolder holder, int position) {
         final PreFactor preFactorview = preFactors.get(position);
 
-        holder.goodnameTextView.setText(Farsi_number.PerisanNumber(preFactorview.getGoodName()));
-        holder.maxsellpriceTextView.setText(Farsi_number.PerisanNumber(preFactorview.getMaxSellPrice()));
-        holder.priceTextView.setText(Farsi_number.PerisanNumber(preFactorview.getPrice().toString()));
-        holder.total.setText(Farsi_number.PerisanNumber(String.valueOf(preFactorview.getFacAmount()*preFactorview.getPrice())));
-        holder.amount.setText(Farsi_number.PerisanNumber(preFactorview.getFacAmount().toString()));
+        holder.goodnameTextView.setText(Farsi_number.PerisanNumber(preFactorview.getPreFactorFieldValue("GoodName")));
+        holder.maxsellpriceTextView.setText(Farsi_number.PerisanNumber(preFactorview.getPreFactorFieldValue("MaxSellPrice")));
+        holder.priceTextView.setText(Farsi_number.PerisanNumber(preFactorview.getPreFactorFieldValue("Price")));
+        holder.total.setText(Farsi_number.PerisanNumber(String.valueOf(Integer.parseInt(preFactorview.getPreFactorFieldValue("FacAmount"))*Integer.parseInt(preFactorview.getPreFactorFieldValue("Price")))));
+        holder.amount.setText(Farsi_number.PerisanNumber(preFactorview.getPreFactorFieldValue("FacAmount")));
 
-        if(preFactorview.getIsReserved()==1){
+        if(preFactorview.getPreFactorFieldValue("IsReserved").equals("1")){
             holder.good_ReservedRow.setText("در انبار موجود می باشد");
             holder.good_ReservedRow.setTextColor(mContext.getResources().getColor(R.color.green_900));
 
@@ -92,7 +92,7 @@ public class Prefactor_Detail_Adapter extends RecyclerView.Adapter<Prefactor_Det
         }
 
 
-        call2 = apiInterface_image.GetImage("getImage",preFactorview.getGoodCode().toString(),0,110);
+        call2 = apiInterface_image.GetImage("getImage",preFactorview.getPreFactorFieldValue("GoodCode"),0,110);
         call2.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call2, Response<String> response) {

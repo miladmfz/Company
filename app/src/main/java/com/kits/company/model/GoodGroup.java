@@ -27,43 +27,24 @@ public class GoodGroup {
     @SerializedName("ErrDesc")
     private String ErrDesc;
 
-
-    public Integer getErrCode() {
-        return ErrCode;
-    }
-
-    public void setErrCode(Integer errCode) {
-        ErrCode = errCode;
-    }
-
-    public String getErrDesc() {
-        return ErrDesc;
-    }
-
-    public void setErrDesc(String errDesc) {
-        ErrDesc = errDesc;
-    }
-
-    public Integer getChildNo() {
-        return ChildNo;
-    }
-
-    public void setChildNo(Integer childNo) {
-        ChildNo = childNo;
-    }
-
-    public Integer getGroupCode() {return GroupCode;}
-    public void setGroupCode(Integer groupCode) {GroupCode = groupCode;}
-    public String getName() {return Name;}
     public void setName(String name) {Name = name;}
-    public Integer getL1() {return L1;}
-    public void setL1(Integer l1) {L1 = l1;}
-    public Integer getL2() {return L2;}
-    public void setL2(Integer l2) {L2 = l2;}
-    public Integer getL3() {return L3;}
-    public void setL3(Integer l3) {L3 = l3;}
-    public Integer getL4() {return L4;}
-    public void setL4(Integer l4) {L4 = l4;}
-    public Integer getL5() {return L5;}
-    public void setL5(Integer l5) {L5 = l5;}
-}
+
+    public String getGoodGroupFieldValue(String AKey) {
+
+        String iKey = AKey.toLowerCase();
+        String Res = "";
+        if (iKey.equals("name")) {Res = Name;}
+        else if (iKey.equals("groupcode")) {if (GroupCode == null) Res = "";else Res = GroupCode.toString();}
+        else if (iKey.equals("l1")) {if (L1 == null) Res = "";else Res = L1.toString();}
+        else if (iKey.equals("l2")) {if (L2 == null) Res = "";else Res = L2.toString();}
+        else if (iKey.equals("l3")) {if (L3 == null) Res = "";else Res = L3.toString();}
+        else if (iKey.equals("l4")) {if (L4 == null) Res = "";else Res = L4.toString();}
+        else if (iKey.equals("l5")) {if (L5 == null) Res = "";else Res = L5.toString();}
+        else if (iKey.equals("childno")) {if (ChildNo == null) Res = "";else Res = ChildNo.toString();}
+        else if (iKey.equals("errcode")) {if (ErrCode == null) Res = "";else Res = ErrCode.toString();}
+        else if (iKey.equals("errdesc")) {if (ErrDesc == null) Res = "";else Res = ErrDesc;}
+
+        return Res;
+    }
+
+    }

@@ -349,7 +349,7 @@ public class DetailActivity extends AppCompatActivity {
                                 SliderView();
                                 for ( Column Column : Columns){
 
-                                    if(Column.getSortOrder()>0) {
+                                    if(Integer.parseInt(Column.getColumnFieldValue("SortOrder"))>0) {
                                         LinearLayoutCompat ll = findViewById(R.id.DetailActivity_line_property);
                                         ll.setOrientation(LinearLayoutCompat.VERTICAL);
                                         LinearLayoutCompat ll_1 = new LinearLayoutCompat(DetailActivity.this);
@@ -358,7 +358,7 @@ public class DetailActivity extends AppCompatActivity {
                                         ll_1.setWeightSum(1);
 
                                         TextView extra_TextView1 = new TextView(DetailActivity.this);
-                                        extra_TextView1.setText(Farsi_number.PerisanNumber(Column.getColumnDesc()));
+                                        extra_TextView1.setText(Farsi_number.PerisanNumber(Column.getColumnFieldValue("ColumnDesc")));
                                         extra_TextView1.setBackgroundResource(R.color.grey_20);
                                         extra_TextView1.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.MATCH_PARENT, (float) 0.7));
                                         extra_TextView1.setTextSize(18);
@@ -368,7 +368,7 @@ public class DetailActivity extends AppCompatActivity {
                                         ll_1.addView(extra_TextView1);
 
                                         TextView extra_TextView2 = new TextView(DetailActivity.this);
-                                        extra_TextView2.setText(Farsi_number.PerisanNumber(good.getGoodFieldValue(Column.getColumnName())));
+                                        extra_TextView2.setText(Farsi_number.PerisanNumber(good.getGoodFieldValue(Column.getColumnFieldValue("columnname"))));
                                         extra_TextView2.setBackgroundResource(R.color.white);
                                         extra_TextView2.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.MATCH_PARENT, (float) 0.3));
                                         extra_TextView2.setTextSize(18);

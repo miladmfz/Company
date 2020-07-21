@@ -283,7 +283,7 @@ Intent intent;
                                                     Log.e("onResponse", "" + response.body());
                                                     assert response.body() != null;
                                                     goodbuys = response.body().getGoodsbuy();
-                                                    if (goodbuys.get(0).getErrCode() > 0){
+                                                    if (Integer.parseInt(goodbuys.get(0).getGoodBuyFieldValue("ErrCode"))> 0){
                                                         Toast.makeText(SearchActivity.this, goodbuys.get(0).getGoodBuyFieldValue("ErrDesc")+"برای"+s[2], Toast.LENGTH_SHORT).show();
                                                     }else{
                                                         setupBadge();

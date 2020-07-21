@@ -162,7 +162,7 @@ public class Buy_box {
 
                                  goodbuys = response.body().getGoodsbuy();
 
-                                 if (goodbuys.get(0).getErrCode() > 0){
+                                 if (Integer.parseInt(goodbuys.get(0).getGoodBuyFieldValue("ErrCode"))> 0){
                                      Toast.makeText(mContext, goodbuys.get(0).getGoodBuyFieldValue("ErrDesc"), Toast.LENGTH_SHORT).show();
 
                                  }else{
@@ -318,7 +318,7 @@ public class Buy_box {
 
                                 goodbuys = response.body().getGoodsbuy();
 
-                                if (goodbuys.get(0).getErrCode() > 0){
+                                if (Integer.parseInt(goodbuys.get(0).getGoodBuyFieldValue("ErrCode"))> 0){
                                     Toast.makeText(mContext, goodbuys.get(0).getGoodBuyFieldValue("ErrDesc"), Toast.LENGTH_SHORT).show();
                                 }else{
                                     BuyActivity activity = (BuyActivity) mContext;
@@ -357,7 +357,7 @@ public class Buy_box {
                 assert response.body() != null;
 
                 goodbuys = response.body().getGoodsbuy();
-                if (goodbuys.get(0).getErrCode() > 0){
+                if (Integer.parseInt(goodbuys.get(0).getGoodBuyFieldValue("ErrCode"))> 0){
                     Toast.makeText(mContext, goodbuys.get(0).getGoodBuyFieldValue("ErrDesc"), Toast.LENGTH_SHORT).show();
                 }else{
                     BuyActivity activity = (BuyActivity) mContext;
