@@ -9,7 +9,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextWatcher;
+import android.text.style.StrikethroughSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -17,19 +20,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.card.MaterialCardView;
 
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -37,6 +45,8 @@ import com.kits.company.R;
 import com.kits.company.adapter.Good_ProSearch_Adapter;
 import com.kits.company.adapter.Good_ProSearch_Line_Adapter;
 import com.kits.company.adapter.InternetConnection;
+import com.kits.company.model.Column;
+import com.kits.company.model.ColumnRespons;
 import com.kits.company.model.Farsi_number;
 import com.kits.company.model.Good;
 import com.kits.company.model.GoodBuy;
@@ -79,6 +89,11 @@ Intent intent;
     ArrayList<String[]> Multi_buy = new ArrayList<>();
     FloatingActionButton fab;
     Menu item_multi;
+    ArrayList<Column> Goodtype;
+    ArrayList<String> Goodtype_array=new ArrayList<>() ;
+    ArrayList<Column> Columns;
+    Spinner spinner;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +118,196 @@ Intent intent;
 
     //*************************************************
 
+
+
+
+
+    public void pro_c(String Goodtype) {
+
+        Call<ColumnRespons> call = apiInterface.GetColumn("GetColumnList",0,Goodtype,3);
+        call.enqueue(new Callback<ColumnRespons>() {
+            @Override
+            public void onResponse(Call<ColumnRespons> call, Response<ColumnRespons> response) {
+                if (response.isSuccessful()) {
+                    Columns = response.body().getColumns();
+
+
+                                for ( Column Column : Columns){
+
+                                    if(Integer.parseInt(Column.getColumnFieldValue("SortOrder"))>0) {
+                                        LinearLayoutCompat ll = findViewById(R.id.SearchActivity_layout_pro);
+                                        ll.setOrientation(LinearLayoutCompat.VERTICAL);
+                                        LinearLayoutCompat ll_1 = new LinearLayoutCompat(SearchActivity.this);
+                                        ll_1.setOrientation(LinearLayoutCompat.HORIZONTAL);
+                                        ll_1.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT));
+                                        ll_1.setWeightSum(1);
+
+                                        TextView extra_TextView1 = new TextView(SearchActivity.this);
+                                        extra_TextView1.setText(Farsi_number.PerisanNumber(Column.getColumnFieldValue("ColumnDesc")));
+                                        extra_TextView1.setBackgroundResource(R.color.grey_20);
+                                        extra_TextView1.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.MATCH_PARENT, (float) 0.7));
+                                        extra_TextView1.setTextSize(18);
+                                        extra_TextView1.setPadding(2, 2, 2, 2);
+                                        extra_TextView1.setGravity(Gravity.CENTER);
+                                        extra_TextView1.setTextColor(getResources().getColor(R.color.grey_800));
+                                        ll_1.addView(extra_TextView1);
+
+                                        TextView extra_TextView2 = new TextView(SearchActivity.this);
+                                        extra_TextView2.setText(Farsi_number.PerisanNumber(Column.getColumnFieldValue("columnname")));
+                                        extra_TextView2.setBackgroundResource(R.color.white);
+                                        extra_TextView2.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.MATCH_PARENT, (float) 0.3));
+                                        extra_TextView2.setTextSize(18);
+                                        extra_TextView2.setPadding(2, 2, 2, 2);
+                                        extra_TextView2.setGravity(Gravity.CENTER);
+                                        extra_TextView2.setTextColor(getResources().getColor(R.color.grey_1000));
+                                        ll_1.addView(extra_TextView2);
+
+                                        ViewPager extra_ViewPager = new ViewPager(SearchActivity.this);
+                                        extra_ViewPager.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, 3));
+                                        extra_ViewPager.setBackgroundResource(R.color.grey_40);
+
+                                        ll.addView(ll_1);
+                                        ll.addView(extra_ViewPager);
+                                    }
+                                }
+                            }
+
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<ColumnRespons> call, Throwable t) {
+
+            }
+        });
+
+
+
+
+    }
+
+    public void pro() {
+        spinner = findViewById(R.id.SearchActivity_spinner);
+
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+
+                pro_c(Goodtype_array.get(position));
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
+        Call<ColumnRespons> call = apiInterface.GetGoodType("GetGoodType");
+        call.enqueue(new Callback<ColumnRespons>() {
+            @Override
+            public void onResponse(Call<ColumnRespons> call, Response<ColumnRespons> response) {
+                if (response.isSuccessful()) {
+
+                    Integer i=0;
+                    Integer j=0;
+                    Goodtype = response.body().getColumns();
+
+
+                   for ( Column Column_Goodtype : Goodtype){
+                       Goodtype_array.add(Column_Goodtype.getColumnFieldValue("goodtype"));
+                       if(Integer.parseInt(Column_Goodtype.getColumnFieldValue("IsDefault"))==1){
+                           j=i;
+                       }
+                       i++;
+                   }
+
+                    ArrayAdapter<String> spinner_adapter = new ArrayAdapter<String>(SearchActivity.this,
+                            android.R.layout.simple_spinner_item,Goodtype_array);
+                    spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner.setAdapter(spinner_adapter);
+                    spinner.setSelection(j);
+
+
+
+
+//                    Call<ColumnRespons> call2 = apiInterface.GetColumn("GetGoodType",0,Goodtype.get(0).getColumnFieldValue("goodtype"),3);
+//                    call2.enqueue(new Callback<ColumnRespons>() {
+//                        @Override
+//                        public void onResponse(Call<ColumnRespons> call, Response<ColumnRespons> response) {
+//
+//
+//
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<ColumnRespons> call, Throwable t) {
+//
+//                        }
+//                    });
+
+
+
+//                    goods = response.body().getGoods();
+//                    final Good good= goods.get(0);
+//
+//                    for ( com.kits.company.model.Column Column : Columns){
+//
+//                        if(Integer.parseInt(Column.getColumnFieldValue("SortOrder"))>0) {
+//                            LinearLayoutCompat ll = findViewById(R.id.SearchActivity_layout_pro);
+//                            ll.setOrientation(LinearLayoutCompat.VERTICAL);
+//                            LinearLayoutCompat ll_1 = new LinearLayoutCompat(SearchActivity.this);
+//                            ll_1.setOrientation(LinearLayoutCompat.HORIZONTAL);
+//                            ll_1.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT));
+//                            ll_1.setWeightSum(1);
+//
+//                            TextView extra_TextView1 = new TextView(SearchActivity.this);
+//                            extra_TextView1.setText(Farsi_number.PerisanNumber(Column.getColumnFieldValue("ColumnDesc")));
+//                            extra_TextView1.setBackgroundResource(R.color.grey_20);
+//                            extra_TextView1.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.MATCH_PARENT, (float) 0.7));
+//                            extra_TextView1.setTextSize(18);
+//                            extra_TextView1.setPadding(2, 2, 2, 2);
+//                            extra_TextView1.setGravity(Gravity.CENTER);
+//                            extra_TextView1.setTextColor(getResources().getColor(R.color.grey_800));
+//                            ll_1.addView(extra_TextView1);
+//
+//                            TextView extra_TextView2 = new TextView(SearchActivity.this);
+//                            extra_TextView2.setText(Farsi_number.PerisanNumber(good.getGoodFieldValue(Column.getColumnFieldValue("columnname"))));
+//                            extra_TextView2.setBackgroundResource(R.color.white);
+//                            extra_TextView2.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.MATCH_PARENT, (float) 0.3));
+//                            extra_TextView2.setTextSize(18);
+//                            extra_TextView2.setPadding(2, 2, 2, 2);
+//                            extra_TextView2.setGravity(Gravity.CENTER);
+//                            extra_TextView2.setTextColor(getResources().getColor(R.color.grey_1000));
+//                            ll_1.addView(extra_TextView2);
+//
+//                            ViewPager extra_ViewPager = new ViewPager(SearchActivity.this);
+//                            extra_ViewPager.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, 3));
+//                            extra_ViewPager.setBackgroundResource(R.color.grey_40);
+//
+//                            ll.addView(ll_1);
+//                            ll.addView(extra_ViewPager);
+//                        }
+//                    }
+
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ColumnRespons> call, Throwable t) {
+
+            }
+        });
+
+
+
+    }
 
 
 
@@ -158,7 +363,7 @@ Intent intent;
 
 
         allgood("","");
-
+        pro();
 
 
         change_search.setOnClickListener(new View.OnClickListener() {
@@ -367,6 +572,7 @@ Intent intent;
                     item_multi.findItem(R.id.menu_grid).setVisible(true);
                     prog.setVisibility(View.GONE);
                     loading=true;
+
                 }
             }
             @Override

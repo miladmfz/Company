@@ -298,7 +298,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void good_call() {
-        Call<ColumnRespons> call = apiInterface.GetColumn("GetColumnList",id);
+        Call<ColumnRespons> call = apiInterface.GetColumn("GetColumnList",id,"",0);
         call.enqueue(new Callback<ColumnRespons>() {
             @Override
             public void onResponse(Call<ColumnRespons> call, Response<ColumnRespons> response) {

@@ -14,8 +14,14 @@ public class Column {
     @SerializedName("ColumnDesc")
     private String ColumnDesc;
 
+    @SerializedName("ColumnDefinition")
+    private String ColumnDefinition;
+
     @SerializedName("SortOrder")
     private Integer SortOrder;
+
+    @SerializedName("IsDefault")
+    private Integer IsDefault;
 
 
 
@@ -25,7 +31,9 @@ public class Column {
         if (iKey.equals("columnname")) { Res = ColumnName;}
         else if (iKey.equals("goodtype")) { if (GoodType == null) Res = "";else Res = GoodType; }
         else if (iKey.equals("columndesc")) { if (ColumnDesc == null) Res = "";else Res = ColumnDesc; }
+        else if (iKey.equals("columndefinition")) { if (ColumnDefinition == null) Res = "";else Res = ColumnDefinition; }
         else if (iKey.equals("sortorder")) { if (SortOrder == null) Res = "";else Res = SortOrder.toString(); }
+        else if (iKey.equals("isdefault")) { if (IsDefault == null) Res = "";else Res = IsDefault.toString(); }
         return Res;
     }
 

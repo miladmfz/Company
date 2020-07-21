@@ -65,9 +65,13 @@ public interface APIInterface {
     @POST("index.php")
     @FormUrlEncoded
     Call<ColumnRespons> GetColumn(@Field("tag") String tag ,
-                            @Field("GoodCode") Integer GoodCode);
+                            @Field("GoodCode") Integer GoodCode,
+                            @Field("GoodType") String GoodType,
+                            @Field("Type") Integer Type);
 
-
+    @POST("index.php")
+    @FormUrlEncoded
+    Call<ColumnRespons> GetGoodType(@Field("tag") String tag );
 
     @POST("index.php")
     @FormUrlEncoded

@@ -114,215 +114,243 @@
             app:cardCornerRadius="5dp"
             app:cardElevation="2dp"
             android:id="@+id/SearchActivity_search_line_p"
-            android:visibility="gone"
+            android:visibility="visible"
+
             >
 
 
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/SearchActivity_layout_pro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:orientation="vertical">
-
-                    <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_margin="2dp"
+                    android:orientation="horizontal">
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="0.5dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="260dp"
-                            android:layout_height="30dp"
-                            android:layout_weight="0.8"
-                            android:gravity="center"
-                            android:paddingTop="5dp"
-                            android:paddingRight="10dp"
-                            android:text="ناشر : " />
-
-                        <EditText
-                            android:id="@+id/SearchActivity_search_pro_nasher"
-                            android:layout_width="match_parent"
-                            android:layout_height="30dp"
-                            android:layout_margin="2dp"
-                            android:layout_weight="0.2"
-                            android:background="@drawable/bg_round_selected"
-                            android:gravity="center" />
-
-
-
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-
-                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_weight="0.7"
+                        android:text="نوع کالا"
+                        android:textSize="22dp" />
+                    <Spinner
+                        android:id="@+id/SearchActivity_spinner"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="1dp"
-                        android:orientation="horizontal">
-
-
-                        <TextView
-                            android:layout_width="260dp"
-                            android:layout_height="30dp"
-                            android:layout_weight="0.8"
-
-                            android:gravity="center"
-                            android:paddingTop="5dp"
-                            android:paddingRight="10dp"
-                            android:text="مولف : " />
-
-                        <EditText
-                            android:id="@+id/SearchActivity_search_pro_writer"
-                            android:layout_width="match_parent"
-                            android:layout_height="30dp"
-                            android:layout_margin="2dp"
-                            android:layout_weight="0.2"
-                            android:background="@drawable/bg_round_selected"
-
-                            android:gravity="center" />
-
-
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="1dp"
-                        android:orientation="horizontal"
-                        android:visibility="visible">
-                        <TextView
-                            android:layout_width="260dp"
-                            android:layout_height="30dp"
-                            android:layout_weight="0.8"
-
-                            android:gravity="center"
-                            android:paddingTop="5dp"
-                            android:paddingRight="10dp"
-                            android:text="سال: "
-                            />
-
-                        <EditText
-                            android:id="@+id/SearchActivity_search_pro_PrintYear"
-                            android:layout_width="match_parent"
-                            android:layout_height="30dp"
-                            android:layout_margin="2dp"
-                            android:layout_weight="0.2"
-                            android:background="@drawable/bg_round_selected"
-
-                            android:gravity="center"
-                            android:inputType="numberDecimal"/>
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.3"
+                        android:gravity="center"
+                        android:scrollbarSize="20sp" />
 
 
 
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="0.5dp"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="260dp"
-                            android:layout_height="30dp"
-                            android:layout_weight="0.8"
-                            android:gravity="center"
-                            android:paddingTop="5dp"
-                            android:paddingRight="10dp"
-                            android:text="نام: "
+                        android:layout_weight="0.5"
+                        android:orientation="vertical">
 
-                            />
-
-
-
-                        <EditText
-                            android:id="@+id/SearchActivity_search_pro_good"
+                        <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="match_parent"
-                            android:layout_height="30dp"
-                            android:layout_margin="2dp"
-                            android:layout_weight="0.2"
-                            android:background="@drawable/bg_round_selected"
-                            android:gravity="center" />
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0.5dp"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/SearchActivity_search_pro_nasher"
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:layout_margin="2dp"
+                                android:layout_weight="0.2"
+                                android:background="@drawable/bg_round_selected"
+                                android:gravity="center" />
+
+                            <TextView
+                                android:layout_width="260dp"
+                                android:layout_height="30dp"
+                                android:layout_weight="0.8"
+                                android:gravity="center"
+                                android:paddingTop="5dp"
+                                android:paddingRight="10dp"
+                                android:text="ناشر : " />
 
 
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="1dp"
+                            android:orientation="horizontal">
+
+
+                            <EditText
+                                android:id="@+id/SearchActivity_search_pro_writer"
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:layout_margin="2dp"
+                                android:layout_weight="0.2"
+                                android:background="@drawable/bg_round_selected"
+
+                                android:gravity="center" />
+
+                            <TextView
+                                android:layout_width="260dp"
+                                android:layout_height="30dp"
+                                android:layout_weight="0.8"
+
+                                android:gravity="center"
+                                android:paddingTop="5dp"
+                                android:paddingRight="10dp"
+                                android:text="مولف : " />
+
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="1dp"
+                            android:orientation="horizontal"
+                            android:visibility="visible">
+
+                            <EditText
+                                android:id="@+id/SearchActivity_search_pro_PrintYear"
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:layout_margin="2dp"
+                                android:layout_weight="0.2"
+                                android:background="@drawable/bg_round_selected"
+
+                                android:gravity="center"
+                                android:inputType="numberDecimal" />
+
+                            <TextView
+                                android:layout_width="260dp"
+                                android:layout_height="30dp"
+                                android:layout_weight="0.8"
+
+                                android:gravity="center"
+                                android:paddingTop="5dp"
+                                android:paddingRight="10dp"
+                                android:text="سال: " />
+
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="1dp"
-                        android:orientation="horizontal">
+                        android:layout_weight="0.5"
+                        android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="260dp"
-                            android:layout_height="30dp"
-                            android:layout_weight="0.8"
-                            android:gravity="center"
-                            android:paddingTop="5dp"
-                            android:paddingRight="10dp"
-                            android:text="مترجم:"
-
-
-                            />
-
-
-                        <EditText
-                            android:id="@+id/SearchActivity_search_pro_dragoman"
+                        <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="match_parent"
-                            android:layout_height="30dp"
-                            android:layout_margin="2dp"
-                            android:layout_weight="0.2"
-                            android:background="@drawable/bg_round_selected"
-                            android:gravity="center"
-                            />
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0.5dp"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/SearchActivity_search_pro_good"
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:layout_margin="2dp"
+                                android:layout_weight="0.2"
+                                android:background="@drawable/bg_round_selected"
+                                android:gravity="center" />
 
 
+                            <TextView
+                                android:layout_width="260dp"
+                                android:layout_height="30dp"
+                                android:layout_weight="0.8"
+                                android:gravity="center"
+                                android:paddingTop="5dp"
+                                android:paddingRight="10dp"
+                                android:text="نام: "
+
+                                />
+
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="1dp"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/SearchActivity_search_pro_dragoman"
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:layout_margin="2dp"
+                                android:layout_weight="0.2"
+                                android:background="@drawable/bg_round_selected"
+                                android:gravity="center" />
+
+
+                            <TextView
+                                android:layout_width="260dp"
+                                android:layout_height="30dp"
+                                android:layout_weight="0.8"
+                                android:gravity="center"
+                                android:paddingTop="5dp"
+                                android:paddingRight="10dp"
+                                android:text="مترجم:"
+
+
+                                />
+
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="1dp"
+                            android:orientation="horizontal">
+
+
+                            <EditText
+                                android:id="@+id/SearchActivity_search_pro_period"
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:layout_margin="2dp"
+                                android:layout_weight="0.2"
+                                android:background="@drawable/bg_round_selected"
+                                android:gravity="center"
+                                android:inputType="numberDecimal" />
+
+                            <TextView
+                                android:layout_width="260dp"
+                                android:layout_height="30dp"
+                                android:layout_weight="0.8"
+                                android:gravity="center"
+                                android:paddingTop="5dp"
+                                android:paddingRight="10dp"
+                                android:text="نوبت : " />
+
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="1dp"
-                        android:orientation="horizontal">
 
-
-                        <TextView
-                            android:layout_width="260dp"
-                            android:layout_height="30dp"
-                            android:layout_weight="0.8"
-                            android:gravity="center"
-                            android:paddingTop="5dp"
-                            android:paddingRight="10dp"
-                            android:text="نوبت : "
-                            />
-
-                        <EditText
-                            android:id="@+id/SearchActivity_search_pro_period"
-                            android:layout_width="match_parent"
-                            android:layout_height="30dp"
-                            android:layout_margin="2dp"
-                            android:layout_weight="0.2"
-                            android:background="@drawable/bg_round_selected"
-                            android:gravity="center"
-                            android:inputType="numberDecimal" />
-
-
-                    </androidx.appcompat.widget.LinearLayoutCompat>
                 </androidx.appcompat.widget.LinearLayoutCompat>
-
 
             </androidx.appcompat.widget.LinearLayoutCompat>
-
-
 
 
         </com.google.android.material.card.MaterialCardView>
