@@ -17,6 +17,9 @@ public class Column {
     @SerializedName("ColumnDefinition")
     private String ColumnDefinition;
 
+    @SerializedName("Search")
+    private String Search;
+
     @SerializedName("SortOrder")
     private Integer SortOrder;
 
@@ -24,6 +27,9 @@ public class Column {
     private Integer IsDefault;
 
 
+    public void setSearch(String search) {
+        Search = search;
+    }
 
     public String getColumnFieldValue(String AKey) {
         String iKey = AKey.toLowerCase();
@@ -32,6 +38,7 @@ public class Column {
         else if (iKey.equals("goodtype")) { if (GoodType == null) Res = "";else Res = GoodType; }
         else if (iKey.equals("columndesc")) { if (ColumnDesc == null) Res = "";else Res = ColumnDesc; }
         else if (iKey.equals("columndefinition")) { if (ColumnDefinition == null) Res = "";else Res = ColumnDefinition; }
+        else if (iKey.equals("search")) { if (Search == null) Res = "";else Res = Search; }
         else if (iKey.equals("sortorder")) { if (SortOrder == null) Res = "";else Res = SortOrder.toString(); }
         else if (iKey.equals("isdefault")) { if (IsDefault == null) Res = "";else Res = IsDefault.toString(); }
         return Res;

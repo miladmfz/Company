@@ -120,7 +120,6 @@
 
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/SearchActivity_layout_pro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -148,7 +147,12 @@
 
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
-
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/SearchActivity_layout_pro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="3dp"/>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"

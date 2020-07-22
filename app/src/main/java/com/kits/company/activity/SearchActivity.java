@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -24,11 +25,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.QuickContactBadge;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.Toolbar;
@@ -93,8 +97,8 @@ Intent intent;
     ArrayList<String> Goodtype_array=new ArrayList<>() ;
     ArrayList<Column> Columns;
     Spinner spinner;
-
-
+    LinearLayoutCompat layout_view;
+    Button btn_search;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,63 +130,93 @@ Intent intent;
 
         Call<ColumnRespons> call = apiInterface.GetColumn("GetColumnList",0,Goodtype,3);
         call.enqueue(new Callback<ColumnRespons>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onResponse(Call<ColumnRespons> call, Response<ColumnRespons> response) {
                 if (response.isSuccessful()) {
                     Columns = response.body().getColumns();
+                    for ( Column Column : Columns){
+                        Column.setSearch("");
+
+                        if(Integer.parseInt(Column.getColumnFieldValue("SortOrder"))>0) {
+                            layout_view.setOrientation(LinearLayoutCompat.VERTICAL);
+                            LinearLayoutCompat layout_view_child = new LinearLayoutCompat(SearchActivity.this);
+                            layout_view_child.setOrientation(LinearLayoutCompat.HORIZONTAL);
+                            layout_view_child.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT));
+                            layout_view_child.setWeightSum(1);
+                            layout_view_child.setPadding(5,5,5,5);
+
+                            TextView extra_TextView1 = new TextView(SearchActivity.this);
+                            extra_TextView1.setText(Farsi_number.PerisanNumber(Column.getColumnFieldValue("ColumnDesc")));
+                            extra_TextView1.setBackgroundResource(R.color.white);
+                            extra_TextView1.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.MATCH_PARENT, (float) 0.7));
+                            extra_TextView1.setTextSize(18);
+                            extra_TextView1.setPadding(2, 2, 2, 2);
+                            extra_TextView1.setGravity(Gravity.CENTER);
+                            extra_TextView1.setTextColor(getResources().getColor(R.color.grey_1000));
+                            layout_view_child.addView(extra_TextView1);
+
+                            EditText extra_EditText= new EditText(SearchActivity.this);
+                            extra_EditText.setBackgroundResource(R.drawable.bg_round_selected);
+                            extra_EditText.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.MATCH_PARENT, (float) 0.3));
+                            extra_EditText.setTextSize(18);
+                            extra_EditText.setId(Integer.parseInt(Column.getColumnFieldValue("sortorder")));
+                            extra_EditText.setHint(Column.getColumnFieldValue("ColumnDesc"));
+                            extra_EditText.setHintTextColor(getResources().getColor(R.color.white));
+                            extra_EditText.setId(View.generateViewId());
+                            extra_EditText.setPadding(2, 2, 2, 2);
+                            extra_EditText.setGravity(Gravity.CENTER);
+
+                            extra_EditText.setTextColor(getResources().getColor(R.color.grey_1000));
+                            layout_view_child.addView(extra_EditText);
+                            layout_view.addView(layout_view_child);
 
 
-                                for ( Column Column : Columns){
+                        }
+                    }
 
-                                    if(Integer.parseInt(Column.getColumnFieldValue("SortOrder"))>0) {
-                                        LinearLayoutCompat ll = findViewById(R.id.SearchActivity_layout_pro);
-                                        ll.setOrientation(LinearLayoutCompat.VERTICAL);
-                                        LinearLayoutCompat ll_1 = new LinearLayoutCompat(SearchActivity.this);
-                                        ll_1.setOrientation(LinearLayoutCompat.HORIZONTAL);
-                                        ll_1.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT));
-                                        ll_1.setWeightSum(1);
 
-                                        TextView extra_TextView1 = new TextView(SearchActivity.this);
-                                        extra_TextView1.setText(Farsi_number.PerisanNumber(Column.getColumnFieldValue("ColumnDesc")));
-                                        extra_TextView1.setBackgroundResource(R.color.grey_20);
-                                        extra_TextView1.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.MATCH_PARENT, (float) 0.7));
-                                        extra_TextView1.setTextSize(18);
-                                        extra_TextView1.setPadding(2, 2, 2, 2);
-                                        extra_TextView1.setGravity(Gravity.CENTER);
-                                        extra_TextView1.setTextColor(getResources().getColor(R.color.grey_800));
-                                        ll_1.addView(extra_TextView1);
 
-                                        TextView extra_TextView2 = new TextView(SearchActivity.this);
-                                        extra_TextView2.setText(Farsi_number.PerisanNumber(Column.getColumnFieldValue("columnname")));
-                                        extra_TextView2.setBackgroundResource(R.color.white);
-                                        extra_TextView2.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.MATCH_PARENT, (float) 0.3));
-                                        extra_TextView2.setTextSize(18);
-                                        extra_TextView2.setPadding(2, 2, 2, 2);
-                                        extra_TextView2.setGravity(Gravity.CENTER);
-                                        extra_TextView2.setTextColor(getResources().getColor(R.color.grey_1000));
-                                        ll_1.addView(extra_TextView2);
 
-                                        ViewPager extra_ViewPager = new ViewPager(SearchActivity.this);
-                                        extra_ViewPager.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, 3));
-                                        extra_ViewPager.setBackgroundResource(R.color.grey_40);
-
-                                        ll.addView(ll_1);
-                                        ll.addView(extra_ViewPager);
+                    btn_search= new Button(SearchActivity.this);
+                    btn_search.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT));
+                    btn_search.setText(Farsi_number.PerisanNumber("btn_search"));
+                    btn_search.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            for (int i = 0; i < layout_view.getChildCount(); i++) {
+                                Log.e("logi","="+i);
+                                if(layout_view.getChildAt(i) instanceof LinearLayoutCompat) {
+                                    LinearLayoutCompat LinearLayoutCompat=(LinearLayoutCompat) layout_view.getChildAt(i);
+                                    Log.e("logi","if="+i);
+                                    for (int j = 0; j < LinearLayoutCompat.getChildCount(); j++) {
+                                        Log.e("logj","="+j);
+                                        if(LinearLayoutCompat.getChildAt(j) instanceof EditText) {
+                                            EditText et = (EditText) LinearLayoutCompat.getChildAt(j);
+                                            Log.e("logj","if="+j);
+                                            Log.e("log__","=="+et.getText().toString());
+                                            Log.e("log__","=="+et.getHint().toString());
+                                        }
+                                        Log.e("logj","="+j);
+                                        if(LinearLayoutCompat.getChildAt(j) instanceof TextView) {
+                                            TextView tv = (TextView) LinearLayoutCompat.getChildAt(j);
+                                            Log.e("logj","if="+j);
+                                            Log.e("log__","=="+tv.getText().toString());
+                                        }
                                     }
                                 }
                             }
+                        }
+                    });
+                    layout_view.addView(btn_search);
 
-
-
-
+                }
             }
-
             @Override
             public void onFailure(Call<ColumnRespons> call, Throwable t) {
 
             }
         });
-
 
 
 
@@ -195,8 +229,7 @@ Intent intent;
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-
+                layout_view.removeAllViews();
                 pro_c(Goodtype_array.get(position));
 
             }
@@ -217,8 +250,6 @@ Intent intent;
                     Integer i=0;
                     Integer j=0;
                     Goodtype = response.body().getColumns();
-
-
                    for ( Column Column_Goodtype : Goodtype){
                        Goodtype_array.add(Column_Goodtype.getColumnFieldValue("goodtype"));
                        if(Integer.parseInt(Column_Goodtype.getColumnFieldValue("IsDefault"))==1){
@@ -232,69 +263,6 @@ Intent intent;
                     spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner.setAdapter(spinner_adapter);
                     spinner.setSelection(j);
-
-
-
-
-//                    Call<ColumnRespons> call2 = apiInterface.GetColumn("GetGoodType",0,Goodtype.get(0).getColumnFieldValue("goodtype"),3);
-//                    call2.enqueue(new Callback<ColumnRespons>() {
-//                        @Override
-//                        public void onResponse(Call<ColumnRespons> call, Response<ColumnRespons> response) {
-//
-//
-//
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Call<ColumnRespons> call, Throwable t) {
-//
-//                        }
-//                    });
-
-
-
-//                    goods = response.body().getGoods();
-//                    final Good good= goods.get(0);
-//
-//                    for ( com.kits.company.model.Column Column : Columns){
-//
-//                        if(Integer.parseInt(Column.getColumnFieldValue("SortOrder"))>0) {
-//                            LinearLayoutCompat ll = findViewById(R.id.SearchActivity_layout_pro);
-//                            ll.setOrientation(LinearLayoutCompat.VERTICAL);
-//                            LinearLayoutCompat ll_1 = new LinearLayoutCompat(SearchActivity.this);
-//                            ll_1.setOrientation(LinearLayoutCompat.HORIZONTAL);
-//                            ll_1.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT));
-//                            ll_1.setWeightSum(1);
-//
-//                            TextView extra_TextView1 = new TextView(SearchActivity.this);
-//                            extra_TextView1.setText(Farsi_number.PerisanNumber(Column.getColumnFieldValue("ColumnDesc")));
-//                            extra_TextView1.setBackgroundResource(R.color.grey_20);
-//                            extra_TextView1.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.MATCH_PARENT, (float) 0.7));
-//                            extra_TextView1.setTextSize(18);
-//                            extra_TextView1.setPadding(2, 2, 2, 2);
-//                            extra_TextView1.setGravity(Gravity.CENTER);
-//                            extra_TextView1.setTextColor(getResources().getColor(R.color.grey_800));
-//                            ll_1.addView(extra_TextView1);
-//
-//                            TextView extra_TextView2 = new TextView(SearchActivity.this);
-//                            extra_TextView2.setText(Farsi_number.PerisanNumber(good.getGoodFieldValue(Column.getColumnFieldValue("columnname"))));
-//                            extra_TextView2.setBackgroundResource(R.color.white);
-//                            extra_TextView2.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.MATCH_PARENT, (float) 0.3));
-//                            extra_TextView2.setTextSize(18);
-//                            extra_TextView2.setPadding(2, 2, 2, 2);
-//                            extra_TextView2.setGravity(Gravity.CENTER);
-//                            extra_TextView2.setTextColor(getResources().getColor(R.color.grey_1000));
-//                            ll_1.addView(extra_TextView2);
-//
-//                            ViewPager extra_ViewPager = new ViewPager(SearchActivity.this);
-//                            extra_ViewPager.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, 3));
-//                            extra_ViewPager.setBackgroundResource(R.color.grey_40);
-//
-//                            ll.addView(ll_1);
-//                            ll.addView(extra_ViewPager);
-//                        }
-//                    }
-
 
                 }
             }
@@ -326,6 +294,7 @@ Intent intent;
         edtsearch = findViewById(R.id.SearchActivity_edtsearch);
         prog = findViewById(R.id.SearchActivity_prog);
         fab = findViewById(R.id.SearchActivity_fab);
+        layout_view = findViewById(R.id.SearchActivity_layout_pro);
 
 
         setSupportActionBar(toolbar);
@@ -431,8 +400,6 @@ Intent intent;
                     visibleItemCount =   gridLayoutManager.getChildCount();
                     totalItemCount =   gridLayoutManager.getItemCount();
                     pastVisiblesItems =   gridLayoutManager.findFirstVisibleItemPosition();
-
-
                     if (loading) {
                         if ((visibleItemCount + pastVisiblesItems) >= totalItemCount-2) {
                             loading = false;
