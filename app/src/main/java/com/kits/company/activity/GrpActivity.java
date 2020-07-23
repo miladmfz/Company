@@ -346,7 +346,7 @@ public class GrpActivity extends AppCompatActivity {
             public void onFailure(Call<GoodRespons> call, Throwable t) {
                 rc_good.setVisibility(View.GONE);
                 prog.setVisibility(View.GONE);
-                Toast toast =Toast.makeText(GrpActivity.this, "کالایی یافت نشد", Toast.LENGTH_SHORT);
+                Toast toast =Toast.makeText(GrpActivity.this, "کالایی در این گروه یافت نشد", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER, 10, 10);
                 toast.show();            }
         });
@@ -375,7 +375,7 @@ public class GrpActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<GoodRespons> call, Throwable t) {
-                Toast.makeText(GrpActivity.this, "کالای بیشتری موجود نیست", Toast.LENGTH_SHORT).show();
+                Toast.makeText(GrpActivity.this, "کالای بیشتری در این گروه موجود نیست", Toast.LENGTH_SHORT).show();
                 prog.setVisibility(View.GONE);
                 loading = true;
             }
