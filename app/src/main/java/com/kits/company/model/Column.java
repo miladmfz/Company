@@ -31,6 +31,9 @@ public class Column {
         Search = search;
     }
 
+
+
+
     public String getColumnFieldValue(String AKey) {
         String iKey = AKey.toLowerCase();
         String Res = "";

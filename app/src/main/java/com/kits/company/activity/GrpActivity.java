@@ -36,6 +36,7 @@ import com.kits.company.adapter.Good_ProSearch_Adapter;
 import com.kits.company.adapter.Good_ProSearch_Line_Adapter;
 import com.kits.company.adapter.Grp_Vlist_detail_Adapter;
 import com.kits.company.adapter.InternetConnection;
+import com.kits.company.adapter.Search_box;
 import com.kits.company.model.Farsi_number;
 import com.kits.company.model.Good;
 import com.kits.company.model.GoodBuy;
@@ -78,7 +79,8 @@ public class GrpActivity extends AppCompatActivity {
     GridLayoutManager gridLayoutManager;
     String srch="",sq="";
     private boolean loading = true;
-    int pastVisiblesItems=0, visibleItemCount, totalItemCount,PageNo=0;
+    int pastVisiblesItems=0, visibleItemCount, totalItemCount;
+    public int PageNo=0;
     SharedPreferences.Editor sEdit;
     Good_ProSearch_Adapter adapter;
     Good_ProSearch_Line_Adapter adapter_line;
@@ -115,8 +117,7 @@ public class GrpActivity extends AppCompatActivity {
         toolbar =  findViewById(R.id.GrpActivity_toolbar);
 
         change_search = findViewById(R.id.GrpActivity_change_search);
-        filter_active = findViewById(R.id.GrpActivity_filter_active);
-        line_pro = findViewById(R.id.GrpActivity_search_line_p);
+
         line = findViewById(R.id.GrpActivity_search_line);
         edtsearch = findViewById(R.id.GrpActivity_edtsearch);
         prog = findViewById(R.id.GrpActivity_prog);
@@ -172,61 +173,11 @@ public class GrpActivity extends AppCompatActivity {
         change_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(conter==0) {
-                    line_pro.setVisibility(View.VISIBLE);
-                    filter_active.setVisibility(View.VISIBLE);
-                    line.setVisibility(View.GONE);
-                    change_search.setText("جستجوی عادی");
-                    conter = conter + 1;
-                    Log.e("conter", "" + conter);
-                }else{
-                    line_pro.setVisibility(View.GONE);
-                    filter_active.setVisibility(View.GONE);
-                    line.setVisibility(View.VISIBLE);
-                    change_search.setText("جستجوی پیشرفته");
-                    conter= conter-1;
-                    Log.e("conter",""+conter);
-                }
+                Search_box search_box = new Search_box(GrpActivity.this);
+                search_box.search_pro();
             }
         });
 
-        filter_active.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                EditText goodname = findViewById(R.id.GrpActivity_search_pro_good);
-                EditText dragoman = findViewById(R.id.GrpActivity_search_pro_dragoman);
-                EditText nasher = findViewById(R.id.GrpActivity_search_pro_nasher);
-                EditText period = findViewById(R.id.GrpActivity_search_pro_period);
-                EditText writer = findViewById(R.id.GrpActivity_search_pro_writer);
-                EditText PrintYear = findViewById(R.id.GrpActivity_search_pro_PrintYear);
-                int aperiod;
-                String agoodname = arabicToenglish(goodname.getText().toString());
-                srch=agoodname;
-                srch= srch.replaceAll(" ","%");
-
-                String adragoman = arabicToenglish(dragoman.getText().toString());
-                String anasher =arabicToenglish (nasher.getText().toString());
-                String periodd = arabicToenglish(period.getText().toString());
-                String awriter = arabicToenglish(writer.getText().toString());
-                String aprintyear = arabicToenglish(PrintYear.getText().toString());
-
-                if(!periodd.equals("")) {
-                    aperiod = Integer.parseInt(periodd);
-                    sq = "PrintPeriod = "+aperiod +" ";}
-                else { sq = "PrintPeriod >1 ";}
-
-                if(!anasher.equals("")) { sq = sq + "And nasher Like N''%"+anasher+"%'' ";}
-                if(!adragoman.equals("")) { sq = sq + "And DragoMan Like N''%"+adragoman+"%'' ";}
-                if(!awriter.equals("")) { sq = sq + "And Writer Like N''%"+awriter+"%'' ";}
-                if(!aprintyear.equals("")) { sq = sq + "And PrintYear Like N''%"+aprintyear+"%'' ";}
-                if(!srch.equals("")) { sq = sq + "And GoodName Like N''%"+srch+"%'' ";}
-
-                PageNo=0;
-                allgood(srch,sq);
-                Toast.makeText(GrpActivity.this, "انجام شد ", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         rc_good.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -362,7 +313,7 @@ public class GrpActivity extends AppCompatActivity {
         });
     }
 
-    private void allgood(String edtsearch,String where) {
+    public void allgood(String edtsearch,String where) {
         prog.setVisibility(View.VISIBLE);
         Call<GoodRespons> call = apiInterface.GetAllGood
                 ("goodinfo",0, edtsearch, where,id,PageNo,shPref.getString("mobile", null),0);

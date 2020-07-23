@@ -49,6 +49,7 @@ import com.kits.company.R;
 import com.kits.company.adapter.Good_ProSearch_Adapter;
 import com.kits.company.adapter.Good_ProSearch_Line_Adapter;
 import com.kits.company.adapter.InternetConnection;
+import com.kits.company.adapter.Search_box;
 import com.kits.company.model.Column;
 import com.kits.company.model.ColumnRespons;
 import com.kits.company.model.Farsi_number;
@@ -89,7 +90,8 @@ Intent intent;
     ArrayList<Good> goods=new ArrayList<Good>();
     Good_ProSearch_Line_Adapter adapter_line;
     private boolean loading = true;
-    int pastVisiblesItems=0, visibleItemCount, totalItemCount,PageNo=0;
+    int pastVisiblesItems=0, visibleItemCount, totalItemCount;
+    public int PageNo=0;
     ArrayList<String[]> Multi_buy = new ArrayList<>();
     FloatingActionButton fab;
     Menu item_multi;
@@ -126,175 +128,19 @@ Intent intent;
 
 
 
-    public void pro_c(String Goodtype) {
-
-        Call<ColumnRespons> call = apiInterface.GetColumn("GetColumnList",0,Goodtype,3);
-        call.enqueue(new Callback<ColumnRespons>() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onResponse(Call<ColumnRespons> call, Response<ColumnRespons> response) {
-                if (response.isSuccessful()) {
-                    Columns = response.body().getColumns();
-                    for ( Column Column : Columns){
-                        Column.setSearch("");
-
-                        if(Integer.parseInt(Column.getColumnFieldValue("SortOrder"))>0) {
-                            layout_view.setOrientation(LinearLayoutCompat.VERTICAL);
-                            LinearLayoutCompat layout_view_child = new LinearLayoutCompat(SearchActivity.this);
-                            layout_view_child.setOrientation(LinearLayoutCompat.HORIZONTAL);
-                            layout_view_child.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT));
-                            layout_view_child.setWeightSum(1);
-                            layout_view_child.setPadding(5,5,5,5);
-
-                            TextView extra_TextView1 = new TextView(SearchActivity.this);
-                            extra_TextView1.setText(Farsi_number.PerisanNumber(Column.getColumnFieldValue("ColumnDesc")));
-                            extra_TextView1.setBackgroundResource(R.color.white);
-                            extra_TextView1.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.MATCH_PARENT, (float) 0.7));
-                            extra_TextView1.setTextSize(18);
-                            extra_TextView1.setPadding(2, 2, 2, 2);
-                            extra_TextView1.setGravity(Gravity.CENTER);
-                            extra_TextView1.setTextColor(getResources().getColor(R.color.grey_1000));
-                            layout_view_child.addView(extra_TextView1);
-
-                            EditText extra_EditText= new EditText(SearchActivity.this);
-                            extra_EditText.setBackgroundResource(R.drawable.bg_round_selected);
-                            extra_EditText.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.MATCH_PARENT, (float) 0.3));
-                            extra_EditText.setTextSize(18);
-                            extra_EditText.setId(Integer.parseInt(Column.getColumnFieldValue("sortorder")));
-                            extra_EditText.setHint(Column.getColumnFieldValue("ColumnDesc"));
-                            extra_EditText.setHintTextColor(getResources().getColor(R.color.white));
-                            extra_EditText.setId(View.generateViewId());
-                            extra_EditText.setPadding(2, 2, 2, 2);
-                            extra_EditText.setGravity(Gravity.CENTER);
-
-                            extra_EditText.setTextColor(getResources().getColor(R.color.grey_1000));
-                            layout_view_child.addView(extra_EditText);
-                            layout_view.addView(layout_view_child);
-
-
-                        }
-                    }
-
-
-
-
-                    btn_search= new Button(SearchActivity.this);
-                    btn_search.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT));
-                    btn_search.setText(Farsi_number.PerisanNumber("btn_search"));
-                    btn_search.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            for (int i = 0; i < layout_view.getChildCount(); i++) {
-                                Log.e("logi","="+i);
-                                if(layout_view.getChildAt(i) instanceof LinearLayoutCompat) {
-                                    LinearLayoutCompat LinearLayoutCompat=(LinearLayoutCompat) layout_view.getChildAt(i);
-                                    Log.e("logi","if="+i);
-                                    for (int j = 0; j < LinearLayoutCompat.getChildCount(); j++) {
-                                        Log.e("logj","="+j);
-                                        if(LinearLayoutCompat.getChildAt(j) instanceof EditText) {
-                                            EditText et = (EditText) LinearLayoutCompat.getChildAt(j);
-                                            Log.e("logj","if="+j);
-                                            Log.e("log__","=="+et.getText().toString());
-                                            Log.e("log__","=="+et.getHint().toString());
-                                        }
-                                        Log.e("logj","="+j);
-                                        if(LinearLayoutCompat.getChildAt(j) instanceof TextView) {
-                                            TextView tv = (TextView) LinearLayoutCompat.getChildAt(j);
-                                            Log.e("logj","if="+j);
-                                            Log.e("log__","=="+tv.getText().toString());
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    });
-                    layout_view.addView(btn_search);
-
-                }
-            }
-            @Override
-            public void onFailure(Call<ColumnRespons> call, Throwable t) {
-
-            }
-        });
-
-
-
-    }
-
-    public void pro() {
-        spinner = findViewById(R.id.SearchActivity_spinner);
-
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                layout_view.removeAllViews();
-                pro_c(Goodtype_array.get(position));
-
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-
-
-        Call<ColumnRespons> call = apiInterface.GetGoodType("GetGoodType");
-        call.enqueue(new Callback<ColumnRespons>() {
-            @Override
-            public void onResponse(Call<ColumnRespons> call, Response<ColumnRespons> response) {
-                if (response.isSuccessful()) {
-
-                    Integer i=0;
-                    Integer j=0;
-                    Goodtype = response.body().getColumns();
-                   for ( Column Column_Goodtype : Goodtype){
-                       Goodtype_array.add(Column_Goodtype.getColumnFieldValue("goodtype"));
-                       if(Integer.parseInt(Column_Goodtype.getColumnFieldValue("IsDefault"))==1){
-                           j=i;
-                       }
-                       i++;
-                   }
-
-                    ArrayAdapter<String> spinner_adapter = new ArrayAdapter<String>(SearchActivity.this,
-                            android.R.layout.simple_spinner_item,Goodtype_array);
-                    spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spinner.setAdapter(spinner_adapter);
-                    spinner.setSelection(j);
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ColumnRespons> call, Throwable t) {
-
-            }
-        });
-
-
-
-    }
-
-
-
-
     public void init() {
 
 
         shPref = getSharedPreferences("profile", Context.MODE_PRIVATE);
         sEdit = shPref.edit();
         change_search = findViewById(R.id.SearchActivity_change_search);
-        filter_active = findViewById(R.id.SearchActivity_filter_active);
-        line_pro = findViewById(R.id.SearchActivity_search_line_p);
+
         line = findViewById(R.id.SearchActivity_search_line);
         toolbar=findViewById(R.id.SearchActivity_toolbar);
         rc_good = findViewById (R.id.SearchActivity_R1);
         edtsearch = findViewById(R.id.SearchActivity_edtsearch);
         prog = findViewById(R.id.SearchActivity_prog);
         fab = findViewById(R.id.SearchActivity_fab);
-        layout_view = findViewById(R.id.SearchActivity_layout_pro);
 
 
         setSupportActionBar(toolbar);
@@ -332,66 +178,19 @@ Intent intent;
 
 
         allgood("","");
-        pro();
+        //pro();
 
 
         change_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(conter==0) {
-                    line_pro.setVisibility(View.VISIBLE);
-                    filter_active.setVisibility(View.VISIBLE);
-                    line.setVisibility(View.GONE);
-                    change_search.setText("جستجوی عادی");
-                    conter = conter + 1;
-                    Log.e("conter", "" + conter);
-                }else{
-                    line_pro.setVisibility(View.GONE);
-                    filter_active.setVisibility(View.GONE);
-                    line.setVisibility(View.VISIBLE);
-                    change_search.setText("جستجوی پیشرفته");
-                    conter= conter-1;
-                    Log.e("conter",""+conter);
-                }
+
+                Search_box search_box = new Search_box(SearchActivity.this);
+                search_box.search_pro();
             }
         });
 
-        filter_active.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                EditText goodname = findViewById(R.id.SearchActivity_search_pro_good);
-                EditText dragoman = findViewById(R.id.SearchActivity_search_pro_dragoman);
-                EditText nasher = findViewById(R.id.SearchActivity_search_pro_nasher);
-                EditText period = findViewById(R.id.SearchActivity_search_pro_period);
-                EditText writer = findViewById(R.id.SearchActivity_search_pro_writer);
-                EditText printyear = findViewById(R.id.SearchActivity_search_pro_PrintYear);
-                int aperiod;
-                srch = arabicToenglish(goodname.getText().toString());
-                String adragoman = arabicToenglish(dragoman.getText().toString());
-                String anasher =arabicToenglish (nasher.getText().toString());
-                String periodd = arabicToenglish(period.getText().toString());
-                String awriter = arabicToenglish(writer.getText().toString());
-                String aprintyear = arabicToenglish(printyear.getText().toString());
-
-                if(!periodd.equals("")) {
-                    aperiod = Integer.parseInt(periodd);
-                    sq = "PrintPeriod = "+aperiod +" ";}
-                else { sq = "PrintPeriod >1 ";}
-                if(!anasher.equals("")) { sq = sq + "And nasher Like N''%"+anasher+"%'' ";}
-                if(!adragoman.equals("")) { sq = sq + "And DragoMan Like N''%"+adragoman+"%'' ";}
-                if(!awriter.equals("")) { sq = sq + "And Writer Like N''%"+awriter+"%'' ";}
-                if(!aprintyear.equals("")) { sq = sq + "And PrintYear Like N''%"+aprintyear+"%'' ";}
-                if(!srch.equals("")) { sq = sq + "And GoodName Like N''%"+srch+"%'' ";}
-
-
-                PageNo=0;
-                allgood(srch,sq);
-                Toast.makeText(SearchActivity.this, "انجام شد ", Toast.LENGTH_SHORT).show();
-
-
-            }
-        });
 
         rc_good.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -507,7 +306,7 @@ Intent intent;
 
 
 
-    private void allgood(String edtsearch,String where) {
+    public void allgood(String edtsearch,String where) {
         prog.setVisibility(View.VISIBLE);
         Call<GoodRespons> call = apiInterface.GetAllGood
                 ("goodinfo", 0,edtsearch, where,0,PageNo,shPref.getString("mobile", null),0);
@@ -535,7 +334,8 @@ Intent intent;
                         rc_good.setLayoutManager(gridLayoutManager);
                         rc_good.setAdapter(adapter_line);
                         rc_good.setItemAnimator(new FlipInTopXAnimator());
-                    }                    rc_good.setVisibility(View.VISIBLE);
+                    }
+                    rc_good.setVisibility(View.VISIBLE);
                     item_multi.findItem(R.id.menu_grid).setVisible(true);
                     prog.setVisibility(View.GONE);
                     loading=true;
