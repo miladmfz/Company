@@ -287,7 +287,9 @@ public class DetailActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<GoodRespons> call, Throwable t) {
-                    Log.e("retrofit_fail",t.getMessage());
+                PageNo--;
+
+                Log.e("retrofit_fail",t.getMessage());
 
 
             }

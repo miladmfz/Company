@@ -175,7 +175,7 @@ public class Search_box {
                             EditText extra_EditText= new EditText(mContext);
                             extra_EditText.setBackgroundResource(R.drawable.bg_round_selected);
                             extra_EditText.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.MATCH_PARENT, (float) 0.3));
-                            extra_EditText.setTextSize(14);
+                            extra_EditText.setTextSize(15);
                             extra_EditText.setId(Integer.parseInt(Column.getColumnFieldValue("sortorder")));
                             extra_EditText.setHint(Column.getColumnFieldValue("ColumnName"));
                             extra_EditText.setHintTextColor(mContext.getResources().getColor(R.color.white));
@@ -198,7 +198,7 @@ public class Search_box {
 
                     btn_search.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT));
                     btn_search.setText(Farsi_number.PerisanNumber("اعمال فیلتر ها"));
-                    btn_search.setTextSize(16);
+                    btn_search.setTextSize(12);
                     btn_search.setTextColor(mContext.getResources().getColor(R.color.grey_1000));
                     btn_search.setStrokeColor(ColorStateList.valueOf(mContext.getResources().getColor(R.color.grey_1000)));
                     btn_search.setStrokeWidth(2);
@@ -206,14 +206,12 @@ public class Search_box {
                     btn_search.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
                             for (int i = 0; i < layout_view.getChildCount(); i++) {
                                 if(layout_view.getChildAt(i) instanceof LinearLayoutCompat) {
                                     LinearLayoutCompat LinearLayoutCompat=(LinearLayoutCompat) layout_view.getChildAt(i);
                                     for (int j = 0; j < LinearLayoutCompat.getChildCount(); j++) {
                                         if(LinearLayoutCompat.getChildAt(j) instanceof EditText) {
                                             EditText et = (EditText) LinearLayoutCompat.getChildAt(j);
-
                                             for ( Column Column : Columns) {
                                                 if (et.getHint().toString().equals(Column.getColumnFieldValue("ColumnName"))){
                                                     if(!et.getText().toString().equals("")) {
@@ -226,9 +224,7 @@ public class Search_box {
                                 }
                             }
 
-
-
-                            sq=" GoodType Like N''%"+Columns.get(0).getColumnFieldValue("goodtype")+"%'' ";
+                            sq=" GoodType = N''"+Columns.get(0).getColumnFieldValue("goodtype")+"'' ";
                             for ( Column Column : Columns) {
                                 if(!Column.getColumnFieldValue("search").equals("")) {
 
@@ -246,6 +242,8 @@ public class Search_box {
 
                             if(mContext.getClass().getName().equals("com.kits.company.activity.SearchActivity")){
                                 SearchActivity activity= (SearchActivity) mContext;
+                                activity.srch="";
+                                activity.sq=sq;
                                 activity.PageNo=0;
                                 activity.allgood(srch,sq);
                                 dialog.dismiss();
@@ -253,6 +251,8 @@ public class Search_box {
                             }
                             else if(mContext.getClass().getName().equals("com.kits.company.activity.GrpActivity")){
                                 GrpActivity activity= (GrpActivity) mContext;
+                                activity.srch="";
+                                activity.sq=sq;
                                 activity.PageNo=0;
                                 activity.allgood(srch,sq);
                                 dialog.dismiss();

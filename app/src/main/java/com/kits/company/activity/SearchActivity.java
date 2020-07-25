@@ -82,7 +82,7 @@ Intent intent;
     RecyclerView rc_good;
     Toolbar toolbar;
     ProgressBar prog;
-    String srch="", sq="";
+    public String srch="", sq="";
     TextView textCartItemCount;
     GridLayoutManager gridLayoutManager;
     ArrayList<GoodBuy> goodbuys,goodbuys_setupBadge;
@@ -381,6 +381,7 @@ Intent intent;
 
             @Override
             public void onFailure(Call<GoodRespons> call, Throwable t) {
+                PageNo--;
                 Toast.makeText(SearchActivity.this, "کالای بیشتری موجود نیست", Toast.LENGTH_SHORT).show();
                 prog.setVisibility(View.GONE);
                 loading = true;

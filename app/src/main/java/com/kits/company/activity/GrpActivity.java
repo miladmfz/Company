@@ -77,7 +77,7 @@ public class GrpActivity extends AppCompatActivity {
     TextView textCartItemCount;
     ArrayList<GoodBuy> goodbuys,goodbuys_setupBadge;
     GridLayoutManager gridLayoutManager;
-    String srch="",sq="";
+    public String srch="", sq="";
     private boolean loading = true;
     int pastVisiblesItems=0, visibleItemCount, totalItemCount;
     public int PageNo=0;
@@ -375,6 +375,7 @@ public class GrpActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<GoodRespons> call, Throwable t) {
+                PageNo--;
                 Toast.makeText(GrpActivity.this, "کالای بیشتری در این گروه موجود نیست", Toast.LENGTH_SHORT).show();
                 prog.setVisibility(View.GONE);
                 loading = true;

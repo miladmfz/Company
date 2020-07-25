@@ -90,7 +90,8 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
     Toolbar toolbar;
     DrawerLayout drawer;
     NavigationView navigationView;
-    RecyclerView rc_grp,rc_allgood,rc_allgood_2;
+    public RecyclerView rc_grp;
+    RecyclerView rc_allgood,rc_allgood_2;
     ArrayList<Good> goods,banner_goods;
     ArrayList<GoodGroup> Groups;
     ArrayList<GoodGroup> Groups_defult;

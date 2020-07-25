@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kits.company.R;
 import com.kits.company.activity.GrpActivity;
+import com.kits.company.activity.MainActivity;
 import com.kits.company.model.GoodGroup;
 
 import java.util.ArrayList;

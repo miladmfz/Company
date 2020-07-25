@@ -283,7 +283,7 @@ public class Search_date_detailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<GoodRespons> call, Throwable t) {
-
+                PageNo--;
                 prog.setVisibility(View.GONE);
                 loading = true;
                 Toast.makeText(Search_date_detailActivity.this, "کالای بیشتری موجود نیست", Toast.LENGTH_SHORT).show();
