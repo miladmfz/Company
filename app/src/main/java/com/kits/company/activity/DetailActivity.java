@@ -318,6 +318,7 @@ public class DetailActivity extends AppCompatActivity {
                                 name=good.getGoodFieldValue("GoodName");
                                 price=good.getGoodFieldValue("SellPrice");
                                 id=Integer.parseInt(good.getGoodFieldValue("GoodCode"));
+                                img_count=Integer.parseInt(good.getGoodFieldValue("imagecount"));
                                 goodname.setText(Farsi_number.PerisanNumber(good.getGoodFieldValue("GoodName")));
                                 sellprice.setText(Farsi_number.PerisanNumber(good.getGoodFieldValue("SellPrice")));
                                 if(good.getGoodFieldValue("MaxSellPrice").equals(good.getGoodFieldValue("SellPrice")))
