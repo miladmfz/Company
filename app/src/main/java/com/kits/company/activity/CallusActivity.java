@@ -77,7 +77,6 @@ Intent intent;
             }
         });
 
-
         Call<String> call2 = apiInterface.info("kowsar_info",438);//438 phone
         call2.enqueue(new Callback<String>() {
             @Override

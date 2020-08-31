@@ -27,6 +27,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import com.google.android.material.card.MaterialCardView;
 
+import androidx.databinding.BindingAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -333,6 +334,9 @@ public class Good_ProSearch_Adapter extends RecyclerView.Adapter<Good_ProSearch_
         return goods.size();
     }
 
+
+
+
     class GoodViewHolder extends RecyclerView.ViewHolder
     {
         private TextView goodnameTextView;
@@ -355,5 +359,7 @@ public class Good_ProSearch_Adapter extends RecyclerView.Adapter<Good_ProSearch_
             ggg = itemView.findViewById(R.id.proserch_ggg);
         }
     }
+
+
 
 }

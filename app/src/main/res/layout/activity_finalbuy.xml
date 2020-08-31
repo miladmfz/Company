@@ -44,6 +44,9 @@
             app:cardCornerRadius="2dp"
             app:cardElevation="6dp"
             android:layoutDirection="rtl">
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -245,35 +248,36 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    >
 
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/finalbuyActivity_sendbasket"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:layout_gravity="bottom"
+                        android:text="@string/buy_sendfactor"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:layout_margin="5dp"
+                        android:textSize="20sp"
+                        app:backgroundTint="@color/green_700"
+                        app:strokeColor="@color/grey_1000"
+                        app:strokeWidth="1dp"
+                        />
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
-
+            </ScrollView>
 
         </com.google.android.material.card.MaterialCardView>
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
 
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/finalbuyActivity_sendbasket"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_gravity="bottom"
-                android:text="@string/buy_sendfactor"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:layout_margin="5dp"
-                android:textSize="20sp"
-                app:backgroundTint="@color/green_700"
-                app:strokeColor="@color/grey_1000"
-                app:strokeWidth="1dp"
-                  />
-
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

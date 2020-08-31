@@ -9,78 +9,82 @@ import java.io.Serializable;
 public class Good implements Serializable {
 
     @SerializedName("GoodCode")
-    private Integer GoodCode;
+    Integer GoodCode;
     @SerializedName("GoodName")
-    private String GoodName;
+    String GoodName;
     @SerializedName("SellPercent")
-    private String SellPercent;
+    String SellPercent;
     @SerializedName("SellPrice")
-    private String SellPrice;
+    String SellPrice;
     @SerializedName("MaxSellPrice")
-    private Integer MaxSellPrice;
+    Integer MaxSellPrice;
     @SerializedName("GoodExplain1")
-    private String GoodExplain1;
+    String GoodExplain1;
     @SerializedName("GoodExplain2")
-    private String GoodExplain2;
+    String GoodExplain2;
     @SerializedName("GoodExplain3")
-    private String GoodExplain3;
+    String GoodExplain3;
     @SerializedName("GoodExplain4")
-    private String GoodExplain4;
+    String GoodExplain4;
     @SerializedName("GoodExplain5")
-    private String GoodExplain5;
+    String GoodExplain5;
     @SerializedName("GoodExplain6")
-    private String GoodExplain6;
+    String GoodExplain6;
     @SerializedName("GoodMainCode")
-    private String GoodMainCode;
+    String GoodMainCode;
     @SerializedName("GoodSubCode")
-    private String GoodSubCode;
+    String GoodSubCode;
     @SerializedName("GoodType")
-    private String GoodType;
+    String GoodType;
     @SerializedName("BarCode")
-    private String BarCode;
+    String BarCode;
     @SerializedName("ISBN")
-    private String ISBN;
+    String ISBN;
     @SerializedName("Writer")
-    private String Writer;
+    String Writer;
     @SerializedName("DragoMan")
-    private String DragoMan;
+    String DragoMan;
     @SerializedName("Nasher")
-    private String Nasher;
+    String Nasher;
     @SerializedName("TahvilDate")
-    private String TahvilDate;
+    String TahvilDate;
     @SerializedName("PrintPeriod")
-    private String PrintPeriod;
+    String PrintPeriod;
     @SerializedName("PrintYear")
-    private String PrintYear;
+    String PrintYear;
     @SerializedName("Size")
-    private String Size;
+    String Size;
     @SerializedName("CoverType")
-    private String CoverType;
+    String CoverType;
     @SerializedName("PageNo")
-    private String PageNo;
+    String PageNo;
     @SerializedName("BulletinGroupName")
-    private String BulletinGroupName;
+    String BulletinGroupName;
     @SerializedName("GroupsWhitoutCode")
-    private String GroupsWhitoutCode;
+    String GroupsWhitoutCode;
     @SerializedName("GoodImageName")
-    private String GoodImageName;
+    String GoodImageName;
     @SerializedName("GoodImageUrl")
-    private String GoodImageUrl;
+    String GoodImageUrl;
     @SerializedName("Details")
-    private String Details;
+    String Details;
     @SerializedName("Itam_Show")
-    private String Itam_Show;
+    String Itam_Show;
     @SerializedName("ImageCount")
-    private Integer ImageCount;
+    Integer ImageCount;
     @SerializedName("BasketAmount")
-    private Integer BasketAmount;
+    Integer BasketAmount;
     @SerializedName("IsFavorite")
-    private Integer IsFavorite;
+    Integer IsFavorite;
     @SerializedName("HasStackAmount")
-    private Integer HasStackAmount;
+    Integer HasStackAmount;
     @SerializedName("Check")
-    private boolean Check;
+    boolean Check;
 
+
+    public String getGoodName() {
+        return GoodName;
+    }
 
     public boolean isCheck() { return Check; }
     public void setCheck(boolean check) {
@@ -134,8 +138,11 @@ public class Good implements Serializable {
     }
 
 
+    public String getSellPrice() {
+        return SellPrice;
+    }
 
-
-
-
+    public Integer getMaxSellPrice() {
+        return MaxSellPrice;
+    }
 }
