@@ -12,8 +12,6 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-        multiDexEnabled true
-        vectorDrawables.useSupportLibrary true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
@@ -25,9 +23,6 @@ android {
         }
     }
 
-    dataBinding {
-        enabled = true
-    }
 
 }
 
@@ -75,10 +70,5 @@ dependencies {
     implementation 'me.dm7.barcodescanner:zxing:1.9'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.android.volley:volley:1.1.1'
-
-    implementation 'com.android.databinding:compiler:3.1.4'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
 
 }

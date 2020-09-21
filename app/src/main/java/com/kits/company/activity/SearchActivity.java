@@ -24,6 +24,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -45,6 +46,7 @@ import androidx.viewpager.widget.ViewPager;
 
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.kits.company.R;
 import com.kits.company.adapter.Good_ProSearch_Adapter;
 import com.kits.company.adapter.Good_ProSearch_Line_Adapter;
@@ -141,10 +143,27 @@ Intent intent;
         edtsearch = findViewById(R.id.SearchActivity_edtsearch);
         prog = findViewById(R.id.SearchActivity_prog);
         fab = findViewById(R.id.SearchActivity_fab);
-
-
         setSupportActionBar(toolbar);
 
+        final SwitchMaterial mySwitch_activestack = findViewById(R.id.SearchActivity_switch);
+        mySwitch_activestack.setChecked(shPref.getBoolean("available_good", true));
+        mySwitch_activestack.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                sEdit.putBoolean("available_good",!shPref.getBoolean("available_good", true));
+                sEdit.apply();
+                if(Objects.equals(shPref.getString("view", null), "grid")){
+                    adapter.notifyDataSetChanged();
+                }else{
+                    adapter_line.notifyDataSetChanged();
+                }
+                gridLayoutManager = new GridLayoutManager(SearchActivity.this,2);
+                gridLayoutManager.scrollToPosition(pastVisiblesItems+2);
+                rc_good.setLayoutManager(gridLayoutManager);
+                rc_good.setAdapter(adapter);
+
+            }
+        });
 
         edtsearch.setOnClickListener(new View.OnClickListener() {
             @Override

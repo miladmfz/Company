@@ -31,8 +31,13 @@ public class Column {
         Search = search;
     }
 
+    public void setGoodType(String goodType) {
+        GoodType = goodType;
+    }
 
-
+    public void setIsDefault(Integer isDefault) {
+        IsDefault = isDefault;
+    }
 
     public String getColumnFieldValue(String AKey) {
         String iKey = AKey.toLowerCase();

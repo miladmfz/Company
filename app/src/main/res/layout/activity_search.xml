@@ -30,6 +30,16 @@
                 android:background="?attr/colorPrimary"
                 app:titleTextColor="@color/white"
                 app:title="جستجوی کالا">
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/SearchActivity_switch"
+                    android:checked="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:text="@string/active_activeswitch"
+                    android:textColor="@color/white"
+
+                    />
 
             </androidx.appcompat.widget.Toolbar>
 

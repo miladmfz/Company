@@ -42,6 +42,7 @@ import com.kits.company.webService.API_image;
 
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -52,21 +53,34 @@ import retrofit2.Response;
 public class Good_view_Adapter extends RecyclerView.Adapter<Good_view_Adapter.GoodViewHolder>{
     private final Context mContext;
     DecimalFormat decimalFormat= new DecimalFormat("0,000");
-    private final List<Good> goods;
+    private List<Good> goods;
+    private final List<Good> available_goods = new ArrayList<>();
+    private final List<Good> all_goods;
     private APIInterface apiInterface_image = API_image.getCleint().create(APIInterface.class);
     byte[] imageByteArray ;
     public Call<String> call2;
     private  Intent intent;
-
     private String SERVER_IP_ADDRESS,price,name;
     Integer code=0 ;
     String UnitName;
     SharedPreferences shPref ;
-    public Good_view_Adapter(List<Good> goods, Context mContext)
+
+
+
+
+
+
+
+    public Good_view_Adapter(List<Good> goods, Context context)
     {
-        this.mContext = mContext;
-        this.goods = goods;
-        SERVER_IP_ADDRESS = mContext.getString(R.string.SERVERIP);
+        this.mContext = context;
+        shPref = mContext.getSharedPreferences("profile", Context.MODE_PRIVATE);
+        this.all_goods = goods;
+        for (Good g : all_goods) {
+            if (Integer.parseInt(g.getGoodFieldValue("HasStackAmount"))>0) {
+                this.available_goods.add(g);
+            }
+        }
     }
     @NonNull
     @Override
@@ -79,9 +93,12 @@ public class Good_view_Adapter extends RecyclerView.Adapter<Good_view_Adapter.Go
     @Override
     public void onBindViewHolder(@NonNull final GoodViewHolder holder,final int position)
     {
-        code=0;
-        final int myps= position;
+
+        goods = available_goods;
         final Good goodView = goods.get(position);
+
+
+
 
         if(Integer.parseInt(goodView.getGoodFieldValue("HasStackAmount"))>0) {
             if (goodView.getGoodFieldValue("MaxSellPrice").equals(goodView.getGoodFieldValue("SellPrice"))) {
@@ -96,23 +113,19 @@ public class Good_view_Adapter extends RecyclerView.Adapter<Good_view_Adapter.Go
             holder.btnadd.setVisibility(View.VISIBLE);
             holder.sellpercent.setTextColor(mContext.getResources().getColor(R.color.green_900));
 
-
         }else {
             holder.maxsellpriceTextView.setVisibility(View.GONE);
             holder.btnadd.setVisibility(View.INVISIBLE);
             holder.sellpercent.setText("ناموجود");
             holder.sellpercent.setTextColor(mContext.getResources().getColor(R.color.red_300));
+            holder.rltv.setVisibility(View.GONE);
+
         }
 
 
         holder.goodnameTextView.setText(Farsi_number.PerisanNumber(goodView.getGoodFieldValue("GoodName")));
 
 
-
-        code=Integer.parseInt(goodView.getGoodFieldValue("GoodCode"));
-        price=goodView.getGoodFieldValue("SellPrice");
-        name=goodView.getGoodFieldValue("GoodName");
-        String SERVER_IP_ADDRESS = mContext.getString(R.string.SERVERIP);
 
         if(!goods.get(position).getGoodFieldValue("GoodImageName").equals("")){
             Glide.with(holder.img)
@@ -189,7 +202,7 @@ public class Good_view_Adapter extends RecyclerView.Adapter<Good_view_Adapter.Go
             {
 
 
-                Good goodView = goods.get(myps);
+                Good goodView = goods.get(position);
                 intent = new Intent(mContext, DetailActivity.class);
                 intent.putExtra("id", Integer.parseInt(goodView.getGoodFieldValue("GoodCode")));
                 mContext.startActivity(intent);
@@ -215,7 +228,7 @@ public class Good_view_Adapter extends RecyclerView.Adapter<Good_view_Adapter.Go
     @Override
     public int getItemCount()
     {
-        return goods.size();
+        return available_goods.size();
 
     }
 

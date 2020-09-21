@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -31,6 +32,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.kits.company.R;
 import com.kits.company.adapter.Good_ProSearch_Adapter;
 import com.kits.company.adapter.Good_ProSearch_Line_Adapter;
@@ -132,6 +134,26 @@ public class GrpActivity extends AppCompatActivity {
 
         toolbar.setTitle(title);
         setSupportActionBar(toolbar);
+
+        final SwitchMaterial mySwitch_activestack = findViewById(R.id.grpActivity_switch);
+        mySwitch_activestack.setChecked(shPref.getBoolean("available_good", true));
+        mySwitch_activestack.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                sEdit.putBoolean("available_good",!shPref.getBoolean("available_good", true));
+                sEdit.apply();
+                if(Objects.equals(shPref.getString("view", null), "grid")){
+                    adapter.notifyDataSetChanged();
+                }else{
+                    adapter_line.notifyDataSetChanged();
+                }
+                gridLayoutManager = new GridLayoutManager(GrpActivity.this,2);
+                gridLayoutManager.scrollToPosition(pastVisiblesItems+2);
+                rc_good.setLayoutManager(gridLayoutManager);
+                rc_good.setAdapter(adapter);
+
+            }
+        });
 
 
         allgrp();

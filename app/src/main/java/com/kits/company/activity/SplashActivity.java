@@ -90,6 +90,8 @@ public class SplashActivity extends AppCompatActivity {
             sEdit.putString("basket_position", " ");
             sEdit.putString("CustomerName", "معرفی نشده");
             sEdit.putString("view", "grid");
+            sEdit.putBoolean("available_good", false);
+
             sEdit.apply();
         }
     }

@@ -96,6 +96,10 @@ public class Search_box {
                     Integer i=0;
                     Integer j=0;
                     Goodtype = response.body().getColumns();
+                    Column Column_all = new Column();
+                    Column_all.setGoodType("همه");
+                    Column_all.setIsDefault(0);
+                    Goodtype.add(0,Column_all);
                     for ( Column Column_Goodtype : Goodtype){
                         Goodtype_array.add(Column_Goodtype.getColumnFieldValue("goodtype"));
                         if(Integer.parseInt(Column_Goodtype.getColumnFieldValue("IsDefault"))==1){

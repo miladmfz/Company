@@ -23,9 +23,17 @@
             app:titleTextColor="@color/white"
             android:background="?attr/colorPrimary"
             android:fontFamily="@font/iransansmobile_medium"
-
             app:title="لیست علاقه مندی ها">
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/favoriteactivity_switch"
+                android:checked="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:text="@string/active_activeswitch"
+                android:textColor="@color/white"
 
+                />
 
 
 

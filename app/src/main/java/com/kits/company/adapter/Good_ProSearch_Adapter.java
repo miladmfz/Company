@@ -27,13 +27,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import com.google.android.material.card.MaterialCardView;
 
-import androidx.databinding.BindingAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.kits.company.R;
 import com.kits.company.activity.DetailActivity;
 import com.kits.company.activity.GrpActivity;
@@ -47,6 +45,7 @@ import com.kits.company.webService.API_image;
 
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -58,25 +57,25 @@ import retrofit2.Response;
 public class Good_ProSearch_Adapter extends RecyclerView.Adapter<Good_ProSearch_Adapter.GoodViewHolder>{
     private final Context mContext;
     DecimalFormat decimalFormat= new DecimalFormat("0,000");
-    private final List<Good> goods;
+    private List<Good> goods;
+    private final List<Good> available_goods = new ArrayList<>();
+    private final List<Good> all_goods;
     public APIInterface apiInterface_image = API_image.getCleint().create(APIInterface.class);
     public Call<String> call2;
-    byte[] imageByteArray ;
-
     public boolean multi_select;
-
     private  Intent intent;
-
-    private String SERVER_IP_ADDRESS,price,name;
-    Integer code=0 ;
-    String UnitName;
     SharedPreferences shPref ;
 
-    public Good_ProSearch_Adapter(List<Good> goods, Context mContext)
+    public Good_ProSearch_Adapter(List<Good> goods, Context context)
     {
-        this.mContext = mContext;
-        this.goods = goods;
-        SERVER_IP_ADDRESS = mContext.getString(R.string.SERVERIP);
+        this.mContext = context;
+        shPref = mContext.getSharedPreferences("profile", Context.MODE_PRIVATE);
+        this.all_goods = goods;
+        for (Good g : all_goods) {
+            if (Integer.parseInt(g.getGoodFieldValue("HasStackAmount"))>0) {
+                this.available_goods.add(g);
+            }
+        }
     }
     @NonNull
     @Override
@@ -89,12 +88,18 @@ public class Good_ProSearch_Adapter extends RecyclerView.Adapter<Good_ProSearch_
     @Override
     public void onBindViewHolder(@NonNull final GoodViewHolder holder, final int position)
     {
-        code=0;
-        final int myps= position;
+
+        if(shPref.getBoolean("available_good", true)){
+            goods = available_goods;
+        }else{
+            goods = all_goods;
+        }
+
         final Good goodView = goods.get(position);
 
-        //String img = goodView.getImageName();
+
         holder.img.setVisibility(View.INVISIBLE);
+        holder.rltv.setVisibility(View.VISIBLE);
 
         if(goods.get(position).isCheck()){
             holder.rltv.setChecked(true);
@@ -117,24 +122,19 @@ public class Good_ProSearch_Adapter extends RecyclerView.Adapter<Good_ProSearch_
             holder.rltv.setCheckable(true);
 
         }else {
-            holder.btnadd.setVisibility(View.INVISIBLE);
-            holder.maxsellpriceTextView.setVisibility(View.GONE);
-            holder.sellpercent.setText("ناموجود");
-            holder.sellpercent.setTextColor(mContext.getResources().getColor(R.color.red_300));
-            holder.rltv.setCheckable(true);
-            goods.get(position).setCheck(false);
-            holder.rltv.setCheckable(false);
+
+                holder.btnadd.setVisibility(View.INVISIBLE);
+                holder.maxsellpriceTextView.setVisibility(View.GONE);
+                holder.sellpercent.setText("ناموجود");
+                holder.sellpercent.setTextColor(mContext.getResources().getColor(R.color.red_300));
+                holder.rltv.setCheckable(true);
+                goods.get(position).setCheck(false);
+                holder.rltv.setCheckable(false);
+
         }
 
 
-
         holder.goodnameTextView.setText(Farsi_number.PerisanNumber(goodView.getGoodFieldValue("GoodName")));
-
-
-        code=Integer.parseInt(goodView.getGoodFieldValue("GoodCode"));
-
-        price=goodView.getGoodFieldValue("SellPrice");
-        name=goodView.getGoodFieldValue("GoodName");
 
         if(!goods.get(position).getGoodFieldValue("GoodImageName").equals("")){
             Glide.with(holder.img)
@@ -253,7 +253,7 @@ public class Good_ProSearch_Adapter extends RecyclerView.Adapter<Good_ProSearch_
 
                     }
                 }else {
-                    Good goodView = goods.get(myps);
+                    Good goodView = goods.get(position);
                     intent = new Intent(mContext, DetailActivity.class);
                     intent.putExtra("id",Integer.parseInt(goodView.getGoodFieldValue("GoodCode")));
                     mContext.startActivity(intent);
@@ -331,7 +331,11 @@ public class Good_ProSearch_Adapter extends RecyclerView.Adapter<Good_ProSearch_
     @Override
     public int getItemCount()
     {
-        return goods.size();
+        if(shPref.getBoolean("available_good", true)){
+            return available_goods.size();
+        }else{
+            return all_goods.size();
+        }
     }
 
 

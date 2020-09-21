@@ -1,6 +1,7 @@
 package com.kits.company.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -15,10 +16,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.kits.company.R;
 import com.kits.company.adapter.Good_ProSearch_Adapter;
 import com.kits.company.adapter.InternetConnection;
@@ -54,6 +57,8 @@ public class FavoriteActivity extends AppCompatActivity {
     private boolean loading = true;
     int pastVisiblesItems, visibleItemCount, totalItemCount,PageNo=0;
     Call<GoodRespons> call;
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,9 +78,28 @@ public class FavoriteActivity extends AppCompatActivity {
     public void init() {
         shPref = getSharedPreferences("profile", Context.MODE_PRIVATE);
 
+        toolbar =  findViewById(R.id.favoriteactivity_toolbar);
+
         prog = findViewById(R.id.favoriteactivity_prog);
         rc_good =  findViewById(R.id.favoriteactivity_recycler);
 
+        setSupportActionBar(toolbar);
+
+        final SwitchMaterial mySwitch_activestack = findViewById(R.id.favoriteactivity_switch);
+        mySwitch_activestack.setChecked(shPref.getBoolean("available_good", true));
+        mySwitch_activestack.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                sEdit.putBoolean("available_good",!shPref.getBoolean("available_good", true));
+                sEdit.apply();
+                adapter.notifyDataSetChanged();
+                gridLayoutManager = new GridLayoutManager(FavoriteActivity.this,2);
+                gridLayoutManager.scrollToPosition(pastVisiblesItems+2);
+                rc_good.setLayoutManager(gridLayoutManager);
+                rc_good.setAdapter(adapter);
+
+            }
+        });
 
         allgood();
 
