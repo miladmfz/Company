@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string name="app_name">company</string>
+    <string name="SERVERIP">87.107.78.234:60005</string>
+
+
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+
+    <string name="buy_total">مبلغ نهایی</string>
+    <string name="buy_totalamount">تعداد کل:</string>
+    <string name="buy_rows">تعداد ردیف:</string>
+    <string name="buy_deletall">حذف سبد</string>
+    <string name="buy_tollbarname">سبد خرید</string>
+    <string name="buy_sendfactor">نهایی کردن سبد خرید</string>
+    <string name="totalfactorheader">مبلغ :</string>
+    <string name="detail_buy">افزودن به سبدخرید</string>
+    <string name="amount">تعداد</string>
+    <string name="active_activeswitch">فعال</string>
+    <string name="prefactor_date">تاریخ :</string>
+    <string name="prefactor_code">فاکتور کد :</string>
+    <string name="good_buy_name">نام کالا :</string>
+    <string name="good_buy_sellprice">قیمت جز کالا :</string>
+    <string name="good_buy_totalsellprice">قیمت کل کالا :</string>
+    <string name="good_buy_maxsellprice">فی ناخالص :</string>
+    <string name="good_buy_amount">تعداد :</string>
+    <string name="good_buy_ReservedRows">وضعیت کالا :</string>
+    <string name="good_buy_imaga_Description">good_buy_imaga_Description</string>
+    <string name="good_buy_offer">offer</string>
+    <string name="good_buy_delete">حذف از سبد</string>
+    <string name="baskethistory">تاریخچه خرید</string>
+
+
+
+
+</resources>

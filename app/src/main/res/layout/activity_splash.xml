@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/back_login"
+
+    android:layoutDirection="rtl"
+    >
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/splash_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/progressBar1"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:indeterminate="true"
+            android:paddingBottom="50dp"
+            android:theme="@style/AppTheme.WhiteAccent"
+
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/splash_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:text="تلاش مجدد"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:visibility="gone"
+            android:textStyle="bold"
+            android:background="@color/white"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

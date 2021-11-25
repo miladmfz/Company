@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+
+
+        <item
+            android:id="@+id/nav_Search"
+            android:icon="@drawable/ic_search_black_24dp"
+
+            android:title="جستجوی کالا" />
+
+        <item
+            android:id="@+id/nav_news"
+            android:icon="@drawable/ic_fiber_new_black_24dp"
+
+            android:title="جدید ترین ها" />
+
+        <item
+            android:id="@+id/nav_allview"
+            android:icon="@drawable/ic_clear_all_black_24dp"
+
+            android:title="دسته بندی ها" />
+
+        <item
+            android:id="@+id/nav_Favorite"
+            android:icon="@drawable/ic_favorite_black_24dp"
+
+            android:title="لیست علاقه مندی ها" />
+
+        <item
+            android:id="@+id/nav_buybag"
+            android:icon="@drawable/ic_shopping_cart_black_24dp"
+
+            android:title="سبد خرید" />
+
+        <item
+            android:id="@+id/nav_factors"
+            android:icon="@drawable/ic_date_w"
+
+            android:title="تاریخچه خرید" />
+
+
+    </group>
+
+    <item android:title="عمومی"
+         >
+        <menu>
+            <item
+                android:id="@+id/nav_reg"
+                android:icon="@drawable/ic_config_w"
+
+                android:title="مشخصات کاربری" />
+
+            <item
+                android:id="@+id/aboutus"
+                android:icon="@drawable/ic_info_black_24dp"
+
+                android:title="درباره ی ما"
+                android:visible="false"/>
+
+            <item
+            android:id="@+id/calltous"
+            android:icon="@drawable/nav_about_us"
+
+            android:title="تماس با ما"
+            android:visible="true"/>
+            <item
+
+                android:title=" "
+                android:visible="true"
+                />
+
+        </menu>
+    </item>
+
+</menu>

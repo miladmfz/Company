@@ -1,0 +1,50 @@
+package com.kits.company.model;
+
+import com.google.gson.annotations.SerializedName;
+
+public class GoodGroup {
+
+
+
+    @SerializedName("GroupCode")
+    private String GroupCode;
+    @SerializedName("Name")
+    private String Name;
+    @SerializedName("L1")
+    private String L1;
+    @SerializedName("L2")
+    private String L2;
+    @SerializedName("L3")
+    private String L3;
+    @SerializedName("L4")
+    private String L4;
+    @SerializedName("L5")
+    private String L5;
+    @SerializedName("ChildNo")
+    private String ChildNo;
+    @SerializedName("ErrCode")
+    private String ErrCode;
+    @SerializedName("ErrDesc")
+    private String ErrDesc;
+
+    public void setName(String name) {Name = name;}
+
+    public String getGoodGroupFieldValue(String AKey) {
+
+        String iKey = AKey.toLowerCase();
+        String Res = "";
+        if (iKey.equals("name")) {Res = Name;}
+        else if (iKey.equals("groupcode")) {if (GroupCode == null) Res = "";else Res = GroupCode;}
+        else if (iKey.equals("l1")) {if (L1 == null) Res = "";else Res = L1;}
+        else if (iKey.equals("l2")) {if (L2 == null) Res = "";else Res = L2;}
+        else if (iKey.equals("l3")) {if (L3 == null) Res = "";else Res = L3;}
+        else if (iKey.equals("l4")) {if (L4 == null) Res = "";else Res = L4;}
+        else if (iKey.equals("l5")) {if (L5 == null) Res = "";else Res = L5;}
+        else if (iKey.equals("childno")) {if (ChildNo == null) Res = "";else Res = ChildNo;}
+        else if (iKey.equals("errcode")) {if (ErrCode == null) Res = "";else Res = ErrCode;}
+        else if (iKey.equals("errdesc")) {if (ErrDesc == null) Res = "";else Res = ErrDesc;}
+
+        return Res;
+    }
+
+    }
