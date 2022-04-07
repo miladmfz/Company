@@ -25,9 +25,11 @@ import com.kits.company.adapter.InternetConnection;
 import com.kits.company.application.App;
 import com.kits.company.model.Good;
 import com.kits.company.model.NumberFunctions;
-import com.kits.company.model.RetrofitRespons;
+import com.kits.company.model.RetrofitResponse;
 import com.kits.company.webService.APIClient;
 import com.kits.company.webService.APIInterface;
+
+import org.jetbrains.annotations.NotNull;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -61,11 +63,15 @@ public class BuyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_buy);
 
 
-        InternetConnection ic =new  InternetConnection(App.getContext());
+        InternetConnection ic =new  InternetConnection(this);
         if(ic.has()){
-            init();
+            try {
+                init();
+            }catch (Exception e){
+                GetShared.ErrorLog(e.getMessage());
+            }
         } else{
-            intent = new Intent(App.getContext(), SplashActivity.class);
+            intent = new Intent(this, SplashActivity.class);
             startActivity(intent);
             finish();
         }
@@ -90,13 +96,13 @@ public class BuyActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        Call<RetrofitRespons> call = apiInterface.Getbasket(
+        Call<RetrofitResponse> call = apiInterface.Getbasket(
                 "BasketGet",
                 GetShared.ReadString("mobile")
         );
-        call.enqueue(new Callback<RetrofitRespons>() {
+        call.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(@NotNull Call<RetrofitRespons> call,@NotNull Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call,@NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     Goods = response.body().getGoods();
@@ -120,7 +126,7 @@ public class BuyActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(@NotNull Call<RetrofitRespons> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                     Log.e("retrofit_fail",t.getMessage());
             }
         });
@@ -128,13 +134,13 @@ public class BuyActivity extends AppCompatActivity {
 
 
 
-        Call<RetrofitRespons> call2 = apiInterface.GetbasketSum(
+        Call<RetrofitResponse> call2 = apiInterface.GetbasketSum(
                 "BasketSum",
                 GetShared.ReadString("mobile")
         );
-        call2.enqueue(new Callback<RetrofitRespons>() {
+        call2.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(@NotNull Call<RetrofitRespons> call,@NotNull  Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call,@NotNull  Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                      Goods_sum = response.body().getGoods();
@@ -151,7 +157,7 @@ public class BuyActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(@NotNull Call<RetrofitRespons> call,@NotNull Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call,@NotNull Throwable t) {
                     Log.e("retrofit_fail",t.getMessage());
             }
         });
@@ -177,24 +183,24 @@ public class BuyActivity extends AppCompatActivity {
 
 
         final_buy_test.setOnClickListener(view -> {
-            intent = new Intent(App.getContext(), FinalbuyActivity.class);
+            intent = new Intent(this, FinalbuyActivity.class);
             finish();
             startActivity(intent);
         });
 
 
-        total_delete.setOnClickListener(view -> new AlertDialog.Builder(BuyActivity.this)
+        total_delete.setOnClickListener(view -> new AlertDialog.Builder(this)
                 .setTitle("توجه")
                 .setMessage("آیا مایل به خالی کردن سبد خرید می باشید؟")
                 .setPositiveButton("بله", (dialogInterface, i) -> {
 
-                    Call<RetrofitRespons> call1 = apiInterface.Basketdeleteall(
+                    Call<RetrofitResponse> call1 = apiInterface.Basketdeleteall(
                             "Basketdeleteall",
                             GetShared.ReadString("mobile")
                     );
-                    call1.enqueue(new Callback<RetrofitRespons>() {
+                    call1.enqueue(new Callback<RetrofitResponse>() {
                         @Override
-                        public void onResponse(@NotNull  Call<RetrofitRespons> call1, @NotNull  Response<RetrofitRespons> response) {
+                        public void onResponse(@NotNull  Call<RetrofitResponse> call1, @NotNull  Response<RetrofitResponse> response) {
                             if (response.isSuccessful()) {
                                 assert response.body() != null;
                                 if (response.body().getText().equals("done")) {
@@ -204,7 +210,7 @@ public class BuyActivity extends AppCompatActivity {
                             }
                         }
                         @Override
-                        public void onFailure(@NotNull Call<RetrofitRespons> call1,@NotNull  Throwable t) {
+                        public void onFailure(@NotNull Call<RetrofitResponse> call1,@NotNull  Throwable t) {
                             Log.e("retrofit_fail",t.getMessage());
                         }
                     });
@@ -239,10 +245,10 @@ public class BuyActivity extends AppCompatActivity {
         Goods.get(position).setFacAmount(amount);
         adapter.notifyDataSetChanged();
 
-        Call<RetrofitRespons> call2 = apiInterface.GetbasketSum("BasketSum",GetShared.ReadString("mobile"));
-        call2.enqueue(new Callback<RetrofitRespons>() {
+        Call<RetrofitResponse> call2 = apiInterface.GetbasketSum("BasketSum",GetShared.ReadString("mobile"));
+        call2.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(@NotNull Call<RetrofitRespons> call,@NotNull  Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call,@NotNull  Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                      Goods_sum= response.body().getGoods();
@@ -259,7 +265,7 @@ public class BuyActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(@NotNull Call<RetrofitRespons> call,@NotNull  Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call,@NotNull  Throwable t) {
                 Log.e("retrofit_fail",t.getMessage());
             }
         });

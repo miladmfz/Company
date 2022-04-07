@@ -21,6 +21,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.kits.company.R;
@@ -29,11 +30,13 @@ import com.kits.company.adapter.Good_ProSearch_Adapter;
 import com.kits.company.adapter.Good_ProSearch_Line_Adapter;
 import com.kits.company.adapter.InternetConnection;
 import com.kits.company.application.App;
-import com.kits.company.model.NumberFunctions;
 import com.kits.company.model.Good;
-import com.kits.company.model.RetrofitRespons;
+import com.kits.company.model.NumberFunctions;
+import com.kits.company.model.RetrofitResponse;
 import com.kits.company.webService.APIClient;
 import com.kits.company.webService.APIInterface;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -68,11 +71,15 @@ public class Search_date_detailActivity extends AppCompatActivity {
 
 
 
-        InternetConnection ic =new  InternetConnection(App.getContext());
+        InternetConnection ic =new  InternetConnection(this);
         if(ic.has()){
-            init();
+            try {
+                init();
+            }catch (Exception e){
+                GetShared.ErrorLog(e.getMessage());
+            }
         } else{
-            intent = new Intent(App.getContext(), SplashActivity.class);
+            intent = new Intent(this, SplashActivity.class);
             startActivity(intent);
             finish();
         }
@@ -138,10 +145,10 @@ public class Search_date_detailActivity extends AppCompatActivity {
 
         fab.setOnClickListener(v -> {
 
-           final Dialog dialog = new Dialog(App.getContext());
+           final Dialog dialog = new Dialog(this);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);//title laye nadashte bashim
             dialog.setContentView(R.layout.box_multi_buy);
-            Button boxbuy = dialog.findViewById(R.id.box_multi_buy_btn);
+            MaterialButton boxbuy = dialog.findViewById(R.id.box_multi_buy_btn);
             final EditText amount_mlti = dialog.findViewById(R.id.box_multi_buy_amount);
             final TextView tv = dialog.findViewById(R.id.box_multi_buy_factor);
             dialog.show();
@@ -164,7 +171,7 @@ public class Search_date_detailActivity extends AppCompatActivity {
 
                             for (final String[] s : Multi_buy) {
 
-                                Call<RetrofitRespons> call_amount = apiInterface.GetAllGood(
+                                Call<RetrofitResponse> call_amount = apiInterface.GetAllGood(
                                         "goodinfo",
                                         "0",
                                         "",
@@ -173,12 +180,12 @@ public class Search_date_detailActivity extends AppCompatActivity {
                                         "0",
                                         GetShared.ReadString("mobile"),
                                         "0");
-                                call_amount.enqueue(new Callback<RetrofitRespons>() {
+                                call_amount.enqueue(new Callback<RetrofitResponse>() {
                                     @Override
-                                    public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+                                    public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                                         ArrayList<Good> goods = response.body().getGoods();
                                         Good good= goods.get(0);
-                                        Call<RetrofitRespons> call2 = apiInterface.InsertBasket(
+                                        Call<RetrofitResponse> call2 = apiInterface.InsertBasket(
                                                 "Insertbasket",
                                                 "DeviceCode",
                                                 s[0],
@@ -188,9 +195,9 @@ public class Search_date_detailActivity extends AppCompatActivity {
                                                 s[4],
                                                 "test",
                                                 GetShared.ReadString("mobile"));
-                                        call2.enqueue(new Callback<RetrofitRespons>() {
+                                        call2.enqueue(new Callback<RetrofitResponse>() {
                                             @Override
-                                            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+                                            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                                                 Goods = response.body().getGoods();
                                                 if (Integer.parseInt(Goods.get(0).getGoodFieldValue("ErrCode"))> 0){
                                                     App.showToast( Goods.get(0).getGoodFieldValue("ErrDesc")+"برای"+s[2]);
@@ -199,13 +206,13 @@ public class Search_date_detailActivity extends AppCompatActivity {
                                                 }
                                             }
                                             @Override
-                                            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+                                            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                                                 Log.e("onFailure", "" + t.toString());
                                             }
                                         });
                                     }
                                     @Override
-                                    public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+                                    public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                                     }
                                 });
 
@@ -241,7 +248,7 @@ public class Search_date_detailActivity extends AppCompatActivity {
 
     private void allgood() {
 
-        Call<RetrofitRespons> call = apiInterface.GetAllGood(
+        Call<RetrofitResponse> call = apiInterface.GetAllGood(
                 "goodinfo",
                 "0",
                 "",
@@ -251,9 +258,9 @@ public class Search_date_detailActivity extends AppCompatActivity {
                 GetShared.ReadString("mobile"),
                 "0"
         );
-        call.enqueue(new Callback<RetrofitRespons>() {
+        call.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     goods = response.body().getGoods();
                     if(GetShared.ReadString("view").equals("grid")){
@@ -283,7 +290,7 @@ public class Search_date_detailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                     Log.e("retrofit_fail",t.getMessage());
            }
         });
@@ -293,7 +300,7 @@ public class Search_date_detailActivity extends AppCompatActivity {
 
     private void allgood_more() {
         prog.setVisibility(View.VISIBLE);
-        Call<RetrofitRespons> call = apiInterface.GetAllGood(
+        Call<RetrofitResponse> call = apiInterface.GetAllGood(
                 "goodinfo",
                 "0",
                 "",
@@ -303,9 +310,9 @@ public class Search_date_detailActivity extends AppCompatActivity {
                 GetShared.ReadString("mobile"),
                 "0"
         );
-        call.enqueue(new Callback<RetrofitRespons>() {
+        call.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     ArrayList<Good> good_page = response.body().getGoods();
                     goods.addAll(good_page);
@@ -321,7 +328,7 @@ public class Search_date_detailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                 PageNo--;
                 prog.setVisibility(View.GONE);
                 loading = true;
@@ -353,7 +360,7 @@ public class Search_date_detailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.basket_menu) {
-            intent = new Intent(App.getContext(), BuyActivity.class);
+            intent = new Intent(this, BuyActivity.class);
             GetShared.EditString("basket_position", "0");
             startActivity(intent);
             return true;
@@ -421,13 +428,13 @@ public class Search_date_detailActivity extends AppCompatActivity {
             if (textCartItemCount.getVisibility() != View.GONE) {
                 textCartItemCount.setVisibility(View.GONE);
             }
-            Call<RetrofitRespons> call2 = apiInterface.GetbasketSum(
+            Call<RetrofitResponse> call2 = apiInterface.GetbasketSum(
                     "BasketSum",
                     GetShared.ReadString("mobile")
             );
-            call2.enqueue(new Callback<RetrofitRespons>() {
+            call2.enqueue(new Callback<RetrofitResponse>() {
                 @Override
-                public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+                public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                     if (response.isSuccessful()) {
                         assert response.body() != null;
                         Goods_setupBadge = response.body().getGoods();
@@ -441,7 +448,7 @@ public class Search_date_detailActivity extends AppCompatActivity {
                     }
                 }
                 @Override
-                public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+                public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                     Log.e("retrofit_fail",t.getMessage());
                 }
             });
@@ -483,7 +490,7 @@ public class Search_date_detailActivity extends AppCompatActivity {
 
     public void set_rc_good() {
         if(GetShared.ReadString("view").equals("grid")){
-            adapter = new Good_ProSearch_Adapter(goods,Search_date_detailActivity.this);
+            adapter = new Good_ProSearch_Adapter(goods,this);
             adapter.multi_select=false;
             gridLayoutManager = new GridLayoutManager(App.getContext(),2);
             gridLayoutManager.scrollToPosition(pastVisiblesItems+2);
@@ -492,7 +499,7 @@ public class Search_date_detailActivity extends AppCompatActivity {
             rc_good.setItemAnimator(new FlipInTopXAnimator());
 
         }else{
-            adapter_line = new Good_ProSearch_Line_Adapter(goods, Search_date_detailActivity.this);
+            adapter_line = new Good_ProSearch_Line_Adapter(goods, this);
             adapter_line.multi_select=false;
             gridLayoutManager = new GridLayoutManager(App.getContext(),1);
             gridLayoutManager.scrollToPosition(pastVisiblesItems+1);

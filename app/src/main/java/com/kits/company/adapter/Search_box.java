@@ -2,7 +2,6 @@ package com.kits.company.adapter;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Build;
 import android.view.Gravity;
@@ -21,15 +20,14 @@ import com.google.android.material.button.MaterialButton;
 import com.kits.company.R;
 import com.kits.company.activity.GrpActivity;
 import com.kits.company.activity.SearchActivity;
-import com.kits.company.application.App;
 import com.kits.company.model.Column;
-import com.kits.company.model.Good;
 import com.kits.company.model.NumberFunctions;
-import com.kits.company.model.RetrofitRespons;
+import com.kits.company.model.RetrofitResponse;
 import com.kits.company.webService.APIClient;
 import com.kits.company.webService.APIInterface;
 
-import java.text.DecimalFormat;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -71,10 +69,10 @@ public class Search_box {
 
 
 
-        Call<RetrofitRespons> call = apiInterface.GetGoodType("GetGoodType");
-        call.enqueue(new Callback<RetrofitRespons>() {
+        Call<RetrofitResponse> call = apiInterface.GetGoodType("GetGoodType");
+        call.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
 
                     Integer i=0;
@@ -102,7 +100,7 @@ public class Search_box {
             }
 
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
 
             }
         });
@@ -131,11 +129,11 @@ public class Search_box {
 
     public void pro_c(String Goodtype) {
 
-        Call<RetrofitRespons> call = apiInterface.GetColumn("GetColumnList","0",Goodtype,"3");
-        call.enqueue(new Callback<RetrofitRespons>() {
+        Call<RetrofitResponse> call = apiInterface.GetColumn("GetColumnList","0",Goodtype,"3");
+        call.enqueue(new Callback<RetrofitResponse>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     Columns = response.body().getColumns();
                     for ( Column Column : Columns){
@@ -261,7 +259,7 @@ public class Search_box {
                 }
             }
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
 
             }
         });

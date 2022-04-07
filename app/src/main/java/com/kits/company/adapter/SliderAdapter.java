@@ -18,11 +18,12 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.kits.company.R;
 import com.kits.company.activity.DetailActivity;
-import com.kits.company.activity.MainActivity;
 import com.kits.company.application.App;
 import com.kits.company.model.Good;
-import com.kits.company.model.RetrofitRespons;
+import com.kits.company.model.RetrofitResponse;
 import com.kits.company.webService.APIInterface;
+
+import org.jetbrains.annotations.NotNull;
 import com.kits.company.webService.API_image;
 import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
@@ -86,14 +87,14 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.GoodViewHolde
 
 
         }else {
-            Call<RetrofitRespons> call2 = apiInterface_image.GetImage(
+            Call<RetrofitResponse> call2 = apiInterface_image.GetImage(
                     "getImage",
                     code.toString(),
                     String.valueOf(position),"400"
                     );
-            call2.enqueue(new Callback<RetrofitRespons>() {
+            call2.enqueue(new Callback<RetrofitResponse>() {
                 @Override
-                public void onResponse(Call<RetrofitRespons> call2, Response<RetrofitRespons> response) {
+                public void onResponse(Call<RetrofitResponse> call2, Response<RetrofitResponse> response) {
                     if (response.isSuccessful()) {
                         assert response.body() != null;
                         try {
@@ -128,7 +129,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.GoodViewHolde
                     }
                 }
                 @Override
-                public void onFailure(Call<RetrofitRespons> call2, Throwable t) {
+                public void onFailure(Call<RetrofitResponse> call2, Throwable t) {
                     Log.e("onFailure", "" + t.toString());
                 }
             });
@@ -162,7 +163,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.GoodViewHolde
     }
 
 
-    class GoodViewHolder extends SliderViewAdapter.ViewHolder {
+    class GoodViewHolder extends ViewHolder {
 
         View itemView;
         ImageView imageViewBackground;

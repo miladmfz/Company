@@ -39,12 +39,14 @@ import com.kits.company.adapter.Grp_Vlist_detail_Adapter;
 import com.kits.company.adapter.InternetConnection;
 import com.kits.company.adapter.Search_box;
 import com.kits.company.application.App;
-import com.kits.company.model.NumberFunctions;
 import com.kits.company.model.Good;
 import com.kits.company.model.GoodGroup;
-import com.kits.company.model.RetrofitRespons;
+import com.kits.company.model.NumberFunctions;
+import com.kits.company.model.RetrofitResponse;
 import com.kits.company.webService.APIClient;
 import com.kits.company.webService.APIInterface;
+
+import org.jetbrains.annotations.NotNull;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -93,11 +95,15 @@ public class GrpActivity extends AppCompatActivity {
 
         intent();
 
-        InternetConnection ic =new  InternetConnection(App.getContext());
+        InternetConnection ic =new  InternetConnection(this);
         if(ic.has()){
-            init();
+            try {
+                init();
+            }catch (Exception e){
+                GetShared.ErrorLog(e.getMessage());
+            }
         } else{
-            intent = new Intent(App.getContext(), SplashActivity.class);
+            intent = new Intent(this, SplashActivity.class);
             startActivity(intent);
             finish();
         }
@@ -213,7 +219,7 @@ public class GrpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final Dialog dialog = new Dialog(App.getContext());
+                final Dialog dialog = new Dialog(GrpActivity.this);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);//title laye nadashte bashim
                 dialog.setContentView(R.layout.box_multi_buy);
                 Button boxbuy = dialog.findViewById(R.id.box_multi_buy_btn);
@@ -238,7 +244,7 @@ public class GrpActivity extends AppCompatActivity {
 
                                 for (final String[] s : Multi_buy) {
 
-                                    Call<RetrofitRespons> call_amount = apiInterface.GetAllGood
+                                    Call<RetrofitResponse> call_amount = apiInterface.GetAllGood
                                             ("goodinfo",
                                                     "0",
                                                     "",
@@ -247,12 +253,12 @@ public class GrpActivity extends AppCompatActivity {
                                                     "0",
                                                     GetShared.ReadString("mobile"),
                                                     "0");
-                                    call_amount.enqueue(new Callback<RetrofitRespons>() {
+                                    call_amount.enqueue(new Callback<RetrofitResponse>() {
                                         @Override
-                                        public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+                                        public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                                             ArrayList<Good> goods = response.body().getGoods();
                                             Good good= goods.get(0);
-                                            Call<RetrofitRespons> call2 = apiInterface.InsertBasket(
+                                            Call<RetrofitResponse> call2 = apiInterface.InsertBasket(
                                                     "Insertbasket",
                                                     "DeviceCode",
                                                     s[0],
@@ -263,9 +269,9 @@ public class GrpActivity extends AppCompatActivity {
                                                     "test",
                                                     GetShared.ReadString("mobile")
                                             );
-                                            call2.enqueue(new Callback<RetrofitRespons>() {
+                                            call2.enqueue(new Callback<RetrofitResponse>() {
                                                 @Override
-                                                public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+                                                public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                                                     Log.e("onResponse", "" + response.body());
                                                     assert response.body() != null;
                                                     Goods = response.body().getGoods();
@@ -276,13 +282,13 @@ public class GrpActivity extends AppCompatActivity {
                                                     }
                                                 }
                                                 @Override
-                                                public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+                                                public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                                                     Log.e("onFailure", "" + t.toString());
                                                 }
                                             });
                                         }
                                         @Override
-                                        public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+                                        public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                                         }
                                     });
 
@@ -319,13 +325,13 @@ public class GrpActivity extends AppCompatActivity {
     private void allgrp() {
 
 
-        Call<RetrofitRespons> call = apiInterface.Getgrp(
+        Call<RetrofitResponse> call = apiInterface.Getgrp(
                 "GoodGroupInfo",
                 String.valueOf(id)
         );
-        call.enqueue(new Callback<RetrofitRespons>() {
+        call.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     Groups = response.body().getGroups();
                     Grp_Vlist_detail_Adapter adapter = new Grp_Vlist_detail_Adapter(Groups, App.getContext());
@@ -337,7 +343,7 @@ public class GrpActivity extends AppCompatActivity {
                 }
             }
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                 rc_grp.setVisibility(View.GONE);
             }
         });
@@ -346,7 +352,7 @@ public class GrpActivity extends AppCompatActivity {
     public void allgood(String edtsearch,String where) {
         prog.setVisibility(View.VISIBLE);
         prog.setVisibility(View.VISIBLE);
-        Call<RetrofitRespons> call = apiInterface.GetAllGood(
+        Call<RetrofitResponse> call = apiInterface.GetAllGood(
                 "goodinfo",
                 "0",
                 edtsearch,
@@ -356,9 +362,9 @@ public class GrpActivity extends AppCompatActivity {
                 GetShared.ReadString("mobile"),
                 "0"
         );
-        call.enqueue(new Callback<RetrofitRespons>() {
+        call.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     goods = response.body().getGoods();
                     if(GetShared.ReadString("view").equals("grid")){
@@ -382,7 +388,7 @@ public class GrpActivity extends AppCompatActivity {
                 }
             }
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                 prog.setVisibility(View.GONE);
                 App.showToast("کالایی در این گروه یافت نشد");
                 PageNo=0;
@@ -393,7 +399,7 @@ public class GrpActivity extends AppCompatActivity {
 
     private void allgood_more(String edtsearch,String where) {
         prog.setVisibility(View.VISIBLE);
-        Call<RetrofitRespons> call = apiInterface.GetAllGood(
+        Call<RetrofitResponse> call = apiInterface.GetAllGood(
                 "goodinfo",
                 "0",
                 edtsearch,
@@ -403,9 +409,9 @@ public class GrpActivity extends AppCompatActivity {
                 GetShared.ReadString("mobile"),
                 "0"
         );
-        call.enqueue(new Callback<RetrofitRespons>() {
+        call.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     ArrayList<Good> good_page = response.body().getGoods();
                     goods.addAll(good_page);
@@ -420,7 +426,7 @@ public class GrpActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                 PageNo--;
                 prog.setVisibility(View.GONE);
                 loading = true;
@@ -463,7 +469,7 @@ public class GrpActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.basket_menu) {
-            intent = new Intent(App.getContext(), BuyActivity.class);
+            intent = new Intent(this, BuyActivity.class);
             GetShared.EditString("basket_position", "0");
             startActivity(intent);
             return true;
@@ -523,13 +529,13 @@ public class GrpActivity extends AppCompatActivity {
             if (textCartItemCount.getVisibility() != View.GONE) {
                 textCartItemCount.setVisibility(View.GONE);
             }
-            Call<RetrofitRespons> call2 = apiInterface.GetbasketSum(
+            Call<RetrofitResponse> call2 = apiInterface.GetbasketSum(
                     "BasketSum",
                     GetShared.ReadString("mobile")
             );
-            call2.enqueue(new Callback<RetrofitRespons>() {
+            call2.enqueue(new Callback<RetrofitResponse>() {
                 @Override
-                public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+                public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                     if (response.isSuccessful()) {
                         assert response.body() != null;
                         Goods_setupBadge = response.body().getGoods();
@@ -542,7 +548,7 @@ public class GrpActivity extends AppCompatActivity {
                     }
                 }
                 @Override
-                public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+                public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                     Log.e("retrofit_fail",t.getMessage());
            }
             });
@@ -583,7 +589,7 @@ public class GrpActivity extends AppCompatActivity {
     public void set_rc_good() {
 
         if(GetShared.ReadString("view").equals("grid")){
-            adapter = new Good_ProSearch_Adapter(goods, GrpActivity.this);
+            adapter = new Good_ProSearch_Adapter(goods, this);
             adapter.multi_select=false;
             gridLayoutManager = new GridLayoutManager(App.getContext(),2);
             gridLayoutManager.scrollToPosition(pastVisiblesItems+2);
@@ -591,7 +597,7 @@ public class GrpActivity extends AppCompatActivity {
             rc_good.setAdapter(adapter);
             rc_good.setItemAnimator(new FlipInTopXAnimator());
         }else{
-            adapter_line = new Good_ProSearch_Line_Adapter(goods, GrpActivity.this);
+            adapter_line = new Good_ProSearch_Line_Adapter(goods, this);
             adapter_line.multi_select=false;
             gridLayoutManager = new GridLayoutManager(App.getContext(),1);
             gridLayoutManager.scrollToPosition(pastVisiblesItems+1);

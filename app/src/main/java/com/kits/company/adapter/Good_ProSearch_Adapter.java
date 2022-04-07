@@ -3,7 +3,6 @@ package com.kits.company.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StrikethroughSpan;
@@ -29,10 +28,12 @@ import com.kits.company.activity.GrpActivity;
 import com.kits.company.activity.SearchActivity;
 import com.kits.company.activity.Search_date_detailActivity;
 import com.kits.company.application.App;
-import com.kits.company.model.NumberFunctions;
 import com.kits.company.model.Good;
-import com.kits.company.model.RetrofitRespons;
+import com.kits.company.model.NumberFunctions;
+import com.kits.company.model.RetrofitResponse;
 import com.kits.company.webService.APIInterface;
+
+import org.jetbrains.annotations.NotNull;
 import com.kits.company.webService.API_image;
 
 import java.text.DecimalFormat;
@@ -50,7 +51,7 @@ public class Good_ProSearch_Adapter extends RecyclerView.Adapter<Good_ProSearch_
     private final List<Good> available_goods = new ArrayList<>();
     private List<Good> all_goods= new ArrayList<>();
     public APIInterface apiInterface_image = API_image.getCleint().create(APIInterface.class);
-    public Call<RetrofitRespons> call2;
+    public Call<RetrofitResponse> call2;
     public boolean multi_select;
     private  Intent intent;
     BuyBox buyBox;
@@ -176,9 +177,9 @@ public class Good_ProSearch_Adapter extends RecyclerView.Adapter<Good_ProSearch_
                     goodView.getGoodFieldValue("GoodCode"),
                     "0",
                     "150");
-            call2.enqueue(new Callback<RetrofitRespons>() {
+            call2.enqueue(new Callback<RetrofitResponse>() {
                 @Override
-                public void onResponse(Call<RetrofitRespons> call2, Response<RetrofitRespons> response) {
+                public void onResponse(Call<RetrofitResponse> call2, Response<RetrofitResponse> response) {
                     if (response.isSuccessful()) {
 
                         assert response.body() != null;
@@ -209,7 +210,7 @@ public class Good_ProSearch_Adapter extends RecyclerView.Adapter<Good_ProSearch_
                     }
                 }
                 @Override
-                public void onFailure(Call<RetrofitRespons> call2, Throwable t) {
+                public void onFailure(Call<RetrofitResponse> call2, Throwable t) {
                     Log.e("onFailure",""+t.toString());
                 }
             });
@@ -231,29 +232,29 @@ public class Good_ProSearch_Adapter extends RecyclerView.Adapter<Good_ProSearch_
                     holder.rltv.setChecked(!holder.rltv.isChecked());
                     goods.get(position).setCheck(!goods.get(position).isCheck());
                     if (goods.get(position).isCheck()) {
-                        if (App.getContext().getClass().getName().equals("com.kits.company.activity.SearchActivity")) {
-                            SearchActivity activity = (SearchActivity) App.getContext() ;
+                        if (mContext.getClass().getName().equals("com.kits.company.activity.SearchActivity")) {
+                            SearchActivity activity = (SearchActivity) mContext;
                             activity.good_select_function(goodView, 1);
                         }
-                        if (App.getContext().getClass().getName().equals("com.kits.company.activity.Search_date_detailActivity")) {
-                            Search_date_detailActivity activity = (Search_date_detailActivity) App.getContext() ;
+                        if (mContext.getClass().getName().equals("com.kits.company.activity.Search_date_detailActivity")) {
+                            Search_date_detailActivity activity = (Search_date_detailActivity) mContext;
                             activity.good_select_function(goodView, 1);
                         }
-                        if (App.getContext().getClass().getName().equals("com.kits.company.activity.GrpActivity")) {
-                            GrpActivity activity = (GrpActivity) App.getContext() ;
+                        if (mContext.getClass().getName().equals("com.kits.company.activity.GrpActivity")) {
+                            GrpActivity activity = (GrpActivity) mContext;
                             activity.good_select_function(goodView, 1);
                         }
                     } else {
-                        if (App.getContext().getClass().getName().equals("com.kits.company.activity.SearchActivity")) {
-                            SearchActivity activity = (SearchActivity) App.getContext() ;
+                        if (mContext.getClass().getName().equals("com.kits.company.activity.SearchActivity")) {
+                            SearchActivity activity = (SearchActivity) mContext;
                             activity.good_select_function(goodView, 0);
                         }
-                        if (App.getContext().getClass().getName().equals("com.kits.company.activity.Search_date_detailActivity")) {
-                            Search_date_detailActivity activity = (Search_date_detailActivity) App.getContext() ;
+                        if (mContext.getClass().getName().equals("com.kits.company.activity.Search_date_detailActivity")) {
+                            Search_date_detailActivity activity = (Search_date_detailActivity) mContext;
                             activity.good_select_function(goodView, 0);
                         }
-                        if (App.getContext().getClass().getName().equals("com.kits.company.activity.GrpActivity")) {
-                            GrpActivity activity = (GrpActivity) App.getContext() ;
+                        if (mContext.getClass().getName().equals("com.kits.company.activity.GrpActivity")) {
+                            GrpActivity activity = (GrpActivity) mContext;
                             activity.good_select_function(goodView, 0);
                         }
 
@@ -262,7 +263,7 @@ public class Good_ProSearch_Adapter extends RecyclerView.Adapter<Good_ProSearch_
                 }
             }else {
                 Good goodView1 = goods.get(position);
-                intent = new Intent(App.getContext(), DetailActivity.class);
+                intent = new Intent(mContext, DetailActivity.class);
                 intent.putExtra("id",Integer.parseInt(goodView1.getGoodFieldValue("GoodCode")));
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
@@ -286,29 +287,29 @@ public class Good_ProSearch_Adapter extends RecyclerView.Adapter<Good_ProSearch_
                 goods.get(position).setCheck(!goods.get(position).isCheck());
 
                 if (goods.get(position).isCheck()) {
-                    if (App.getContext().getClass().getName().equals("com.kits.company.activity.SearchActivity")) {
-                        SearchActivity activity = (SearchActivity) App.getContext() ;
+                    if (mContext.getClass().getName().equals("com.kits.company.activity.SearchActivity")) {
+                        SearchActivity activity = (SearchActivity) mContext;
                         activity.good_select_function(goodView, 1);
                     }
-                    if (App.getContext().getClass().getName().equals("com.kits.company.activity.Search_date_detailActivity")) {
-                        Search_date_detailActivity activity = (Search_date_detailActivity) App.getContext() ;
+                    if (mContext.getClass().getName().equals("com.kits.company.activity.Search_date_detailActivity")) {
+                        Search_date_detailActivity activity = (Search_date_detailActivity) mContext;
                         activity.good_select_function(goodView, 1);
                     }
-                    if (App.getContext().getClass().getName().equals("com.kits.company.activity.GrpActivity")) {
-                        GrpActivity activity = (GrpActivity) App.getContext() ;
+                    if (mContext.getClass().getName().equals("com.kits.company.activity.GrpActivity")) {
+                        GrpActivity activity = (GrpActivity) mContext;
                         activity.good_select_function(goodView, 1);
                     }
                 } else {
-                    if (App.getContext().getClass().getName().equals("com.kits.company.activity.SearchActivity")) {
-                        SearchActivity activity = (SearchActivity) App.getContext() ;
+                    if (mContext.getClass().getName().equals("com.kits.company.activity.SearchActivity")) {
+                        SearchActivity activity = (SearchActivity) mContext;
                         activity.good_select_function(goodView, 0);
                     }
-                    if (App.getContext().getClass().getName().equals("com.kits.company.activity.Search_date_detailActivity")) {
-                        Search_date_detailActivity activity = (Search_date_detailActivity) App.getContext() ;
+                    if (mContext.getClass().getName().equals("com.kits.company.activity.Search_date_detailActivity")) {
+                        Search_date_detailActivity activity = (Search_date_detailActivity) mContext;
                         activity.good_select_function(goodView, 0);
                     }
-                    if (App.getContext().getClass().getName().equals("com.kits.company.activity.GrpActivity")) {
-                        GrpActivity activity = (GrpActivity) App.getContext() ;
+                    if (mContext.getClass().getName().equals("com.kits.company.activity.GrpActivity")) {
+                        GrpActivity activity = (GrpActivity) mContext;
                         activity.good_select_function(goodView, 0);
                     }
 

@@ -53,9 +53,7 @@
                 android:hint="@string/amount"
                 android:maxLength="4"
                 android:inputType="number"
-                android:layout_weight="0.4"
-                android:focusable="true"
-                android:autofillHints="" />
+                android:layout_weight="0.4" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -79,6 +77,6 @@
         app:strokeWidth="1dp"
         app:icon="@drawable/ic_add_shopping_black"
         app:iconTint="@color/white"
-          />
+        />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

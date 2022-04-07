@@ -1,8 +1,6 @@
 package com.kits.company.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -12,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -24,14 +21,15 @@ import com.kits.company.adapter.GetShared;
 import com.kits.company.adapter.InternetConnection;
 import com.kits.company.application.App;
 import com.kits.company.model.NumberFunctions;
-import com.kits.company.model.RetrofitRespons;
+import com.kits.company.model.RetrofitResponse;
 import com.kits.company.model.User;
 import com.kits.company.webService.APIClient;
 import com.kits.company.webService.APIInterface;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,11 +56,15 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        InternetConnection ic =new  InternetConnection(App.getContext());
+        InternetConnection ic =new  InternetConnection(this);
         if(ic.has()){
-            init();
+            try {
+                init();
+            }catch (Exception e){
+                GetShared.ErrorLog(e.getMessage());
+            }
         } else{
-            intent = new Intent(App.getContext(), SplashActivity.class);
+            intent = new Intent(this, SplashActivity.class);
             startActivity(intent);
             finish();
         }
@@ -97,7 +99,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         update_profile.setOnClickListener(view -> {
 
-            intent = new Intent(App.getContext(), ProfileActivity.class);
+            intent = new Intent(this, ProfileActivity.class);
             intent.putExtra("id", 0);
             finish();
             startActivity(intent);
@@ -105,7 +107,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         btn_edit_pass.setOnClickListener(view -> {
 
-            intent = new Intent(App.getContext(), ProfileActivity.class);
+            intent = new Intent(this, ProfileActivity.class);
             intent.putExtra("id", 1);
             finish();
             startActivity(intent);
@@ -172,7 +174,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 final String mobile_recovery= emobilerecovery.getText().toString();
 
-                Call<RetrofitRespons> call =apiInterface.XUserCreate(
+                Call<RetrofitResponse> call =apiInterface.XUserCreate(
                         "XUserCreate",
                         "",
                         "",
@@ -185,14 +187,14 @@ public class RegisterActivity extends AppCompatActivity {
                         "",
                         "",
                         "4");
-                call.enqueue(new Callback<RetrofitRespons>() {
+                call.enqueue(new Callback<RetrofitResponse>() {
                     @Override
-                    public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+                    public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                         if(response.isSuccessful()) {
                             ArrayList<User> users = response.body().getUsers();
                             TextView status = findViewById(R.id.registration_status);
                             if (Integer.parseInt(users.get(0).getUserFieldValue("XUserCode"))>0) {
-                                intent = new Intent(App.getContext(), ProfileActivity.class);
+                                intent = new Intent(RegisterActivity.this, ProfileActivity.class);
                                 intent.putExtra("id", 2);
                                 intent.putExtra("XUserName", users.get(0).getUserFieldValue("XUserName"));
                                 intent.putExtra("XRandomCode", users.get(0).getUserFieldValue("XRandomCode"));
@@ -215,7 +217,7 @@ public class RegisterActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+                    public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
 
                         if(t instanceof IOException){
                             App.showToast( "بروز مشکل در برقراری ارتباط!");
@@ -322,7 +324,7 @@ public class RegisterActivity extends AppCompatActivity {
     )
     {
 
-        Call<RetrofitRespons> call =apiInterface.XUserCreate(
+        Call<RetrofitResponse> call =apiInterface.XUserCreate(
                 "XUserCreate",
                 reuser,
                 repass,
@@ -336,9 +338,9 @@ public class RegisterActivity extends AppCompatActivity {
                 reemail,
                 "0"
         );
-        call.enqueue(new Callback<RetrofitRespons>() {
+        call.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if(response.isSuccessful()) {
                     ArrayList<User> users = response.body().getUsers();
                     TextView status = findViewById(R.id.registration_status);
@@ -352,7 +354,7 @@ public class RegisterActivity extends AppCompatActivity {
                             config();
 
 
-                            intent = new Intent(App.getContext(), ProfileActivity.class);
+                            intent = new Intent(RegisterActivity.this, ProfileActivity.class);
                             intent.putExtra("id", 3);
                             intent.putExtra("XRandomCode", users.get(0).getUserFieldValue("XRandomCode"));
                             intent.putExtra("mobile_recovery", emobile);
@@ -385,7 +387,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
 
                 if(t instanceof IOException){
                         App.showToast("بروز مشکل در برقراری ارتباط!");
@@ -398,10 +400,10 @@ public class RegisterActivity extends AppCompatActivity {
     private void login(String reuser, String repass) {
 
 
-         Call<RetrofitRespons> call =apiInterface.XUserCreate("XUserCreate",reuser,repass,"","","","","","","","","5");
-        call.enqueue(new Callback<RetrofitRespons>() {
+         Call<RetrofitResponse> call =apiInterface.XUserCreate("XUserCreate",reuser,repass,"","","","","","","","","5");
+        call.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     ArrayList<User> users = response.body().getUsers();
                     if(users.get(0).getUserFieldValue("Active").equals("1")) {
@@ -417,7 +419,7 @@ public class RegisterActivity extends AppCompatActivity {
                         GetShared.EditString("img", " ");
                         App.showToast("خوش آمدید");
                         finish();
-                        Intent intent = new Intent(App.getContext(), MainActivity.class);
+                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                         startActivity(intent);
                     }
                     if(Integer.parseInt(users.get(0).getUserFieldValue("Active")) == -1) {
@@ -430,7 +432,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
 
             }
         });

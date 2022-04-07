@@ -11,15 +11,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kits.company.R;
+import com.kits.company.adapter.GetShared;
 import com.kits.company.adapter.InternetConnection;
 import com.kits.company.application.App;
 import com.kits.company.application.Category;
 import com.kits.company.application.Product;
 import com.kits.company.application.ProductAdapter;
 import com.kits.company.model.GoodGroup;
-import com.kits.company.model.RetrofitRespons;
+import com.kits.company.model.RetrofitResponse;
 import com.kits.company.webService.APIClient;
 import com.kits.company.webService.APIInterface;
+
+import org.jetbrains.annotations.NotNull;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -38,17 +43,20 @@ public class AllviewActivity extends AppCompatActivity {
     Category cm ;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_allview);
 
-        InternetConnection ic =new  InternetConnection(App.getContext());
+        InternetConnection ic =new  InternetConnection(this);
         if(ic.has()){
-            init();
+            try {
+                init();
+            }catch (Exception e){
+                GetShared.ErrorLog(e.getMessage());
+            }
         } else{
-            intent = new Intent(App.getContext(), SplashActivity.class);
+            intent = new Intent(this, SplashActivity.class);
             startActivity(intent);
             finish();
         }
@@ -68,22 +76,24 @@ public class AllviewActivity extends AppCompatActivity {
         companies = new ArrayList<>();
 
 
-        Call<RetrofitRespons> call = apiInterface.Getgrp("GoodGroupInfo","0");
-        call.enqueue(new Callback<RetrofitRespons>() {
+        Call<RetrofitResponse> call = apiInterface.Getgrp("GoodGroupInfo","0");
+        call.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
+                    assert response.body() != null;
                     ArrayList<GoodGroup> res = response.body().getGroups();
-                    for (final GoodGroup goodGroups_parent : res) {
-                        final ArrayList<Product> Product_child = new ArrayList<>();
-                        Call<RetrofitRespons> call5 = apiInterface.Getgrp(
+                    for (GoodGroup goodGroups_parent : res) {
+                        ArrayList<Product> Product_child = new ArrayList<>();
+                        Call<RetrofitResponse> call5 = apiInterface.Getgrp(
                                 "GoodGroupInfo",
                                 goodGroups_parent.getGoodGroupFieldValue("groupcode"));
-                        call5.enqueue(new Callback<RetrofitRespons>() {
+                        call5.enqueue(new Callback<RetrofitResponse>() {
                             @Override
-                            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+                            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
+                                assert response.body() != null;
                                 ArrayList<GoodGroup> res = response.body().getGroups();
-                                for (final GoodGroup goodGroups_parent1 : res) {
+                                for (GoodGroup goodGroups_parent1 : res) {
                                     Product_child.add(new Product(
                                             goodGroups_parent1.getGoodGroupFieldValue("Name"),
                                             Integer.parseInt(goodGroups_parent1.getGoodGroupFieldValue("groupcode")),
@@ -97,7 +107,7 @@ public class AllviewActivity extends AppCompatActivity {
                                 companies.add(cm);
                             }
                             @Override
-                            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+                            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                                 cm = new Category(
                                         goodGroups_parent.getGoodGroupFieldValue("Name"),
                                         Product_child,
@@ -112,8 +122,8 @@ public class AllviewActivity extends AppCompatActivity {
                 }
             }
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
-
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
+                GetShared.ErrorLog(t.getMessage());
             }
         });
 

@@ -1,10 +1,8 @@
 package com.kits.company.adapter;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StrikethroughSpan;
@@ -26,10 +24,12 @@ import com.google.android.material.card.MaterialCardView;
 import com.kits.company.R;
 import com.kits.company.activity.DetailActivity;
 import com.kits.company.application.App;
-import com.kits.company.model.NumberFunctions;
 import com.kits.company.model.Good;
-import com.kits.company.model.RetrofitRespons;
+import com.kits.company.model.NumberFunctions;
+import com.kits.company.model.RetrofitResponse;
 import com.kits.company.webService.APIInterface;
+
+import org.jetbrains.annotations.NotNull;
 import com.kits.company.webService.API_image;
 
 import java.text.DecimalFormat;
@@ -44,7 +44,7 @@ public class Good_view_Adapter extends RecyclerView.Adapter<Good_view_Adapter.Go
     DecimalFormat decimalFormat= new DecimalFormat("0,000");
     private final List<Good> goods;
     private final APIInterface apiInterface_image = API_image.getCleint().create(APIInterface.class);
-    public Call<RetrofitRespons> call2;
+    public Call<RetrofitResponse> call2;
     private  Intent intent;
 
 
@@ -139,9 +139,9 @@ public class Good_view_Adapter extends RecyclerView.Adapter<Good_view_Adapter.Go
                     "0",
                     "150"
             );
-            call2.enqueue(new Callback<RetrofitRespons>() {
+            call2.enqueue(new Callback<RetrofitResponse>() {
                 @Override
-                public void onResponse(Call<RetrofitRespons> call2, Response<RetrofitRespons> response) {
+                public void onResponse(Call<RetrofitResponse> call2, Response<RetrofitResponse> response) {
                     if (response.isSuccessful()) {
 
                         assert response.body() != null;
@@ -172,7 +172,7 @@ public class Good_view_Adapter extends RecyclerView.Adapter<Good_view_Adapter.Go
                     }
                 }
                 @Override
-                public void onFailure(Call<RetrofitRespons> call2, Throwable t) {
+                public void onFailure(Call<RetrofitResponse> call2, Throwable t) {
                     Log.e("onFailure",""+t.toString());
                 }
             });
@@ -183,7 +183,7 @@ public class Good_view_Adapter extends RecyclerView.Adapter<Good_view_Adapter.Go
 
 
             Good goodView1 = goods.get(position);
-            intent = new Intent(App.getContext(), DetailActivity.class);
+            intent = new Intent(mContext, DetailActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("id", Integer.parseInt(goodView1.getGoodFieldValue("GoodCode")));
 

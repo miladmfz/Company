@@ -16,9 +16,11 @@ import com.kits.company.adapter.InternetConnection;
 import com.kits.company.application.App;
 import com.kits.company.model.Good;
 import com.kits.company.model.NumberFunctions;
-import com.kits.company.model.RetrofitRespons;
+import com.kits.company.model.RetrofitResponse;
 import com.kits.company.webService.APIClient;
 import com.kits.company.webService.APIInterface;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -43,11 +45,15 @@ public class FinalbuyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_finalbuy);
 
 
-        InternetConnection ic = new InternetConnection(App.getContext());
+        InternetConnection ic = new InternetConnection(this);
         if (ic.has()) {
-            init();
+            try {
+                init();
+            }catch (Exception e){
+                GetShared.ErrorLog(e.getMessage());
+            }
         } else {
-            intent = new Intent(App.getContext(), SplashActivity.class);
+            intent = new Intent(this, SplashActivity.class);
             startActivity(intent);
             finish();
         }
@@ -69,13 +75,13 @@ public class FinalbuyActivity extends AppCompatActivity {
         Button sendfactor =findViewById(R.id.finalbuyActivity_sendbasket);
 
 
-        Call<RetrofitRespons> call2 = apiInterface.GetbasketSum(
+        Call<RetrofitResponse> call2 = apiInterface.GetbasketSum(
                 "BasketSum",
                 GetShared.ReadString("mobile")
         );
-        call2.enqueue(new Callback<RetrofitRespons>() {
+        call2.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     Goods = response.body().getGoods();
@@ -92,7 +98,7 @@ public class FinalbuyActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                 Log.e("retrofit_fail",t.getMessage());
 
 
@@ -110,17 +116,17 @@ public class FinalbuyActivity extends AppCompatActivity {
             else
             basket_explain="_";
 
-            new android.app.AlertDialog.Builder(App.getContext())
+            new android.app.AlertDialog.Builder(this)
                     .setTitle("توجه")
                     .setMessage("آیا فاکتور ارسال گردد؟")
                     .setPositiveButton("بله", (dialogInterface, i) -> {
-                        Call<RetrofitRespons> call21 = apiInterface.GetbasketSum(
+                        Call<RetrofitResponse> call21 = apiInterface.GetbasketSum(
                                 "BasketToPreFactor",
                                 GetShared.ReadString("mobile"),
                                 basket_explain);
-                        call21.enqueue(new Callback<RetrofitRespons>() {
+                        call21.enqueue(new Callback<RetrofitResponse>() {
                             @Override
-                            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+                            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                                 if (response.isSuccessful()) {
                                     assert response.body() != null;
                                     Goods = response.body().getGoods();
@@ -129,7 +135,7 @@ public class FinalbuyActivity extends AppCompatActivity {
                                     {
                                         App.showToast(Goods.get(0).getGoodFieldValue("ErrDesc"));
                                         finish();
-                                        intent = new Intent(App.getContext(), BuyActivity.class);
+                                        intent = new Intent(FinalbuyActivity.this, BuyActivity.class);
                                         GetShared.EditString("basket_position", "0");
                                         startActivity(intent);
                                     }else{
@@ -138,7 +144,7 @@ public class FinalbuyActivity extends AppCompatActivity {
                                             {
                                                 App.showToast("پیش فاکتور با موفقیت ثبت شد");
                                                 finish();
-                                                intent = new Intent(App.getContext(), BuyhistoryDetialActivity.class);
+                                                intent = new Intent(FinalbuyActivity.this, BuyhistoryDetialActivity.class);
                                                 intent.putExtra("id", Goods.get(0).getGoodFieldValue("PreFactorCode"));
                                                 intent.putExtra("ReservedRows", "1");
                                                 startActivity(intent);
@@ -157,7 +163,7 @@ public class FinalbuyActivity extends AppCompatActivity {
                                 }
                             }
                             @Override
-                            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+                            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                                 Log.e("retrofit_fail",t.getMessage());
                             }
                         });

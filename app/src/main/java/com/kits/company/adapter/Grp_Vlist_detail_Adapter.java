@@ -22,11 +22,13 @@ public class Grp_Vlist_detail_Adapter extends RecyclerView.Adapter<Grp_Vlist_det
 
     private final ArrayList<GoodGroup> GoodGroups;
     private Intent intent;
+    Context mContext;
 
 
     public Grp_Vlist_detail_Adapter(ArrayList<GoodGroup> GoodGroups, Context mContext)
     {
         this.GoodGroups = GoodGroups;
+        this.mContext = mContext;
     }
 
     @NonNull
@@ -52,7 +54,7 @@ public class Grp_Vlist_detail_Adapter extends RecyclerView.Adapter<Grp_Vlist_det
             public void onClick(View v)
             {
 
-                intent = new Intent(App.getContext(), GrpActivity.class);
+                intent = new Intent(mContext, GrpActivity.class);
                 intent.putExtra("id", Integer.parseInt(GoodGroupView.getGoodGroupFieldValue("groupcode")));
                 intent.putExtra("title",GoodGroupView.getGoodGroupFieldValue("Name"));
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

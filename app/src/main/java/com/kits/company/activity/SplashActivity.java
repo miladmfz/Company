@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-
 import android.provider.Settings;
 import android.view.View;
 import android.view.Window;
@@ -18,10 +17,11 @@ import com.kits.company.R;
 import com.kits.company.adapter.GetShared;
 import com.kits.company.adapter.InternetConnection;
 import com.kits.company.application.App;
-import com.kits.company.model.RetrofitRespons;
+import com.kits.company.model.RetrofitResponse;
 import com.kits.company.webService.APIClient;
 import com.kits.company.webService.APIInterface;
 
+import org.jetbrains.annotations.NotNull;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,10 +38,15 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         config();
         Button splash_refresh= findViewById(R.id.splash_refresh);
-        InternetConnection ic = new  InternetConnection(App.getContext());
+        InternetConnection ic = new  InternetConnection(this);
         if(ic.has()){
 
-            init();
+            try {
+                init();
+            }catch (Exception e){
+                GetShared.ErrorLog(e.getMessage());
+            }
+
         }
         else{
             final Dialog dialog1 ;
@@ -94,15 +99,15 @@ public class SplashActivity extends AppCompatActivity {
     public void init() {
 
 
-        Call<RetrofitRespons> call1 = apiInterface.info("check_server","0");
-        call1.enqueue(new Callback<RetrofitRespons>() {
+        Call<RetrofitResponse> call1 = apiInterface.info("check_server","0");
+        call1.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
-                    if(response.body().getText().equals("true")){
+                    if(response.body().getText().equals("false")){
                         if (GetShared.ReadString("Active").equals("1")) {
-                            intent = new Intent(App.getContext(), MainActivity.class);
+                            intent = new Intent(SplashActivity.this, MainActivity.class);
                         }else {
 
                             GetShared.EditString("Active", "-1");
@@ -118,17 +123,18 @@ public class SplashActivity extends AppCompatActivity {
                             GetShared.EditString("view", "grid");
 
 
-                            intent = new Intent(App.getContext(), RegisterActivity.class);
+                            intent = new Intent(SplashActivity.this, RegisterActivity.class);
                         }
                         startActivity(intent);
                         finish();
                     }else {
+                        GetShared.ErrorLog("server disconnect");
                         App.showToast( "ارتباط با سرور میسر نمی باشد.");
                     }
                 }
             }
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                 App.showToast(t.getMessage());
                 App.showToast("ارتباط با سرور میسر نمی باشد.");
             }

@@ -14,11 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.card.MaterialCardView;
 import com.kits.company.R;
 import com.kits.company.activity.BuyhistoryDetialActivity;
-import com.kits.company.activity.DetailActivity;
 import com.kits.company.application.App;
 import com.kits.company.model.NumberFunctions;
 import com.kits.company.model.PreFactor;
 import com.kits.company.webService.APIInterface;
+
+import org.jetbrains.annotations.NotNull;
 import com.kits.company.webService.API_image;
 
 import java.text.DecimalFormat;
@@ -62,7 +63,7 @@ public class Prefactor_Adapter extends RecyclerView.Adapter<Prefactor_Adapter.Go
         holder.rltv.setOnClickListener(v -> {
 
 
-            intent = new Intent(App.getContext(), BuyhistoryDetialActivity.class);
+            intent = new Intent(mContext, BuyhistoryDetialActivity.class);
             intent.putExtra("id", preFactorview.getPreFactorFieldValue("PreFactorCode"));
             intent.putExtra("ReservedRows", "2");
             App.getContext().startActivity(intent);

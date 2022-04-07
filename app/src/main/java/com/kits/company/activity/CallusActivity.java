@@ -9,12 +9,15 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.kits.company.R;
+import com.kits.company.adapter.GetShared;
 import com.kits.company.adapter.InternetConnection;
 import com.kits.company.application.App;
 import com.kits.company.model.NumberFunctions;
-import com.kits.company.model.RetrofitRespons;
+import com.kits.company.model.RetrofitResponse;
 import com.kits.company.webService.APIClient;
 import com.kits.company.webService.APIInterface;
+
+import org.jetbrains.annotations.NotNull;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,11 +36,15 @@ Intent intent;
         setContentView(R.layout.activity_callus);
 
 
-        InternetConnection ic =new  InternetConnection(App.getContext());
+        InternetConnection ic =new  InternetConnection(this);
         if(ic.has()){
-            init();
+            try {
+                init();
+            }catch (Exception e){
+                GetShared.ErrorLog(e.getMessage());
+            }
         } else{
-            intent = new Intent(App.getContext(), SplashActivity.class);
+            intent = new Intent(this, SplashActivity.class);
             startActivity(intent);
             finish();
         }
@@ -64,25 +71,25 @@ Intent intent;
 
 
 
-        Call<RetrofitRespons> call1 = apiInterface.info("kowsar_info","CompanyName");
-        call1.enqueue(new Callback<RetrofitRespons>() {
+        Call<RetrofitResponse> call1 = apiInterface.info("kowsar_info","CompanyName");
+        call1.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     text1.setText(response.body().getText());
                 }
             }
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                 Log.e("onFailure",t.toString());
             }
         });
 
-        Call<RetrofitRespons> call2 = apiInterface.info("kowsar_info","phone");
-        call2.enqueue(new Callback<RetrofitRespons>() {
+        Call<RetrofitResponse> call2 = apiInterface.info("kowsar_info","phone");
+        call2.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
 
@@ -90,14 +97,14 @@ Intent intent;
                 }
             }
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                 Log.e("onFailure",t.toString());
             }
         });
-        Call<RetrofitRespons> call3 = apiInterface.info("kowsar_info","address");
-        call3.enqueue(new Callback<RetrofitRespons>() {
+        Call<RetrofitResponse> call3 = apiInterface.info("kowsar_info","address");
+        call3.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
 
@@ -105,7 +112,7 @@ Intent intent;
                 }
             }
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                 Log.e("onFailure",t.toString());
             }
         });

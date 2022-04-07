@@ -20,8 +20,10 @@ import com.kits.company.R;
 import com.kits.company.application.App;
 import com.kits.company.model.NumberFunctions;
 import com.kits.company.model.PreFactor;
-import com.kits.company.model.RetrofitRespons;
+import com.kits.company.model.RetrofitResponse;
 import com.kits.company.webService.APIInterface;
+
+import org.jetbrains.annotations.NotNull;
 import com.kits.company.webService.API_image;
 
 import java.util.ArrayList;
@@ -37,7 +39,7 @@ public class Prefactor_Detail_Adapter extends RecyclerView.Adapter<Prefactor_Det
     private Context mContext;
     private final ArrayList<PreFactor> preFactors;
     private String SERVER_IP_ADDRESS;
-    public Call<RetrofitRespons> call2;
+    public Call<RetrofitResponse> call2;
     public Prefactor_Detail_Adapter(ArrayList<PreFactor> preFactors, Context mContext) {
         this.preFactors = preFactors;
     }
@@ -77,9 +79,9 @@ public class Prefactor_Detail_Adapter extends RecyclerView.Adapter<Prefactor_Det
                 "0",
                 "110"
         );
-        call2.enqueue(new Callback<RetrofitRespons>() {
+        call2.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call2, Response<RetrofitRespons> response) {
+            public void onResponse(Call<RetrofitResponse> call2, Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
 
                     assert response.body() != null;
@@ -107,7 +109,7 @@ public class Prefactor_Detail_Adapter extends RecyclerView.Adapter<Prefactor_Det
                 }
             }
             @Override
-            public void onFailure(Call<RetrofitRespons> call2, Throwable t) {
+            public void onFailure(Call<RetrofitResponse> call2, Throwable t) {
                 Log.e("onFailure",""+t.toString());
             }
         });

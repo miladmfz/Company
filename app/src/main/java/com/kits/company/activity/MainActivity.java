@@ -1,7 +1,6 @@
 package com.kits.company.activity;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -19,7 +18,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.Toolbar;
@@ -36,7 +34,6 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 import com.kits.company.BuildConfig;
 import com.kits.company.R;
-import com.kits.company.adapter.BuyBox;
 import com.kits.company.adapter.GetShared;
 import com.kits.company.adapter.Good_view_Adapter;
 import com.kits.company.adapter.Grp_Vlist_detail_Adapter;
@@ -44,20 +41,19 @@ import com.kits.company.adapter.InternetConnection;
 import com.kits.company.adapter.SliderAdapter;
 import com.kits.company.application.App;
 import com.kits.company.application.AppDialog;
-import com.kits.company.model.Column;
-import com.kits.company.model.NumberFunctions;
 import com.kits.company.model.Good;
 import com.kits.company.model.GoodGroup;
-import com.kits.company.model.RetrofitRespons;
+import com.kits.company.model.NumberFunctions;
+import com.kits.company.model.RetrofitResponse;
 import com.kits.company.webService.APIClient;
 import com.kits.company.webService.APIInterface;
-import com.kits.company.adapter.myDialog;
+
+import org.jetbrains.annotations.NotNull;
 import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import jp.wasabeef.recyclerview.animators.FadeInUpAnimator;
 import retrofit2.Call;
@@ -104,11 +100,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav);
         config();
-        InternetConnection ic =new  InternetConnection(App.getContext());
+        InternetConnection ic =new  InternetConnection(this);
 
         if(ic.has()){
 
-            init();
+            try {
+                init();
+            }catch (Exception e){
+                GetShared.ErrorLog(e.getMessage());
+            }
 
             Button test = findViewById(R.id.mainactivity_test);
 
@@ -116,16 +116,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 test.setVisibility(View.VISIBLE);
 
             }
-            test.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    test_fun();
-
-                }
-            });
+            test.setOnClickListener(v -> test_fun());
 
         } else{
-            intent = new Intent(App.getContext(), SplashActivity.class);
+            intent = new Intent(this, SplashActivity.class);
             startActivity(intent);
             finish();
         }
@@ -193,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         btn1.setOnClickListener(view -> {
-            intent = new Intent(App.getContext(), GrpActivity.class);
+            intent = new Intent(this, GrpActivity.class);
             intent.putExtra("id", grp_id1);
             intent.putExtra("title",""+grp_name1);
             startActivity(intent);
@@ -202,21 +196,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         btn2.setOnClickListener(view -> {
-            intent = new Intent(App.getContext(), GrpActivity.class);
+            intent = new Intent(this, GrpActivity.class);
             intent.putExtra("id", grp_id2);
             intent.putExtra("title",""+grp_name2);
             startActivity(intent);
         });
 
         imagebtn1.setOnClickListener(view -> {
-            intent = new Intent(App.getContext(), GrpActivity.class);
+            intent = new Intent(this, GrpActivity.class);
             intent.putExtra("id", image_id1);
             intent.putExtra("title",""+image_name1);
             startActivity(intent);
         });
 
         imagebtn2.setOnClickListener(view -> {
-            intent = new Intent(App.getContext(), GrpActivity.class);
+            intent = new Intent(this, GrpActivity.class);
             intent.putExtra("id", image_id2);
             intent.putExtra("title",""+image_name2);
             startActivity(intent);
@@ -230,13 +224,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void allgrp() {
 
-        Call<RetrofitRespons> call1 = apiInterface.Getgrp(
+        Call<RetrofitResponse> call1 = apiInterface.Getgrp(
                 "GoodGroupInfo",
                 "0"
         );
-        call1.enqueue(new Callback<RetrofitRespons>() {
+        call1.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     Groups = response.body().getGroups();
                     if(Groups.size()>0) {
@@ -252,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                 LinearLayout linearLayoutq=findViewById(R.id.grp_main_linearlayout);
                 linearLayoutq.setVisibility(View.GONE);
                 Log.e("call1","1");
@@ -263,10 +257,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void kowsar_image_good() {
-        Call<RetrofitRespons> call2 = apiInterface.Getkowsar_grp("GoodGroupInfo_DefaultImage");
-        call2.enqueue(new Callback<RetrofitRespons>() {
+        Call<RetrofitResponse> call2 = apiInterface.Getkowsar_grp("GoodGroupInfo_DefaultImage");
+        call2.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     Groups_image = response.body().getGroups();
 
@@ -296,7 +290,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                 Log.e("call2","2");
 
             }
@@ -308,11 +302,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void kowsar_good() {
 
 
-        Call<RetrofitRespons> call3 = apiInterface.Getkowsar_grp("GoodGroupInfo_Default");
+        Call<RetrofitResponse> call3 = apiInterface.Getkowsar_grp("GoodGroupInfo_Default");
 
-        call3.enqueue(new Callback<RetrofitRespons>() {
+        call3.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     Groups_defult = response.body().getGroups();
                     if(Integer.parseInt(Groups_defult.get(0).getGoodGroupFieldValue("ErrCode"))>0)
@@ -329,7 +323,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         grp_id2=Integer.parseInt(Groups_defult.get(1).getGoodGroupFieldValue("groupcode"));
 
                         grp1.setText(Groups_defult.get(0).getGoodGroupFieldValue("Name"));
-                        Call<RetrofitRespons> call4 = apiInterface.GetAllGood(
+                        Call<RetrofitResponse> call4 = apiInterface.GetAllGood(
                                 "goodinfo",
                                 "0",
                                 "",
@@ -338,9 +332,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 "0",
                                 GetShared.ReadString("mobile"),
                                 "0");
-                        call4.enqueue(new Callback<RetrofitRespons>() {
+                        call4.enqueue(new Callback<RetrofitResponse>() {
                             @Override
-                            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+                            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                                 if (response.isSuccessful()) {
                                     goods1 = response.body().getGoods();
                                     available_goods1.clear();
@@ -358,7 +352,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 }
                             }
                             @Override
-                            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+                            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                                 Log.e("call4","3");
 
                             }
@@ -366,7 +360,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         grp2.setText(Groups_defult.get(1).getGoodGroupFieldValue("Name"));
 
-                        Call<RetrofitRespons> call5 = apiInterface.GetAllGood(
+                        Call<RetrofitResponse> call5 = apiInterface.GetAllGood(
                                 "goodinfo",
                                 "0",
                                 "",
@@ -376,9 +370,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 GetShared.ReadString("mobile"),
                                 "0"
                         );
-                        call5.enqueue(new Callback<RetrofitRespons>() {
+                        call5.enqueue(new Callback<RetrofitResponse>() {
                             @Override
-                            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+                            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                                 if (response.isSuccessful()) {
                                     goods2 = response.body().getGoods();
                                     available_goods2.clear();
@@ -396,7 +390,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 }
                             }
                             @Override
-                            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+                            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                                 Log.e("call5","4");
 
                             }
@@ -406,7 +400,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
 
             }
         });
@@ -472,11 +466,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         LinearLayoutCompat.LayoutParams.MATCH_PARENT
                 ));
 
-                Call<RetrofitRespons> call = apiInterface.GetAllGood
+                Call<RetrofitResponse> call = apiInterface.GetAllGood
                         ("goodinfo","0","","",groups.getGoodGroupFieldValue("groupcode"),"0",GetShared.ReadString("mobile"),"0" );
-                call.enqueue(new Callback<RetrofitRespons>() {
+                call.enqueue(new Callback<RetrofitResponse>() {
                     @Override
-                    public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+                    public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                         if (response.isSuccessful()) {
                             ArrayList<Good> available_goods = new ArrayList<>();
 
@@ -494,7 +488,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
                     }
                     @Override
-                    public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+                    public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                         //Log.e("retrofit_fail",t.getMessage());
                     }
                 });
@@ -513,10 +507,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void SliderView(){
 
 
-        Call<RetrofitRespons> call6 = apiInterface.Banner_get("Banner");
-        call6.enqueue(new Callback<RetrofitRespons>() {
+        Call<RetrofitResponse> call6 = apiInterface.Banner_get("Banner");
+        call6.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     banner_goods = response.body().getGoods();
 
@@ -540,7 +534,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                 Log.e("call6","6");
 
                 Log.e("retrofit_fail",t.getMessage());
@@ -552,10 +546,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
     private void noti(){
-        Call<RetrofitRespons> call7 = apiInterface.VersionInfo("VersionInfo");
-        call7.enqueue(new Callback<RetrofitRespons>() {
+        Call<RetrofitResponse> call7 = apiInterface.VersionInfo("VersionInfo");
+        call7.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
 
                     assert response.body() != null;
@@ -565,7 +559,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
 
                 Log.e("retrofit_fail",t.getMessage());
             }
@@ -599,31 +593,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_Search) {
-            intent = new Intent(App.getContext(), SearchActivity.class);
+            intent = new Intent(this, SearchActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_news) {
-            intent = new Intent(App.getContext(), Search_date_detailActivity.class);
+            intent = new Intent(this, Search_date_detailActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_Favorite) {
-            Intent intent = new Intent(App.getContext(), FavoriteActivity.class);
+            Intent intent = new Intent(this, FavoriteActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_buybag) {
-            Intent intent = new Intent(App.getContext(), BuyActivity.class);
+            Intent intent = new Intent(this, BuyActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_factors) {
-            Intent intent = new Intent(App.getContext(), BuyhistoryActivity.class);
+            Intent intent = new Intent(this, BuyhistoryActivity.class);
             startActivity(intent);
         } else if (id == R.id.calltous) {
-            Intent intent = new Intent(App.getContext(), CallusActivity.class);
+            Intent intent = new Intent(this, CallusActivity.class);
             startActivity(intent);
         }else if (id == R.id.aboutus) {
-            Intent intent = new Intent(App.getContext(), AboutusActivity.class);
+            Intent intent = new Intent(this, AboutusActivity.class);
             startActivity(intent);
         }else if (id == R.id.nav_reg) {
-            Intent intent = new Intent(App.getContext(), RegisterActivity.class);
+            Intent intent = new Intent(this, RegisterActivity.class);
             startActivity(intent);
         }else if (id == R.id.nav_allview) {
-            Intent intent = new Intent(App.getContext(), AllviewActivity.class);
+            Intent intent = new Intent(this, AllviewActivity.class);
             startActivity(intent);
 
         }
@@ -650,12 +644,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.basket_menu) {
-            intent = new Intent(App.getContext(), BuyActivity.class);
+            intent = new Intent(this, BuyActivity.class);
             GetShared.EditString("basket_position", "0");
             startActivity(intent);
             return true;
         }if(item.getItemId() == R.id.search_menu){
-            intent = new Intent(App.getContext(), SearchActivity.class);
+            intent = new Intent(this, SearchActivity.class);
             startActivity(intent);
             return true;
         }
@@ -669,13 +663,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (textCartItemCount.getVisibility() != View.GONE) {
                 textCartItemCount.setVisibility(View.GONE);
             }
-            Call<RetrofitRespons> call8 = apiInterface.GetbasketSum(
+            Call<RetrofitResponse> call8 = apiInterface.GetbasketSum(
                     "BasketSum",
                     GetShared.ReadString("mobile")
             );
-            call8.enqueue(new Callback<RetrofitRespons>() {
+            call8.enqueue(new Callback<RetrofitResponse>() {
                 @Override
-                public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+                public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                     if (response.isSuccessful()) {
                         assert response.body() != null;
                         Goods = response.body().getGoods();
@@ -689,7 +683,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 }
                 @Override
-                public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+                public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                     Log.e("call8","7");
 
                     Log.e("retrofit_fail",t.getMessage());

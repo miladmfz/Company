@@ -1,8 +1,6 @@
 package com.kits.company.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
@@ -22,13 +19,14 @@ import com.kits.company.adapter.GetShared;
 import com.kits.company.adapter.InternetConnection;
 import com.kits.company.application.App;
 import com.kits.company.model.NumberFunctions;
-import com.kits.company.model.RetrofitRespons;
+import com.kits.company.model.RetrofitResponse;
 import com.kits.company.model.User;
 import com.kits.company.webService.APIClient;
 import com.kits.company.webService.APIInterface;
+
+import org.jetbrains.annotations.NotNull;
 import com.kits.company.webService.APIVerification;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -50,11 +48,15 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         initdata();
-        InternetConnection ic =new  InternetConnection(App.getContext());
+        InternetConnection ic =new  InternetConnection(this);
         if(ic.has()){
-            init();
+            try {
+                init();
+            }catch (Exception e){
+                GetShared.ErrorLog(e.getMessage());
+            }
         } else{
-            intent = new Intent(App.getContext(), SplashActivity.class);
+            intent = new Intent(this, SplashActivity.class);
             startActivity(intent);
             finish();
         }
@@ -302,20 +304,20 @@ public class ProfileActivity extends AppCompatActivity {
     public void Verification() {
         APIInterface apiInterface = APIVerification.getCleint().create(APIInterface.class);
 
-        Call<RetrofitRespons> call_Verification = apiInterface.Verification(
+        Call<RetrofitResponse> call_Verification = apiInterface.Verification(
                 "Verification",
                 xrandom,
                 xmobile_recovery);
-        call_Verification.enqueue(new Callback<RetrofitRespons>() {
+        call_Verification.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     Log.e("",response.body().getText());
                 }
             }
 
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
             }
         });
 
@@ -337,7 +339,7 @@ public class ProfileActivity extends AppCompatActivity {
             final String flag) {
 
 
-        Call<RetrofitRespons> call =apiInterface.XUserCreate(
+        Call<RetrofitResponse> call =apiInterface.XUserCreate(
                 "XUserCreate",
                 reuser,
                 repass,
@@ -352,9 +354,9 @@ public class ProfileActivity extends AppCompatActivity {
                 flag
         );
 
-        call.enqueue(new Callback<RetrofitRespons>() {
+        call.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if(response.isSuccessful()) {
                     ArrayList<User> users = response.body().getUsers();
 
@@ -389,7 +391,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
 
             }
         });

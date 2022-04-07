@@ -7,7 +7,6 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
@@ -17,10 +16,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 
 import com.kits.company.R;
 import com.kits.company.activity.BuyActivity;
@@ -31,11 +28,13 @@ import com.kits.company.activity.MainActivity;
 import com.kits.company.activity.SearchActivity;
 import com.kits.company.activity.Search_date_detailActivity;
 import com.kits.company.application.App;
-import com.kits.company.model.NumberFunctions;
 import com.kits.company.model.Good;
-import com.kits.company.model.RetrofitRespons;
+import com.kits.company.model.NumberFunctions;
+import com.kits.company.model.RetrofitResponse;
 import com.kits.company.webService.APIClient;
 import com.kits.company.webService.APIInterface;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -220,7 +219,7 @@ public class BuyBox {
                 try {
                     if(!amo.equals("")) {
                         if(Float.parseFloat(amo)>0) {
-                            Call<RetrofitRespons> call = apiInterface.InsertBasket(
+                            Call<RetrofitResponse> call = apiInterface.InsertBasket(
                                     "Insertbasket",
                                     "DeviceCode",
                                     good.getGoodFieldValue("GoodCode"),
@@ -230,9 +229,9 @@ public class BuyBox {
                                     DefaultUnitValue,
                                     "test",
                                     GetShared.ReadString("mobile"));
-                            call.enqueue(new Callback<RetrofitRespons>() {
+                            call.enqueue(new Callback<RetrofitResponse>() {
                                 @Override
-                                public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+                                public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                                     Log.e("onResponse", "" + response.body());
                                     assert response.body() != null;
 
@@ -280,7 +279,7 @@ public class BuyBox {
                                 }
 
                                 @Override
-                                public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+                                public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                                     Log.e("onFailure", "" + t.toString());
                                 }
                             });
@@ -303,15 +302,15 @@ public class BuyBox {
 
     public void deletegoodfrombasket (String goodcode) {
 
-        Call<RetrofitRespons> call = apiInterface.Basketdelete(
+        Call<RetrofitResponse> call = apiInterface.Basketdelete(
                 "deletebasket",
                 "DeviceCode",
                 goodcode,
                 GetShared.ReadString("mobile")
         );
-        call.enqueue(new Callback<RetrofitRespons>() {
+        call.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 Log.e("onResponse", "" + response.body());
                 assert response.body() != null;
                 if (response.body().getText().equals("done")) {
@@ -320,7 +319,7 @@ public class BuyBox {
             }
 
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                 Log.e("onFailure", "" + t.toString());
             }
         });
@@ -441,7 +440,7 @@ public class BuyBox {
                 if (!amo.equals("")) {
                     if (Float.parseFloat(amo) > 0) {
 
-                        Call<RetrofitRespons> call = apiInterface.InsertBasket(
+                        Call<RetrofitResponse> call = apiInterface.InsertBasket(
                                 "Insertbasket",
                                 "DeviceCode",
                                 good.getGoodFieldValue("GoodCode"),
@@ -452,9 +451,9 @@ public class BuyBox {
                                 "test",
                                 GetShared.ReadString("mobile")
                         );
-                        call.enqueue(new Callback<RetrofitRespons>() {
+                        call.enqueue(new Callback<RetrofitResponse>() {
                             @Override
-                            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+                            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                                 Log.e("onResponse", "" + response.body());
                                 assert response.body() != null;
 
@@ -472,7 +471,7 @@ public class BuyBox {
                             }
 
                             @Override
-                            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+                            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                                 Log.e("onFailure", "" + t.toString());
                             }
                         });
@@ -494,7 +493,7 @@ public class BuyBox {
     public void basketdsolo(Good g , String facamount, final int position) {
 
         this.good=g;
-        Call<RetrofitRespons> call = apiInterface.InsertBasket("Insertbasket",
+        Call<RetrofitResponse> call = apiInterface.InsertBasket("Insertbasket",
                 "DeviceCode",
                 good.getGoodFieldValue("GoodCode"),
                 String.valueOf(facamount),
@@ -504,9 +503,9 @@ public class BuyBox {
                 "test",
                 GetShared.ReadString("mobile")
         );
-        call.enqueue(new Callback<RetrofitRespons>() {
+        call.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 Log.e("onResponse", "" + response.body());
                 assert response.body() != null;
 
@@ -521,7 +520,7 @@ public class BuyBox {
             }
 
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                 Log.e("onFailure", "" + t.toString());
             }
         });

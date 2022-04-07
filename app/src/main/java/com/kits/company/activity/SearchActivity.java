@@ -27,6 +27,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
@@ -40,9 +41,11 @@ import com.kits.company.application.App;
 import com.kits.company.model.Column;
 import com.kits.company.model.Good;
 import com.kits.company.model.NumberFunctions;
-import com.kits.company.model.RetrofitRespons;
+import com.kits.company.model.RetrofitResponse;
 import com.kits.company.webService.APIClient;
 import com.kits.company.webService.APIInterface;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -86,11 +89,15 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
 
 
-        InternetConnection ic =new  InternetConnection(App.getContext());
+        InternetConnection ic =new  InternetConnection(this);
         if(ic.has()){
+            try {
                 init();
+            }catch (Exception e){
+                GetShared.ErrorLog(e.getMessage());
+            }
         } else{
-            intent = new Intent(App.getContext(), SplashActivity.class);
+            intent = new Intent(this, SplashActivity.class);
             startActivity(intent);
             finish();
         }
@@ -196,19 +203,16 @@ public class SearchActivity extends AppCompatActivity {
 
         fab.setOnClickListener(v -> {
 
-            final Dialog dialog = new Dialog(App.getContext());
+            final Dialog dialog = new Dialog(this);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);//title laye nadashte bashim
             dialog.setContentView(R.layout.box_multi_buy);
-            Button boxbuy = dialog.findViewById(R.id.box_multi_buy_btn);
+            MaterialButton boxbuy = dialog.findViewById(R.id.box_multi_buy_btn);
             final EditText amount_mlti = dialog.findViewById(R.id.box_multi_buy_amount);
             dialog.show();
             amount_mlti.requestFocus();
-            amount_mlti.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    inputMethodManager.showSoftInput(amount_mlti, InputMethodManager.SHOW_IMPLICIT);
-                }
+            amount_mlti.postDelayed(() -> {
+                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.showSoftInput(amount_mlti, InputMethodManager.SHOW_IMPLICIT);
             }, 500);
 
             boxbuy.setOnClickListener(view -> {
@@ -218,7 +222,7 @@ public class SearchActivity extends AppCompatActivity {
 
                         for (final String[] s : Multi_buy) {
 
-                            Call<RetrofitRespons> call_amount = apiInterface.GetAllGood(
+                            Call<RetrofitResponse> call_amount = apiInterface.GetAllGood(
                                     "goodinfo",
                                     "0",
                                     "",
@@ -227,13 +231,13 @@ public class SearchActivity extends AppCompatActivity {
                                     "0",
                                     GetShared.ReadString("mobile"),
                                     "0");
-                            call_amount.enqueue(new Callback<RetrofitRespons>() {
+                            call_amount.enqueue(new Callback<RetrofitResponse>() {
                                 @Override
-                                public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+                                public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                                     ArrayList<Good> goods = response.body().getGoods();
                                     Good good= goods.get(0);
 
-                                    Call<RetrofitRespons> call2 = apiInterface.InsertBasket(
+                                    Call<RetrofitResponse> call2 = apiInterface.InsertBasket(
                                             "Insertbasket",
                                             "DeviceCode",
                                             s[0],
@@ -243,9 +247,9 @@ public class SearchActivity extends AppCompatActivity {
                                             s[4],
                                             "test",
                                             GetShared.ReadString("mobile"));
-                                    call2.enqueue(new Callback<RetrofitRespons>() {
+                                    call2.enqueue(new Callback<RetrofitResponse>() {
                                         @Override
-                                        public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+                                        public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                                             Log.e("onResponse", "" + response.body());
                                             assert response.body() != null;
                                             Goods = response.body().getGoods();
@@ -257,13 +261,13 @@ public class SearchActivity extends AppCompatActivity {
 
                                         }
                                         @Override
-                                        public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+                                        public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                                             Log.e("onFailure", "" + t.toString());
                                         }
                                     });
                                 }
                                 @Override
-                                public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+                                public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                                 }
                             });
 
@@ -301,7 +305,7 @@ public class SearchActivity extends AppCompatActivity {
 
     public void allgood(String edtsearch,String where) {
         prog.setVisibility(View.VISIBLE);
-        Call<RetrofitRespons> call = apiInterface.GetAllGood(
+        Call<RetrofitResponse> call = apiInterface.GetAllGood(
                 "goodinfo",
                 "0",
                 edtsearch,
@@ -310,9 +314,9 @@ public class SearchActivity extends AppCompatActivity {
                 String.valueOf(PageNo),
                 GetShared.ReadString("mobile"),
                 "0");
-        call.enqueue(new Callback<RetrofitRespons>() {
+        call.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     goods = response.body().getGoods();
 
@@ -357,7 +361,7 @@ public class SearchActivity extends AppCompatActivity {
                 }
             }
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                 prog.setVisibility(View.GONE);
                 App.showToast( "کالایی یافت نشد");
                 PageNo=0;
@@ -372,7 +376,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private void allgood_more(String edtsearch,String where) {
         prog.setVisibility(View.VISIBLE);
-        Call<RetrofitRespons> call = apiInterface.GetAllGood(
+        Call<RetrofitResponse> call = apiInterface.GetAllGood(
                 "goodinfo",
                 "0",
                 edtsearch,
@@ -381,9 +385,9 @@ public class SearchActivity extends AppCompatActivity {
                 String.valueOf(PageNo),
                 GetShared.ReadString("mobile"),
                 "0");
-        call.enqueue(new Callback<RetrofitRespons>() {
+        call.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     ArrayList<Good> good_page = response.body().getGoods();
                     goods.addAll(good_page);
@@ -400,7 +404,7 @@ public class SearchActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                 PageNo--;
                 App.showToast("کالای بیشتری موجود نیست");
                 prog.setVisibility(View.GONE);
@@ -430,7 +434,7 @@ public class SearchActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.basket_menu) {
-            intent = new Intent(App.getContext(), BuyActivity.class);
+            intent = new Intent(this, BuyActivity.class);
             GetShared.EditString("basket_position", "0");
             startActivity(intent);
             return true;
@@ -499,13 +503,13 @@ public class SearchActivity extends AppCompatActivity {
             if (textCartItemCount.getVisibility() != View.GONE) {
                 textCartItemCount.setVisibility(View.GONE);
             }
-            Call<RetrofitRespons> call2 = apiInterface.GetbasketSum(
+            Call<RetrofitResponse> call2 = apiInterface.GetbasketSum(
                     "BasketSum",
                     GetShared.ReadString("mobile")
             );
-            call2.enqueue(new Callback<RetrofitRespons>() {
+            call2.enqueue(new Callback<RetrofitResponse>() {
                 @Override
-                public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+                public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                     if (response.isSuccessful()) {
                         assert response.body() != null;
                         Goods_setupBadge = response.body().getGoods();
@@ -518,7 +522,7 @@ public class SearchActivity extends AppCompatActivity {
                     }
                 }
                 @Override
-                public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+                public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                     Log.e("retrofit_fail",t.getMessage());
 
                 }
@@ -528,6 +532,7 @@ public class SearchActivity extends AppCompatActivity {
 
     public void good_select_function(Good goodView, int flag) {
 
+        Log.e("test11",""+flag);
         if (flag == 1) {
             fab.setVisibility(View.VISIBLE);
             Multi_buy.add(new String[]{goodView.getGoodFieldValue("GoodCode"),
@@ -560,23 +565,22 @@ public class SearchActivity extends AppCompatActivity {
 
     public void set_rc_good() {
         if(GetShared.ReadString("view").equals("grid")){
-            adapter = new Good_ProSearch_Adapter(goods, SearchActivity.this);
+            adapter = new Good_ProSearch_Adapter(goods, this);
             adapter.multi_select=false;
             gridLayoutManager = new GridLayoutManager(App.getContext(),2);
             gridLayoutManager.scrollToPosition(pastVisiblesItems+2);
             rc_good.setLayoutManager(gridLayoutManager);
             rc_good.setAdapter(adapter);
-            rc_good.setItemAnimator(new FlipInTopXAnimator());
 
         }else{
-            adapter_line = new Good_ProSearch_Line_Adapter(goods, SearchActivity.this);
+            adapter_line = new Good_ProSearch_Line_Adapter(goods, this);
             adapter_line.multi_select=false;
             gridLayoutManager = new GridLayoutManager(App.getContext(),1);
             gridLayoutManager.scrollToPosition(pastVisiblesItems+1);
             rc_good.setLayoutManager(gridLayoutManager);
             rc_good.setAdapter(adapter_line);
-            rc_good.setItemAnimator(new FlipInTopXAnimator());
         }
+        rc_good.setItemAnimator(new FlipInTopXAnimator());
 
     }
 

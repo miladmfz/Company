@@ -1,10 +1,28 @@
 package com.kits.company.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.provider.Settings;
 
+import androidx.annotation.NonNull;
+
+import com.kits.company.BuildConfig;
+import com.kits.company.R;
 import com.kits.company.application.App;
+import com.kits.company.model.RetrofitResponse;
+import com.kits.company.webService.APIInterface;
+
+import org.jetbrains.annotations.NotNull;
+import com.kits.company.webService.APIVerification;
+import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.POST;
 
 public class GetShared extends Application {
     private static SharedPreferences shPref;
@@ -16,6 +34,7 @@ public class GetShared extends Application {
         sEdit = shPref.edit();
         sEdit.putString(Key, Value);
         sEdit.apply();
+
     }
 
     public static String ReadString(String Key){
@@ -48,7 +67,40 @@ public class GetShared extends Application {
         sEdit.apply();
     }
 
+    public static void ErrorLog(String ErrorStr) {
 
-    
-    
+        @SuppressLint("HardwareIds") String android_id = Settings.Secure.getString(App.getContext()
+                .getContentResolver(), Settings.Secure.ANDROID_ID);
+
+
+        PersianCalendar calendar1 = new PersianCalendar();
+        String version= BuildConfig.VERSION_NAME;
+        String appname= App.getContext().getPackageName();
+
+
+
+        APIInterface apiInterface = APIVerification.getCleint().create(APIInterface.class);
+        Call<RetrofitResponse> cl = apiInterface.Errorlog("Errorlog"
+                , ErrorStr
+                , ReadString("mobile")
+                , android_id
+                , appname
+                , calendar1.getPersianShortDateTime()
+                , version);
+        cl.enqueue(new Callback<RetrofitResponse>() {@Override
+        public void onResponse(@NonNull Call<RetrofitResponse> call, @NonNull retrofit2.Response<RetrofitResponse> response) {
+            assert response.body() != null; }
+
+
+
+            @Override
+            public void onFailure(@NonNull Call<RetrofitResponse> call, @NonNull Throwable t) {
+            }
+        });
+
+    }
+
+
+
+
 }

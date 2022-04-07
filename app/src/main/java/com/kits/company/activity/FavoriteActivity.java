@@ -21,11 +21,13 @@ import com.kits.company.adapter.GetShared;
 import com.kits.company.adapter.Good_ProSearch_Adapter;
 import com.kits.company.adapter.InternetConnection;
 import com.kits.company.application.App;
-import com.kits.company.model.NumberFunctions;
 import com.kits.company.model.Good;
-import com.kits.company.model.RetrofitRespons;
+import com.kits.company.model.NumberFunctions;
+import com.kits.company.model.RetrofitResponse;
 import com.kits.company.webService.APIClient;
 import com.kits.company.webService.APIInterface;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -46,7 +48,7 @@ public class FavoriteActivity extends AppCompatActivity {
     GridLayoutManager gridLayoutManager;
     private boolean loading = true;
     int pastVisiblesItems, visibleItemCount, totalItemCount,PageNo=0;
-    Call<RetrofitRespons> call;
+    Call<RetrofitResponse> call;
     Toolbar toolbar;
 
     @Override
@@ -54,11 +56,15 @@ public class FavoriteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
 
-        InternetConnection ic =new  InternetConnection(App.getContext());
+        InternetConnection ic =new  InternetConnection(this);
         if(ic.has()){
-            init();
+            try {
+                init();
+            }catch (Exception e){
+                GetShared.ErrorLog(e.getMessage());
+            }
         } else{
-            intent = new Intent(App.getContext(), SplashActivity.class);
+            intent = new Intent(this, SplashActivity.class);
             startActivity(intent);
             finish();
         }
@@ -126,9 +132,9 @@ public class FavoriteActivity extends AppCompatActivity {
                         String.valueOf(PageNo),
                         GetShared.ReadString("mobile"),
                         "1");
-        call.enqueue(new Callback<RetrofitRespons>() {
+        call.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     goods = response.body().getGoods();
                     adapter = new Good_ProSearch_Adapter( goods, App.getContext());
@@ -143,7 +149,7 @@ public class FavoriteActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                 App.showToast("کالایی در لیست وجود ندارد");
                 finish();
             }
@@ -163,9 +169,9 @@ public class FavoriteActivity extends AppCompatActivity {
                         String.valueOf(PageNo),
                         GetShared.ReadString("mobile"),
                         "1");
-        call.enqueue(new Callback<RetrofitRespons>() {
+        call.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     ArrayList<Good> good_page = response.body().getGoods();
                     goods.addAll(good_page);
@@ -182,7 +188,7 @@ public class FavoriteActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
 
                 prog.setVisibility(View.GONE);
                 Log.e("retrofit_fail",t.getMessage());
@@ -214,7 +220,7 @@ public class FavoriteActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.basket_menu) {
-            intent = new Intent(App.getContext(), BuyActivity.class);
+            intent = new Intent(this, BuyActivity.class);
             GetShared.EditString("basket_position", "0");
             startActivity(intent);
             return true;
@@ -230,13 +236,13 @@ public class FavoriteActivity extends AppCompatActivity {
             if (textCartItemCount.getVisibility() != View.GONE) {
                 textCartItemCount.setVisibility(View.GONE);
             }
-            Call<RetrofitRespons> call2 = apiInterface.GetbasketSum(
+            Call<RetrofitResponse> call2 = apiInterface.GetbasketSum(
                     "BasketSum",
                     GetShared.ReadString("mobile")
             );
-            call2.enqueue(new Callback<RetrofitRespons>() {
+            call2.enqueue(new Callback<RetrofitResponse>() {
                 @Override
-                public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+                public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                     if (response.isSuccessful()) {
                         assert response.body() != null;
                         Goods = response.body().getGoods();
@@ -249,7 +255,7 @@ public class FavoriteActivity extends AppCompatActivity {
                     }
                 }
                 @Override
-                public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+                public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                     Log.e("retrofit_fail",t.getMessage());
 
                 }

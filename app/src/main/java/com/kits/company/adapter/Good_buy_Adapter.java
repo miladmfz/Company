@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Base64;
 import android.util.Log;
@@ -24,12 +23,13 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.card.MaterialCardView;
 import com.kits.company.R;
 import com.kits.company.activity.BuyActivity;
-import com.kits.company.activity.DetailActivity;
 import com.kits.company.application.App;
 import com.kits.company.model.Good;
 import com.kits.company.model.NumberFunctions;
-import com.kits.company.model.RetrofitRespons;
+import com.kits.company.model.RetrofitResponse;
 import com.kits.company.webService.APIInterface;
+
+import org.jetbrains.annotations.NotNull;
 import com.kits.company.webService.API_image;
 
 import java.text.DecimalFormat;
@@ -43,7 +43,7 @@ import retrofit2.Response;
 public class Good_buy_Adapter extends RecyclerView.Adapter<Good_buy_Adapter.GoodViewHolder> {
     private final DecimalFormat decimalFormat = new DecimalFormat("0,000");
     private final APIInterface apiInterface_image = API_image.getCleint().create(APIInterface.class);
-    public Call<RetrofitRespons> call2;
+    public Call<RetrofitResponse> call2;
     private final ArrayList<Good> Goods;
     private int amount = 0;
     BuyBox buyBox;
@@ -84,6 +84,9 @@ public class Good_buy_Adapter extends RecyclerView.Adapter<Good_buy_Adapter.Good
         holder.priceTextView.setText(NumberFunctions.PerisanNumber(decimalFormat.format(Integer.parseInt(GoodView.getGoodFieldValue("SellPrice")))));
 
         holder.maxsellpriceTextView.setText(NumberFunctions.PerisanNumber(decimalFormat.format(Integer.parseInt(GoodView.getGoodFieldValue("MaxSellPrice")))));
+        Log.e("test1",GoodView.getGoodFieldValue("SellPrice"));
+        Log.e("test2",GoodView.getGoodFieldValue("FacAmount"));
+        Log.e("test3",GoodView.getGoodFieldValue("bRatio"));
         totalbuy= (long) (Float.parseFloat(GoodView.getGoodFieldValue("SellPrice"))* Float.parseFloat(GoodView.getGoodFieldValue("FacAmount"))*Float.parseFloat(GoodView.getGoodFieldValue("bRatio")));
         holder.total.setText(NumberFunctions.PerisanNumber(decimalFormat.format(totalbuy)));
         holder.good_buy_NotReserved.setText(GoodView.getGoodFieldValue("NotReserved"));
@@ -116,9 +119,9 @@ public class Good_buy_Adapter extends RecyclerView.Adapter<Good_buy_Adapter.Good
                 "0",
                 "120"
         );
-        call2.enqueue(new Callback<RetrofitRespons>() {
+        call2.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call2, Response<RetrofitRespons> response) {
+            public void onResponse(Call<RetrofitResponse> call2, Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     try {
@@ -149,7 +152,7 @@ public class Good_buy_Adapter extends RecyclerView.Adapter<Good_buy_Adapter.Good
                 }
             }
             @Override
-            public void onFailure(Call<RetrofitRespons> call2, Throwable t) {
+            public void onFailure(Call<RetrofitResponse> call2, Throwable t) {
                 Log.e("onFailure",""+t.toString());
             }
         });
@@ -165,7 +168,7 @@ public class Good_buy_Adapter extends RecyclerView.Adapter<Good_buy_Adapter.Good
                         .setPositiveButton("بله", (dialogInterface, i) -> {
 
                             buyBox.deletegoodfrombasket(GoodView.getGoodFieldValue("GoodCode"));
-                            Intent bag = new Intent(App.getContext(), BuyActivity.class);
+                            Intent bag = new Intent(mContext, BuyActivity.class);
                             ((Activity) mContext).finish();
                             ((Activity) mContext).overridePendingTransition(0, 0);
                             mContext.startActivity(bag);

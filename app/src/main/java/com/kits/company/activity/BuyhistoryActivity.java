@@ -15,9 +15,11 @@ import com.kits.company.adapter.InternetConnection;
 import com.kits.company.adapter.Prefactor_Adapter;
 import com.kits.company.application.App;
 import com.kits.company.model.PreFactor;
-import com.kits.company.model.RetrofitRespons;
+import com.kits.company.model.RetrofitResponse;
 import com.kits.company.webService.APIClient;
 import com.kits.company.webService.APIInterface;
+
+import org.jetbrains.annotations.NotNull;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -45,11 +47,15 @@ public class BuyhistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_buyhistory);
 
 
-        InternetConnection ic =new InternetConnection(App.getContext());
+        InternetConnection ic =new InternetConnection(this);
         if(ic.has()){
-            init();
+            try {
+                init();
+            }catch (Exception e){
+                GetShared.ErrorLog(e.getMessage());
+            }
         } else{
-            intent = new Intent(App.getContext(), SplashActivity.class);
+            intent = new Intent(this, SplashActivity.class);
             startActivity(intent);
             finish();
         }
@@ -64,14 +70,14 @@ public class BuyhistoryActivity extends AppCompatActivity {
 
 
 
-        Call<RetrofitRespons> call = apiInterface.BasketPreFactor(
+        Call<RetrofitResponse> call = apiInterface.BasketPreFactor(
                 "BasketHistory", GetShared.ReadString("mobile"),
                 "0",
                 "0"
         );
-        call.enqueue(new Callback<RetrofitRespons>() {
+        call.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(@NotNull Call<RetrofitRespons> call, @NotNull Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     preFactors = response.body().getPreFactors();
@@ -89,7 +95,7 @@ public class BuyhistoryActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(@NotNull Call<RetrofitRespons> call, @NotNull Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                 App.showToast("تاریخچه ای یافت نشد");
                 finish();
             }

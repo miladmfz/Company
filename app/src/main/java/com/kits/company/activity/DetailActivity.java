@@ -2,7 +2,6 @@ package com.kits.company.activity;
 
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -36,9 +35,11 @@ import com.kits.company.application.App;
 import com.kits.company.model.Column;
 import com.kits.company.model.Good;
 import com.kits.company.model.NumberFunctions;
-import com.kits.company.model.RetrofitRespons;
+import com.kits.company.model.RetrofitResponse;
 import com.kits.company.webService.APIClient;
 import com.kits.company.webService.APIInterface;
+
+import org.jetbrains.annotations.NotNull;
 import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
@@ -96,11 +97,15 @@ public class DetailActivity extends AppCompatActivity {
 
         intent();
 
-        InternetConnection ic = new InternetConnection(App.getContext());
+        InternetConnection ic = new InternetConnection(this);
         if (ic.has()) {
-            init();
+            try {
+                init();
+            }catch (Exception e){
+                GetShared.ErrorLog(e.getMessage());
+            }
         } else {
-            intent = new Intent(App.getContext(), SplashActivity.class);
+            intent = new Intent(this, SplashActivity.class);
             startActivity(intent);
             finish();
         }
@@ -116,7 +121,7 @@ public class DetailActivity extends AppCompatActivity {
 
 
     public void init() {
-        buyBox = new BuyBox(DetailActivity.this);
+        buyBox = new BuyBox(this);
         config();
 
         good_call();
@@ -129,14 +134,14 @@ public class DetailActivity extends AppCompatActivity {
         favorite.setOnClickListener(view -> {
 
             if (favorite_bol == 1) {
-                Call<RetrofitRespons> call = apiInterface.Favorite_action(
+                Call<RetrofitResponse> call = apiInterface.Favorite_action(
                         "Favorite_action",
                         GetShared.ReadString("mobile"),
                         id.toString(),
                         "1");
-                call.enqueue(new Callback<RetrofitRespons>() {
+                call.enqueue(new Callback<RetrofitResponse>() {
                     @Override
-                    public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+                    public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                         Log.e("onResponse", "" + response.body());
                         assert response.body() != null;
                         if (response.body().getText().equals("1")) {
@@ -150,7 +155,7 @@ public class DetailActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+                    public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                         Log.e("onFailure", "" + t.toString());
                     }
                 });
@@ -158,15 +163,15 @@ public class DetailActivity extends AppCompatActivity {
             } else {
 
 
-                Call<RetrofitRespons> call = apiInterface.Favorite_action(
+                Call<RetrofitResponse> call = apiInterface.Favorite_action(
                         "Favorite_action",
                         GetShared.ReadString("mobile"),
                         id.toString(),
                         "0"
                 );
-                call.enqueue(new Callback<RetrofitRespons>() {
+                call.enqueue(new Callback<RetrofitResponse>() {
                     @Override
-                    public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+                    public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                         Log.e("onResponse", "" + response.body());
                         assert response.body() != null;
                         if (response.body().getText().equals("1")) {
@@ -178,7 +183,7 @@ public class DetailActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+                    public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                         Log.e("onFailure", "" + t.toString());
                     }
                 });
@@ -224,14 +229,14 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void good_groups() {
-        Call<RetrofitRespons> call31 = apiInterface.GetLikeGood(
+        Call<RetrofitResponse> call31 = apiInterface.GetLikeGood(
                 "goodinfo",
                 id.toString(),
                 String.valueOf(PageNo)
         );
-        call31.enqueue(new Callback<RetrofitRespons>() {
+        call31.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     goods = response.body().getGoods();
                     available_goods1.clear();
@@ -249,7 +254,7 @@ public class DetailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                 Log.e("retrofit_fail", t.getMessage());
 
 
@@ -260,14 +265,14 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void good_groups_more() {
-        Call<RetrofitRespons> call31 = apiInterface.GetLikeGood(
+        Call<RetrofitResponse> call31 = apiInterface.GetLikeGood(
                 "goodinfo",
                 id.toString(),
                 String.valueOf(PageNo)
         );
-        call31.enqueue(new Callback<RetrofitRespons>() {
+        call31.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     ArrayList<Good> good_page = response.body().getGoods();
                     goods.addAll(good_page);
@@ -283,7 +288,7 @@ public class DetailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                 PageNo--;
 
                 Log.e("retrofit_fail", t.getMessage());
@@ -296,19 +301,20 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void good_call() {
-        Call<RetrofitRespons> call = apiInterface.GetColumn(
+        Call<RetrofitResponse> call = apiInterface.GetColumn(
                 "GetColumnList",
                 String.valueOf(id),
                 "",
                 "0"
         );
-        call.enqueue(new Callback<RetrofitRespons>() {
+        Log.e("test111",String.valueOf(id));
+        call.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     Columns = response.body().getColumns();
 
-                    Call<RetrofitRespons> call2 = apiInterface.GetAllGood
+                    Call<RetrofitResponse> call2 = apiInterface.GetAllGood
                             ("goodinfo",
                                     String.valueOf(id),
                                     "",
@@ -318,9 +324,9 @@ public class DetailActivity extends AppCompatActivity {
                                     GetShared.ReadString("mobile"),
                                     "0"
                             );
-                    call2.enqueue(new Callback<RetrofitRespons>() {
+                    call2.enqueue(new Callback<RetrofitResponse>() {
                         @Override
-                        public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+                        public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                             if (response.isSuccessful()) {
                                 goods = response.body().getGoods();
                                 good = goods.get(0);
@@ -408,7 +414,7 @@ public class DetailActivity extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+                        public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                             finish();
                             Log.e("retrofit_fail", t.getMessage());
                         }
@@ -419,7 +425,7 @@ public class DetailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
 
             }
         });
@@ -474,7 +480,7 @@ public class DetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.basket_menu) {
-            intent = new Intent(App.getContext(), BuyActivity.class);
+            intent = new Intent(this, BuyActivity.class);
             GetShared.EditString("basket_position", "0");
             startActivity(intent);
             return true;
@@ -490,13 +496,13 @@ public class DetailActivity extends AppCompatActivity {
             if (textCartItemCount.getVisibility() != View.GONE) {
                 textCartItemCount.setVisibility(View.GONE);
             }
-            Call<RetrofitRespons> call2 = apiInterface.GetbasketSum(
+            Call<RetrofitResponse> call2 = apiInterface.GetbasketSum(
                     "BasketSum",
                     GetShared.ReadString("mobile")
             );
-            call2.enqueue(new Callback<RetrofitRespons>() {
+            call2.enqueue(new Callback<RetrofitResponse>() {
                 @Override
-                public void onResponse(Call<RetrofitRespons> call, Response<RetrofitRespons> response) {
+                public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                     if (response.isSuccessful()) {
                         assert response.body() != null;
                         Goods = response.body().getGoods();
@@ -511,7 +517,7 @@ public class DetailActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<RetrofitRespons> call, Throwable t) {
+                public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                     Log.e("retrofit_fail", t.getMessage());
                 }
             });
