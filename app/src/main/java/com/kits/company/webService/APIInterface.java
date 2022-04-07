@@ -160,6 +160,17 @@ public interface APIInterface {
                               @Field("Code") String Code,
                               @Field("MobileNumber") String MobileNumber);
 
+    @POST("index.php")
+    @FormUrlEncoded
+    Call<RetrofitResponse> Errorlog(
+            @Field("tag")         String tag
+            , @Field("ErrorLog")    String ErrorLog
+            , @Field("Broker")      String Broker
+            , @Field("DeviceId")    String DeviceId
+            , @Field("ServerName")  String ServerName
+            , @Field("StrDate")     String StrDate
+            , @Field("VersionName") String VersionName
+    );
 
 
 
