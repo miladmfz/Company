@@ -4,86 +4,88 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.AboutusActivity"
-    android:orientation="vertical"
     android:background="@drawable/back_login"
-    android:layoutDirection="rtl">
+    android:layoutDirection="rtl"
+    android:orientation="vertical"
+    tools:context=".activity.AboutusActivity">
 
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:padding="20dp"
->
+        android:padding="20dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-<androidx.appcompat.widget.LinearLayoutCompat
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_margin="10dp"
-        android:background="@drawable/operator"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#ffffff"
-        android:text="تماس با ما"
-        android:textSize="36dp"
-android:layout_marginTop="60dp"
-        android:layout_marginRight="20dp"
-        android:gravity="center_vertical"
-        android:textColor="#000000"
-        android:textStyle="bold"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        android:textDirection="rtl"
-        android:lineSpacingExtra="10dp"
-        android:layout_weight="0.2"
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/operator" />
 
-        />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="60dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="0.2"
+                    android:background="#ffffff"
+                    android:gravity="center_vertical"
+                    android:lineSpacingExtra="10dp"
+                    android:text="تماس با ما"
+                    android:textColor="#000000"
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+                    android:textDirection="rtl"
+                    android:textSize="36dp"
+                    android:textStyle="bold"
+
+                    />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <TextView
                 android:id="@+id/callus_text1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#ffffff"
                 android:layout_margin="10dp"
-                android:textSize="20dp"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                android:textDirection="rtl"
+                android:background="#ffffff"
                 android:lineSpacingExtra="10dp"
+                android:textColor="#000000"
+                android:textDirection="rtl"
+                android:textSize="20dp"
+                android:textStyle="bold"
 
 
                 />
+
             <TextView
                 android:id="@+id/callus_text2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#ffffff"
                 android:layout_margin="10dp"
-                android:textSize="20dp"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                android:textDirection="rtl"
+                android:background="#ffffff"
                 android:lineSpacingExtra="10dp"
+                android:textColor="#000000"
+                android:textDirection="rtl"
+                android:textSize="20dp"
+                android:textStyle="bold"
 
 
                 />
-
 
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
@@ -92,23 +94,22 @@ android:layout_marginTop="60dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
                     android:background="#ffffff"
+                    android:gravity="center"
                     android:text="شماره تماس :"
-                    android:textSize="18sp"
-                    android:gravity="center"/>
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/callus_text3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="50dp"
                     android:layout_weight="0.3"
                     android:background="#ffffff"
-                    android:textSize="18sp"
-                    android:gravity="center"/>
-
+                    android:gravity="center"
+                    android:textSize="18sp" />
 
 
             </androidx.appcompat.widget.LinearLayoutCompat>
-
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -118,22 +119,20 @@ android:layout_marginTop="60dp"
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="end|bottom">
+        android:gravity="end|bottom"
+        android:orientation="vertical">
 
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/callus_kits"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="12dp"
-            android:textColor="@color/white"
             android:layout_gravity="bottom"
+            android:textColor="@color/white"
+            android:textSize="12dp"
 
             />
     </androidx.appcompat.widget.LinearLayoutCompat>
-
-
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

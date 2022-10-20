@@ -1,5 +1,7 @@
 package com.kits.company.application;
 
+import static android.view.animation.Animation.RELATIVE_TO_SELF;
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -10,8 +12,6 @@ import android.widget.TextView;
 import com.kits.company.R;
 import com.kits.company.activity.GrpActivity;
 import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder;
-
-import static android.view.animation.Animation.RELATIVE_TO_SELF;
 
 
 public class CategoryViewHolder extends GroupViewHolder {

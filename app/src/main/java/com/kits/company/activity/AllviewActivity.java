@@ -24,8 +24,6 @@ import com.kits.company.webService.APIInterface;
 
 import org.jetbrains.annotations.NotNull;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 
 import retrofit2.Call;

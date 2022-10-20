@@ -80,10 +80,12 @@
             android:layout_margin="6dp"
             android:text="@string/detail_buy"
             android:textColor="@color/white"
-            app:backgroundTint="@color/green_400"
-            android:textSize="12sp"
+            android:textSize="14sp"
+            app:backgroundTint="@color/red_500"
             app:icon="@drawable/ic_add_shopping_black"
             app:iconTint="@color/white"
+            app:strokeColor="@color/grey_1000"
+            app:strokeWidth="1dp"
               />
 
 

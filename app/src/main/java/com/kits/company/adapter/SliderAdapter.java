@@ -22,8 +22,6 @@ import com.kits.company.application.App;
 import com.kits.company.model.Good;
 import com.kits.company.model.RetrofitResponse;
 import com.kits.company.webService.APIInterface;
-
-import org.jetbrains.annotations.NotNull;
 import com.kits.company.webService.API_image;
 import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;

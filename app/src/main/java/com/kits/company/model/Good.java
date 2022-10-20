@@ -259,7 +259,7 @@ public class Good implements Serializable {
         else if(iKey.equals("errdesc")){if(ErrDesc==null)Res ="";else Res = ErrDesc;}
         else if(iKey.equals("active")){if(Active==null)Res ="";else Res = Active;}
         else if(iKey.equals("prefactorcode"))   {if(PreFactorCode==null)Res ="";else Res = PreFactorCode;}
-        else if(iKey.equals("facamount"))       {if(FacAmount==null)Res ="";else Res = FacAmount;}
+        else if(iKey.equals("facamount"))       {if(FacAmount==null)Res ="";else Res = FacAmount.substring(0,FacAmount.indexOf("."));}
         else if(iKey.equals("price"))           {if(Price==null)Res ="";else Res = Price;}
         else if(iKey.equals("sumfacamount"))    {if(SumFacAmount==null)Res ="";else Res = SumFacAmount;}
         else if(iKey.equals("sumprice"))        {if(SumPrice==null)Res ="";else Res = SumPrice;}

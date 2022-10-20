@@ -22,8 +22,6 @@ import com.kits.company.model.NumberFunctions;
 import com.kits.company.model.PreFactor;
 import com.kits.company.model.RetrofitResponse;
 import com.kits.company.webService.APIInterface;
-
-import org.jetbrains.annotations.NotNull;
 import com.kits.company.webService.API_image;
 
 import java.util.ArrayList;

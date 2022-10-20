@@ -21,8 +21,6 @@ import com.kits.company.webService.APIInterface;
 
 import org.jetbrains.annotations.NotNull;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 
 import jp.wasabeef.recyclerview.animators.FadeInUpAnimator;

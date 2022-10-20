@@ -70,13 +70,13 @@
         android:layout_height="50dp"
         android:text="@string/detail_buy"
         android:textStyle="bold"
-        android:textSize="20sp"
-        android:textColor="#ffffff"
-        app:backgroundTint="@color/green_400"
-        app:strokeColor="@color/grey_1000"
-        app:strokeWidth="1dp"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:backgroundTint="@color/red_500"
         app:icon="@drawable/ic_add_shopping_black"
         app:iconTint="@color/white"
+        app:strokeColor="@color/grey_1000"
+        app:strokeWidth="1dp"
         />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

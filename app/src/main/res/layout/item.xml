@@ -3,7 +3,7 @@
     android:layout_width="match_parent" android:layout_height="wrap_content"
     android:padding="0dp"
     android:layoutDirection="rtl"
-    android:background="@color/green_200"
+    android:background="@drawable/bg_round_red"
     android:layout_margin="2dp"
 
     >
@@ -17,6 +17,7 @@
         android:textColor="@color/grey_1000"
         android:textSize="22dp"
         android:layout_margin="10dp"
+
         />
 
     <ImageView

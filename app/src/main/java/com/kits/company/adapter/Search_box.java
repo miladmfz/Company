@@ -29,6 +29,7 @@ import com.kits.company.webService.APIInterface;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -64,6 +65,8 @@ public class Search_box {
         dialog = new Dialog(mContext);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);//title laye nadashte bashim
         dialog.setContentView(R.layout.search_box);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
+
         spinner = dialog.findViewById(R.id.search_box_spinner);
         layout_view = dialog.findViewById(R.id.search_box_layout_pro);
 
@@ -150,7 +153,6 @@ public class Search_box {
 
                             TextView extra_TextView1 = new TextView(mContext);
                             extra_TextView1.setText(NumberFunctions.PerisanNumber(Column.getColumnFieldValue("ColumnDesc")));
-                            extra_TextView1.setBackgroundResource(R.color.white);
                             extra_TextView1.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.MATCH_PARENT, (float) 0.7));
                             extra_TextView1.setTextSize(14);
                             extra_TextView1.setPadding(2, 2, 2, 2);

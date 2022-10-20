@@ -23,9 +23,9 @@ import com.kits.company.model.RetrofitResponse;
 import com.kits.company.model.User;
 import com.kits.company.webService.APIClient;
 import com.kits.company.webService.APIInterface;
+import com.kits.company.webService.APIVerification;
 
 import org.jetbrains.annotations.NotNull;
-import com.kits.company.webService.APIVerification;
 
 import java.util.ArrayList;
 

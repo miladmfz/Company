@@ -9,20 +9,14 @@ import android.provider.Settings;
 import androidx.annotation.NonNull;
 
 import com.kits.company.BuildConfig;
-import com.kits.company.R;
 import com.kits.company.application.App;
 import com.kits.company.model.RetrofitResponse;
 import com.kits.company.webService.APIInterface;
-
-import org.jetbrains.annotations.NotNull;
 import com.kits.company.webService.APIVerification;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.POST;
 
 public class GetShared extends Application {
     private static SharedPreferences shPref;

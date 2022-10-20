@@ -10,7 +10,7 @@ public class API_image {
 
     private  static Retrofit retrofit_image=null;
 //public  static  final  String BASE_URL = "http://87.107.78.234:60005/login/";
-public  static  final  String BASE_URL = "http://192.168.1.218:60005/login/";
+public  static  final  String BASE_URL = "http://87.107.78.234:60005/login/";
 
     public static Retrofit getCleint(){
         if(retrofit_image==null){

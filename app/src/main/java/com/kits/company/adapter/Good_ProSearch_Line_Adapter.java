@@ -1,6 +1,7 @@
 package com.kits.company.adapter;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.text.SpannableString;
@@ -85,7 +86,7 @@ public class Good_ProSearch_Line_Adapter extends RecyclerView.Adapter<Good_ProSe
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final GoodViewHolder holder, final int position)
+    public void onBindViewHolder(@NonNull final GoodViewHolder holder, @SuppressLint("RecyclerView") final int position)
     {
         buyBox=new BuyBox(mContext);
 
@@ -107,23 +108,22 @@ public class Good_ProSearch_Line_Adapter extends RecyclerView.Adapter<Good_ProSe
             goods = all_goods;
         }
 
-        final Good goodView = goods.get(position);
 
 
         holder.img.setVisibility(View.INVISIBLE);
         holder.rltv.setVisibility(View.VISIBLE);
 
 
-        if(Integer.parseInt(goodView.getGoodFieldValue("HasStackAmount"))>0) {
-            if (goodView.getGoodFieldValue("MaxSellPrice").equals(goodView.getGoodFieldValue("SellPrice"))) {
+        if(Integer.parseInt(goods.get(position).getGoodFieldValue("HasStackAmount"))>0) {
+            if (goods.get(position).getGoodFieldValue("MaxSellPrice").equals(goods.get(position).getGoodFieldValue("SellPrice"))) {
                 holder.maxsellpriceTextView.setVisibility(View.GONE);
             } else {
                 holder.maxsellpriceTextView.setVisibility(View.VISIBLE);
-                SpannableString spannableString = new SpannableString(NumberFunctions.PerisanNumber(decimalFormat.format(Integer.parseInt(goodView.getGoodFieldValue("MaxSellPrice")))));
-                spannableString.setSpan(new StrikethroughSpan(), 0, goodView.getGoodFieldValue("MaxSellPrice").length(), Spanned.SPAN_MARK_MARK);
+                SpannableString spannableString = new SpannableString(NumberFunctions.PerisanNumber(decimalFormat.format(Integer.parseInt(goods.get(position).getGoodFieldValue("MaxSellPrice")))));
+                spannableString.setSpan(new StrikethroughSpan(), 0, goods.get(position).getGoodFieldValue("MaxSellPrice").length(), Spanned.SPAN_MARK_MARK);
                 holder.maxsellpriceTextView.setText(spannableString);
             }
-            holder.sellpercent.setText(NumberFunctions.PerisanNumber(decimalFormat.format(Integer.parseInt(goodView.getGoodFieldValue("SellPrice")))));
+            holder.sellpercent.setText(NumberFunctions.PerisanNumber(decimalFormat.format(Integer.parseInt(goods.get(position).getGoodFieldValue("SellPrice")))));
             holder.btnadd.setVisibility(View.VISIBLE);
             holder.sellpercent.setTextColor(App.getContext().getResources().getColor(R.color.green_900));
             holder.rltv.setCheckable(true);
@@ -140,9 +140,9 @@ public class Good_ProSearch_Line_Adapter extends RecyclerView.Adapter<Good_ProSe
 
 
 
-        holder.goodnameTextView.setText(NumberFunctions.PerisanNumber(goodView.getGoodFieldValue("GoodName")));
+        holder.goodnameTextView.setText(NumberFunctions.PerisanNumber(goods.get(position).getGoodFieldValue("GoodName")));
 
-        if(Float.parseFloat(goodView.getGoodFieldValue("totalamount"))>0){
+        if(Float.parseFloat(goods.get(position).getGoodFieldValue("totalamount"))>0){
             holder.totalstate.setVisibility(View.GONE);
         }else {
             holder.totalstate.setVisibility(View.VISIBLE);
@@ -174,7 +174,7 @@ public class Good_ProSearch_Line_Adapter extends RecyclerView.Adapter<Good_ProSe
             holder.img.setVisibility(View.VISIBLE);
 
             call2 = apiInterface_image.GetImage("getImage",
-                    goodView.getGoodFieldValue("GoodCode"),
+                    goods.get(position).getGoodFieldValue("GoodCode"),
                     "0",
                     "100"
             );
@@ -221,34 +221,34 @@ public class Good_ProSearch_Line_Adapter extends RecyclerView.Adapter<Good_ProSe
         holder.rltv.setOnClickListener(v -> {
 
             if(multi_select){
-                if(Integer.parseInt(goodView.getGoodFieldValue("HasStackAmount"))>0) {
+                if(Integer.parseInt(goods.get(position).getGoodFieldValue("HasStackAmount"))>0) {
                     holder.rltv.setChecked(!holder.rltv.isChecked());
                     goods.get(position).setCheck(!goods.get(position).isCheck());
                     if (goods.get(position).isCheck()) {
                         if (mContext.getClass().getName().equals("com.kits.company.activity.SearchActivity")) {
                             SearchActivity activity = (SearchActivity) mContext ;
-                            activity.good_select_function(goodView, 1);
+                            activity.good_select_function(goods.get(position), 1);
                         }
                         if (mContext.getClass().getName().equals("com.kits.company.activity.Search_date_detailActivity")) {
                             Search_date_detailActivity activity = (Search_date_detailActivity) mContext ;
-                            activity.good_select_function(goodView, 1);
+                            activity.good_select_function(goods.get(position), 1);
                         }
                         if (mContext.getClass().getName().equals("com.kits.company.activity.GrpActivity")) {
                             GrpActivity activity = (GrpActivity) mContext ;
-                            activity.good_select_function(goodView, 1);
+                            activity.good_select_function(goods.get(position), 1);
                         }
                     } else {
                         if (mContext.getClass().getName().equals("com.kits.company.activity.SearchActivity")) {
                             SearchActivity activity = (SearchActivity) mContext ;
-                            activity.good_select_function(goodView, 0);
+                            activity.good_select_function(goods.get(position), 0);
                         }
                         if (mContext.getClass().getName().equals("com.kits.company.activity.Search_date_detailActivity")) {
                             Search_date_detailActivity activity = (Search_date_detailActivity) mContext ;
-                            activity.good_select_function(goodView, 0);
+                            activity.good_select_function(goods.get(position), 0);
                         }
                         if (mContext.getClass().getName().equals("com.kits.company.activity.GrpActivity")) {
                             GrpActivity activity = (GrpActivity) mContext ;
-                            activity.good_select_function(goodView, 0);
+                            activity.good_select_function(goods.get(position), 0);
                         }
 
                     }
@@ -273,7 +273,7 @@ public class Good_ProSearch_Line_Adapter extends RecyclerView.Adapter<Good_ProSe
             @Override
             public void onClick(View view) {
 
-                buyBox.buydialog(goodView);
+                buyBox.buydialog(goods.get(position));
             }
         });
 
@@ -283,35 +283,35 @@ public class Good_ProSearch_Line_Adapter extends RecyclerView.Adapter<Good_ProSe
             public boolean onLongClick(View view) {
                 multi_select=true;
 
-                if(Integer.parseInt(goodView.getGoodFieldValue("HasStackAmount"))>0) {
+                if(Integer.parseInt(goods.get(position).getGoodFieldValue("HasStackAmount"))>0) {
                     holder.rltv.setChecked(!holder.rltv.isChecked());
                     goods.get(position).setCheck(!goods.get(position).isCheck());
 
                     if (goods.get(position).isCheck()) {
                         if (mContext.getClass().getName().equals("com.kits.company.activity.SearchActivity")) {
                             SearchActivity activity = (SearchActivity) mContext ;
-                            activity.good_select_function(goodView, 1);
+                            activity.good_select_function(goods.get(position), 1);
                         }
                         if (mContext.getClass().getName().equals("com.kits.company.activity.Search_date_detailActivity")) {
                             Search_date_detailActivity activity = (Search_date_detailActivity) mContext ;
-                            activity.good_select_function(goodView, 1);
+                            activity.good_select_function(goods.get(position), 1);
                         }
                         if (mContext.getClass().getName().equals("com.kits.company.activity.GrpActivity")) {
                             GrpActivity activity = (GrpActivity) mContext ;
-                            activity.good_select_function(goodView, 1);
+                            activity.good_select_function(goods.get(position), 1);
                         }
                     } else {
                         if (mContext.getClass().getName().equals("com.kits.company.activity.SearchActivity")) {
                             SearchActivity activity = (SearchActivity) mContext ;
-                            activity.good_select_function(goodView, 0);
+                            activity.good_select_function(goods.get(position), 0);
                         }
                         if (mContext.getClass().getName().equals("com.kits.company.activity.Search_date_detailActivity")) {
                             Search_date_detailActivity activity = (Search_date_detailActivity) mContext ;
-                            activity.good_select_function(goodView, 0);
+                            activity.good_select_function(goods.get(position), 0);
                         }
                         if (mContext.getClass().getName().equals("com.kits.company.activity.GrpActivity")) {
                             GrpActivity activity = (GrpActivity) mContext ;
-                            activity.good_select_function(goodView, 0);
+                            activity.good_select_function(goods.get(position), 0);
                         }
 
                     }

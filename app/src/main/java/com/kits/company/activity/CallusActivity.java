@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.kits.company.R;
 import com.kits.company.adapter.GetShared;
 import com.kits.company.adapter.InternetConnection;
-import com.kits.company.application.App;
 import com.kits.company.model.NumberFunctions;
 import com.kits.company.model.RetrofitResponse;
 import com.kits.company.webService.APIClient;
@@ -77,7 +76,7 @@ Intent intent;
             public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
-                    text1.setText(response.body().getText());
+                    text1.setText(NumberFunctions.PerisanNumber(response.body().getText()));
                 }
             }
             @Override
@@ -93,7 +92,7 @@ Intent intent;
                 if (response.isSuccessful()) {
                     assert response.body() != null;
 
-                    text3.setText(response.body().getText());
+                    text3.setText(NumberFunctions.PerisanNumber(response.body().getText()));
                 }
             }
             @Override
@@ -108,7 +107,7 @@ Intent intent;
                 if (response.isSuccessful()) {
                     assert response.body() != null;
 
-                    text2.setText(response.body().getText());
+                    text2.setText(NumberFunctions.PerisanNumber(response.body().getText()));
                 }
             }
             @Override

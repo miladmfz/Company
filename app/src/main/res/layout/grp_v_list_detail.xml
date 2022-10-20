@@ -9,8 +9,6 @@
     app:cardCornerRadius="20dp"
     app:cardElevation="10dp"
     android:layout_margin="5dp"
-    app:cardBackgroundColor="@color/green_400"
-
     android:layout_gravity="center"
     android:layoutDirection="rtl">
 
@@ -26,7 +24,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/detail_buy"
-            android:textColor="@color/white"
+            android:textColor="@color/Black"
+            android:textStyle="bold"
             style="?attr/materialButtonOutlinedStyle"
               />
 

@@ -1,6 +1,7 @@
 package com.kits.company.adapter;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.text.SpannableString;
@@ -28,8 +29,6 @@ import com.kits.company.model.Good;
 import com.kits.company.model.NumberFunctions;
 import com.kits.company.model.RetrofitResponse;
 import com.kits.company.webService.APIInterface;
-
-import org.jetbrains.annotations.NotNull;
 import com.kits.company.webService.API_image;
 
 import java.text.DecimalFormat;
@@ -68,27 +67,26 @@ public class Good_view_Adapter extends RecyclerView.Adapter<Good_view_Adapter.Go
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final GoodViewHolder holder,final int position)
+    public void onBindViewHolder(@NonNull final GoodViewHolder holder, @SuppressLint("RecyclerView") final int position)
     {
         buyBox=new BuyBox(mContext);
 
 
 
-        final Good goodView = goods.get(position);
 
 
 
 
-        if(Integer.parseInt(goodView.getGoodFieldValue("HasStackAmount"))>0) {
-            if (goodView.getGoodFieldValue("MaxSellPrice").equals(goodView.getGoodFieldValue("SellPrice"))) {
+        if(Integer.parseInt(goods.get(position).getGoodFieldValue("HasStackAmount"))>0) {
+            if (goods.get(position).getGoodFieldValue("MaxSellPrice").equals(goods.get(position).getGoodFieldValue("SellPrice"))) {
                 holder.maxsellpriceTextView.setVisibility(View.GONE);
             } else {
                 holder.maxsellpriceTextView.setVisibility(View.VISIBLE);
-                SpannableString spannableString = new SpannableString(NumberFunctions.PerisanNumber(decimalFormat.format(Integer.parseInt(goodView.getGoodFieldValue("MaxSellPrice")))));
-                spannableString.setSpan(new StrikethroughSpan(), 0, goodView.getGoodFieldValue("MaxSellPrice").length(), Spanned.SPAN_MARK_MARK);
+                SpannableString spannableString = new SpannableString(NumberFunctions.PerisanNumber(decimalFormat.format(Integer.parseInt(goods.get(position).getGoodFieldValue("MaxSellPrice")))));
+                spannableString.setSpan(new StrikethroughSpan(), 0, goods.get(position).getGoodFieldValue("MaxSellPrice").length(), Spanned.SPAN_MARK_MARK);
                 holder.maxsellpriceTextView.setText(spannableString);
             }
-            holder.sellpercent.setText(NumberFunctions.PerisanNumber(decimalFormat.format(Integer.parseInt(goodView.getGoodFieldValue("SellPrice")))));
+            holder.sellpercent.setText(NumberFunctions.PerisanNumber(decimalFormat.format(Integer.parseInt(goods.get(position).getGoodFieldValue("SellPrice")))));
             holder.btnadd.setVisibility(View.VISIBLE);
             holder.sellpercent.setTextColor(App.getContext().getResources().getColor(R.color.green_900));
 
@@ -102,7 +100,7 @@ public class Good_view_Adapter extends RecyclerView.Adapter<Good_view_Adapter.Go
         }
 
 
-        holder.goodnameTextView.setText(NumberFunctions.PerisanNumber(goodView.getGoodFieldValue("GoodName")));
+        holder.goodnameTextView.setText(NumberFunctions.PerisanNumber(goods.get(position).getGoodFieldValue("GoodName")));
 
 
 
@@ -135,7 +133,7 @@ public class Good_view_Adapter extends RecyclerView.Adapter<Good_view_Adapter.Go
 
             call2 = apiInterface_image.GetImage(
                     "getImage",
-                    goodView.getGoodFieldValue("GoodCode"),
+                    goods.get(position).getGoodFieldValue("GoodCode"),
                     "0",
                     "150"
             );
@@ -196,7 +194,7 @@ public class Good_view_Adapter extends RecyclerView.Adapter<Good_view_Adapter.Go
 
         holder.btnadd.setOnClickListener(view -> {
 
-            buyBox.buydialog(goodView);
+            buyBox.buydialog(goods.get(position));
 
         });
     }

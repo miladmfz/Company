@@ -463,7 +463,7 @@
                         android:layout_marginRight="10dp"
                         android:layout_marginBottom="10dp"
                         android:layout_weight="0.5"
-                        android:text="بازگشت به صفخه اصلی"
+                        android:text="بازگشت"
                         android:textColor="@color/white"
                         android:textSize="14dp"
                         android:textStyle="bold"
@@ -530,6 +530,9 @@
                 android:textStyle="bold"
                 android:gravity="center"
                 />
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -641,7 +644,7 @@
                      />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
-
+        </androidx.core.widget.NestedScrollView>
         </com.google.android.material.card.MaterialCardView>
 
 
