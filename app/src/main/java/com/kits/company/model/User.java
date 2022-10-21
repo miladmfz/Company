@@ -41,19 +41,59 @@ public class User {
     {
         String iKey = AKey.toLowerCase();
         String Res = "";
-        if(iKey.equals("xusercode")){Res = XUserCode;}
-        else if(iKey.equals("xusername")){if(XUserName==null)Res ="";else Res = XUserName;}
-        else if(iKey.equals("postalcode")){if(PostalCode==null)Res ="";else Res = PostalCode;}
-        else if(iKey.equals("xrandomcode")){if(XRandomCode==null)Res ="";else Res = XRandomCode;}
-        else if(iKey.equals("fname")){if(FName==null)Res ="";else Res = FName;}
-        else if(iKey.equals("lname")){if(LName==null)Res ="";else Res = LName;}
-        else if(iKey.equals("address")){if(address==null)Res ="";else Res = address;}
-        else if(iKey.equals("mobile")){if(mobile==null)Res ="";else Res = mobile;}
-        else if(iKey.equals("email")){if(email==null)Res ="";else Res = email;}
-        else if(iKey.equals("active")){if(Active==null)Res ="";else Res = Active;}
-        else if(iKey.equals("customername")){if(CustomerName==null)Res ="مشتری پیش فرض";else Res = CustomerName;}
-        else if(iKey.equals("errcode")){if(ErrCode==null)Res ="";else Res = ErrCode;}
-        else if(iKey.equals("errdesc")){if(ErrDesc==null)Res ="";else Res = ErrDesc;}
+        switch (iKey) {
+            case "xusercode":
+                Res = XUserCode;
+                break;
+            case "xusername":
+                if (XUserName == null) Res = "";
+                else Res = XUserName;
+                break;
+            case "postalcode":
+                if (PostalCode == null) Res = "";
+                else Res = PostalCode;
+                break;
+            case "xrandomcode":
+                if (XRandomCode == null) Res = "";
+                else Res = XRandomCode;
+                break;
+            case "fname":
+                if (FName == null) Res = "";
+                else Res = FName;
+                break;
+            case "lname":
+                if (LName == null) Res = "";
+                else Res = LName;
+                break;
+            case "address":
+                if (address == null) Res = "";
+                else Res = address;
+                break;
+            case "mobile":
+                if (mobile == null) Res = "";
+                else Res = mobile;
+                break;
+            case "email":
+                if (email == null) Res = "";
+                else Res = email;
+                break;
+            case "active":
+                if (Active == null) Res = "";
+                else Res = Active;
+                break;
+            case "customername":
+                if (CustomerName == null) Res = "مشتری پیش فرض";
+                else Res = CustomerName;
+                break;
+            case "errcode":
+                if (ErrCode == null) Res = "";
+                else Res = ErrCode;
+                break;
+            case "errdesc":
+                if (ErrDesc == null) Res = "";
+                else Res = ErrDesc;
+                break;
+        }
 
 
         return Res;

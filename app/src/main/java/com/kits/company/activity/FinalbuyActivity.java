@@ -99,8 +99,6 @@ public class FinalbuyActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
-                Log.e("retrofit_fail",t.getMessage());
-
 
             }
         });
@@ -135,7 +133,7 @@ public class FinalbuyActivity extends AppCompatActivity {
                                     {
                                         App.showToast(Goods.get(0).getGoodFieldValue("ErrDesc"));
                                         finish();
-                                        intent = new Intent(FinalbuyActivity.this, BuyActivity.class);
+                                        intent = new Intent(FinalbuyActivity.this, BasketActivity.class);
                                         GetShared.EditString("basket_position", "0");
                                         startActivity(intent);
                                     }else{
@@ -144,7 +142,7 @@ public class FinalbuyActivity extends AppCompatActivity {
                                             {
                                                 App.showToast("پیش فاکتور با موفقیت ثبت شد");
                                                 finish();
-                                                intent = new Intent(FinalbuyActivity.this, BuyhistoryDetialActivity.class);
+                                                intent = new Intent(FinalbuyActivity.this, BasketHistoryDetialActivity.class);
                                                 intent.putExtra("id", Goods.get(0).getGoodFieldValue("PreFactorCode"));
                                                 intent.putExtra("ReservedRows", "1");
                                                 startActivity(intent);
@@ -164,7 +162,6 @@ public class FinalbuyActivity extends AppCompatActivity {
                             }
                             @Override
                             public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
-                                Log.e("retrofit_fail",t.getMessage());
                             }
                         });
                     })

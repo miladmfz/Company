@@ -1,34 +1,34 @@
-package com.kits.company.application;
+package com.kits.company.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Product implements Parcelable {
+public class GroupLayerTwo implements Parcelable {
     public final String name;
     public int id;
     public int ChildNo;
 
 
 
-    public Product(String name,Integer id,Integer ChildNo) {
+    public GroupLayerTwo(String name, Integer id, Integer ChildNo) {
         this.name = name;
         this.id = id;
         this.ChildNo = ChildNo;
     }
 
-    protected Product(Parcel in) {
+    protected GroupLayerTwo(Parcel in) {
         name = in.readString();
     }
 
-    public static final Creator<Product> CREATOR = new Creator<Product>() {
+    public static final Creator<GroupLayerTwo> CREATOR = new Creator<GroupLayerTwo>() {
         @Override
-        public Product createFromParcel(Parcel in) {
-            return new Product(in);
+        public GroupLayerTwo createFromParcel(Parcel in) {
+            return new GroupLayerTwo(in);
         }
 
         @Override
-        public Product[] newArray(int size) {
-            return new Product[size];
+        public GroupLayerTwo[] newArray(int size) {
+            return new GroupLayerTwo[size];
         }
     };
 

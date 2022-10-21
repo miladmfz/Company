@@ -6,29 +6,35 @@ import java.util.ArrayList;
 
 public class RetrofitResponse {
 
-    @SerializedName("Goods")
-    private ArrayList<Good> Goods;
-    @SerializedName("Groups")
-    private ArrayList<GoodGroup> Groups;
-    @SerializedName("PreFactors")
-    private ArrayList<PreFactor> PreFactors;
-
-    @SerializedName("Columns")
-    private ArrayList<Column> Columns;
-    @SerializedName("users")
-    private ArrayList<User> users;
-
 
     @SerializedName("Column")
     private Column column;
+    @SerializedName("Columns")
+    private ArrayList<Column> Columns;
+
+
     @SerializedName("Group")
     private GoodGroup group;
+    @SerializedName("Groups")
+    private ArrayList<GoodGroup> Groups;
+
+
     @SerializedName("Good")
     private Good good;
+    @SerializedName("Goods")
+    private ArrayList<Good> Goods;
+
+
     @SerializedName("PreFactor")
     private PreFactor preFactor;
+    @SerializedName("PreFactors")
+    private ArrayList<PreFactor> PreFactors;
+
     @SerializedName("user")
     private User user;
+    @SerializedName("users")
+    private ArrayList<User> users;
+
 
 
     @SerializedName("value")
@@ -41,6 +47,12 @@ public class RetrofitResponse {
     private String ErrCode;
     @SerializedName("ErrDesc")
     private String ErrDesc;
+
+
+
+
+
+
 
 
 

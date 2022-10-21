@@ -358,7 +358,6 @@ public class RegisterActivity extends AppCompatActivity {
                             intent.putExtra("id", 3);
                             intent.putExtra("XRandomCode", users.get(0).getUserFieldValue("XRandomCode"));
                             intent.putExtra("mobile_recovery", emobile);
-                            Log.e("mobile_recovery", users.get(0).getUserFieldValue("XRandomCode"));
                             finish();
                             startActivity(intent);
 

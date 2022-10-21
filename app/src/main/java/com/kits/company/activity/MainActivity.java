@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.Toolbar;
@@ -35,12 +36,11 @@ import com.google.android.material.navigation.NavigationView;
 import com.kits.company.BuildConfig;
 import com.kits.company.R;
 import com.kits.company.adapter.GetShared;
-import com.kits.company.adapter.Good_view_Adapter;
-import com.kits.company.adapter.Grp_Vlist_detail_Adapter;
+import com.kits.company.adapter.GoodAdapter;
+import com.kits.company.adapter.GrpAdapter;
 import com.kits.company.adapter.InternetConnection;
 import com.kits.company.adapter.SliderAdapter;
 import com.kits.company.application.App;
-import com.kits.company.application.AppDialog;
 import com.kits.company.model.Good;
 import com.kits.company.model.GoodGroup;
 import com.kits.company.model.NumberFunctions;
@@ -89,8 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public SliderView sliderView;
     private boolean doubleBackToExitPressedOnce = false;
     LinearLayoutManager horizontalLayoutManager;
-    Good_view_Adapter adapter;
-    AppDialog dialog=new AppDialog();
+    GoodAdapter adapter;
 
     LinearLayoutCompat line_mainpage;
 
@@ -187,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         btn1.setOnClickListener(view -> {
-            intent = new Intent(this, GrpActivity.class);
+            intent = new Intent(this, SearchActivity.class);
             intent.putExtra("id", grp_id1);
             intent.putExtra("title",""+grp_name1);
             startActivity(intent);
@@ -196,21 +195,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         btn2.setOnClickListener(view -> {
-            intent = new Intent(this, GrpActivity.class);
+            intent = new Intent(this, SearchActivity.class);
             intent.putExtra("id", grp_id2);
             intent.putExtra("title",""+grp_name2);
             startActivity(intent);
         });
 
         imagebtn1.setOnClickListener(view -> {
-            intent = new Intent(this, GrpActivity.class);
+            intent = new Intent(this, SearchActivity.class);
             intent.putExtra("id", image_id1);
             intent.putExtra("title",""+image_name1);
             startActivity(intent);
         });
 
         imagebtn2.setOnClickListener(view -> {
-            intent = new Intent(this, GrpActivity.class);
+            intent = new Intent(this, SearchActivity.class);
             intent.putExtra("id", image_id2);
             intent.putExtra("title",""+image_name2);
             startActivity(intent);
@@ -234,7 +233,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (response.isSuccessful()) {
                     Groups = response.body().getGroups();
                     if(Groups.size()>0) {
-                        Grp_Vlist_detail_Adapter adapter = new Grp_Vlist_detail_Adapter(Groups, App.getContext());
+                        GrpAdapter adapter = new GrpAdapter(Groups, App.getContext());
                         LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(App.getContext(), LinearLayoutManager.HORIZONTAL, false);
                         rc_grp.setLayoutManager(horizontalLayoutManager);
                         rc_grp.setAdapter(adapter);
@@ -249,8 +248,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                 LinearLayout linearLayoutq=findViewById(R.id.grp_main_linearlayout);
                 linearLayoutq.setVisibility(View.GONE);
-                Log.e("call1","1");
-                Log.e("call1",t.getMessage());
 
             }
         });
@@ -291,8 +288,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
-                Log.e("call2","2");
-
             }
         });
 
@@ -311,7 +306,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Groups_defult = response.body().getGroups();
                     if(Integer.parseInt(Groups_defult.get(0).getGoodGroupFieldValue("ErrCode"))>0)
                     {
-
                         Log.e("",Groups_defult.get(0).getGoodGroupFieldValue("ErrDesc"));
                     }
                     else
@@ -343,7 +337,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                            available_goods1.add(g);
                                         }
                                     }
-                                    adapter = new Good_view_Adapter( available_goods1, MainActivity.this);
+                                    adapter = new GoodAdapter( available_goods1, MainActivity.this);
                                     horizontalLayoutManager = new LinearLayoutManager(App.getContext(), LinearLayoutManager.HORIZONTAL, false);
                                     rc_allgood.setLayoutManager(horizontalLayoutManager);
                                     rc_allgood.setAdapter(adapter);
@@ -353,8 +347,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             }
                             @Override
                             public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
-                                Log.e("call4","3");
-
                             }
                         });
 
@@ -382,7 +374,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                             available_goods2.add(g);
                                         }
                                     }
-                                    adapter = new Good_view_Adapter( available_goods2, MainActivity.this);
+                                    adapter = new GoodAdapter( available_goods2, MainActivity.this);
                                     LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(App.getContext(), LinearLayoutManager.HORIZONTAL, false);
                                     rc_allgood_2.setLayoutManager(horizontalLayoutManager);
                                     rc_allgood_2.setAdapter(adapter);
@@ -391,7 +383,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             }
                             @Override
                             public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
-                                Log.e("call5","4");
 
                             }
                         });
@@ -406,7 +397,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
     }
-    @SuppressLint("ResourceType")
+    @SuppressLint({"ResourceType", "UseCompatLoadingForDrawables", "RtlHardcoded"})
     private void kowsar_good_dynamic() {
 
 
@@ -437,7 +428,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 extra_TextView1.setGravity(Gravity.RIGHT);
                 extra_TextView1.setTextColor(getResources().getColor(R.color.red_900));
 
-
                 MaterialButton extra_materialbutton = new MaterialButton(MainActivity.this);
                 extra_materialbutton.setText("بیشتر");
                 extra_materialbutton.setLayoutParams(new LinearLayoutCompat.LayoutParams(
@@ -453,7 +443,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 extra_materialbutton.setBackgroundColor(getResources().getColor(R.color.white));
                 extra_materialbutton.setIconTint(ColorStateList.valueOf(getResources().getColor(R.color.blue_500)));
                 extra_materialbutton.setOnClickListener(v -> {
-                    intent = new Intent(getApplicationContext(), GrpActivity.class);
+                    intent = new Intent(getApplicationContext(), SearchActivity.class);
                     intent.putExtra("id", groups.getGoodGroupFieldValue("groupcode"));
                     intent.putExtra("title",groups.getGoodGroupFieldValue("name"));
                     startActivity(intent);
@@ -480,7 +470,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     available_goods.add(g);
                                 }
                             }
-                            adapter = new Good_view_Adapter( available_goods, MainActivity.this);
+                            adapter = new GoodAdapter( available_goods, MainActivity.this);
                             LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false);
                             extra_recyclerview.setLayoutManager(horizontalLayoutManager);
                             extra_recyclerview.setAdapter(adapter);
@@ -489,7 +479,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                     @Override
                     public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
-                        //Log.e("retrofit_fail",t.getMessage());
                     }
                 });
 
@@ -535,9 +524,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             @Override
             public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
-                Log.e("call6","6");
 
-                Log.e("retrofit_fail",t.getMessage());
             }
         });
 
@@ -545,6 +532,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
+
     private void noti(){
         Call<RetrofitResponse> call7 = apiInterface.VersionInfo("VersionInfo");
         call7.enqueue(new Callback<RetrofitResponse>() {
@@ -554,14 +542,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     assert response.body() != null;
                     if(!response.body().getText().equals(BuildConfig.VERSION_NAME)){
-                        dialog.show(getSupportFragmentManager(),"Version");
+
+                        new android.app.AlertDialog.Builder(MainActivity.this)
+                                .setTitle("توجه")
+                                .setMessage("نسخه نرم افزاری شما قدیمی می باشد لطفا با مجموعه تماس بگیرید")
+                                .show();
                     }
                 }
             }
             @Override
             public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
 
-                Log.e("retrofit_fail",t.getMessage());
             }
         });
 
@@ -594,18 +585,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_Search) {
             intent = new Intent(this, SearchActivity.class);
+            intent.putExtra("id", 0);
+            intent.putExtra("title","جستجوی کالا");
             startActivity(intent);
-        } else if (id == R.id.nav_news) {
-            intent = new Intent(this, Search_date_detailActivity.class);
-            startActivity(intent);
+
         } else if (id == R.id.nav_Favorite) {
             Intent intent = new Intent(this, FavoriteActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_buybag) {
-            Intent intent = new Intent(this, BuyActivity.class);
+            Intent intent = new Intent(this, BasketActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_factors) {
-            Intent intent = new Intent(this, BuyhistoryActivity.class);
+            Intent intent = new Intent(this, BasketHistoryActivity.class);
             startActivity(intent);
         } else if (id == R.id.calltous) {
             Intent intent = new Intent(this, CallusActivity.class);
@@ -644,12 +635,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.basket_menu) {
-            intent = new Intent(this, BuyActivity.class);
+            intent = new Intent(this, BasketActivity.class);
             GetShared.EditString("basket_position", "0");
             startActivity(intent);
             return true;
         }if(item.getItemId() == R.id.search_menu){
             intent = new Intent(this, SearchActivity.class);
+            intent.putExtra("id", 0);
+            intent.putExtra("title","جستجوی کالا");
             startActivity(intent);
             return true;
         }
@@ -684,12 +677,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 @Override
                 public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
-                    Log.e("call8","7");
-
-                    Log.e("retrofit_fail",t.getMessage());
+;
                 }
             });
         }
     }
-
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        setupBadge();
+        super.onWindowFocusChanged(hasFocus);
+    }
 }

@@ -18,7 +18,6 @@ import androidx.appcompat.widget.LinearLayoutCompat;
 
 import com.google.android.material.button.MaterialButton;
 import com.kits.company.R;
-import com.kits.company.activity.GrpActivity;
 import com.kits.company.activity.SearchActivity;
 import com.kits.company.model.Column;
 import com.kits.company.model.NumberFunctions;
@@ -238,15 +237,6 @@ public class Search_box {
 
                         if(mContext.getClass().getName().equals("com.kits.company.activity.SearchActivity")){
                             SearchActivity activity= (SearchActivity) mContext ;
-                            activity.srch="";
-                            activity.sq=sq;
-                            activity.PageNo=0;
-                            activity.allgood(srch,sq);
-                            dialog.dismiss();
-
-                        }
-                        else if(mContext.getClass().getName().equals("com.kits.company.activity.GrpActivity")){
-                            GrpActivity activity= (GrpActivity) mContext ;
                             activity.srch="";
                             activity.sq=sq;
                             activity.PageNo=0;

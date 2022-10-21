@@ -81,7 +81,6 @@ Intent intent;
             }
             @Override
             public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
-                Log.e("onFailure",t.toString());
             }
         });
 
@@ -97,7 +96,6 @@ Intent intent;
             }
             @Override
             public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
-                Log.e("onFailure",t.toString());
             }
         });
         Call<RetrofitResponse> call3 = apiInterface.info("kowsar_info","address");
@@ -112,7 +110,6 @@ Intent intent;
             }
             @Override
             public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
-                Log.e("onFailure",t.toString());
             }
         });
 

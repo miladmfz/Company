@@ -137,6 +137,7 @@ public class SplashActivity extends AppCompatActivity {
             public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                 App.showToast(t.getMessage());
                 App.showToast("ارتباط با سرور میسر نمی باشد.");
+                init();
             }
         });
     }

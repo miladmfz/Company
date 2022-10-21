@@ -10,7 +10,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class App extends Application {
     private static App  instance;
-
+    private static Toast toast;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -31,8 +31,11 @@ public class App extends Application {
     }
 
     public static void showToast(String string) {
+        if (toast!=null)
+            toast.cancel();
+        toast = Toast.makeText(instance, string, Toast.LENGTH_LONG);
+        toast.show();
 
-        Toast.makeText(instance, string, Toast.LENGTH_SHORT).show();
     }
 
 

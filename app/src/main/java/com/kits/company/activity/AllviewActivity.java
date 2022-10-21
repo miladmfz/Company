@@ -2,7 +2,7 @@ package com.kits.company.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -14,9 +14,9 @@ import com.kits.company.R;
 import com.kits.company.adapter.GetShared;
 import com.kits.company.adapter.InternetConnection;
 import com.kits.company.application.App;
-import com.kits.company.application.Category;
-import com.kits.company.application.Product;
-import com.kits.company.application.ProductAdapter;
+import com.kits.company.model.GroupLayerOne;
+import com.kits.company.model.GroupLayerTwo;
+import com.kits.company.application.GroupLayerAdapter;
 import com.kits.company.model.GoodGroup;
 import com.kits.company.model.RetrofitResponse;
 import com.kits.company.webService.APIClient;
@@ -36,10 +36,10 @@ public class AllviewActivity extends AppCompatActivity {
 
     Intent intent;
     ProgressBar prog;
-    ArrayList<Category> companies=new ArrayList<>();
+    ArrayList<GroupLayerOne> companies=new ArrayList<>();
     RecyclerView rc;
-    Category cm ;
-
+    GroupLayerOne cm ;
+int counter=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,50 +73,41 @@ public class AllviewActivity extends AppCompatActivity {
 
         companies = new ArrayList<>();
 
+        Call<RetrofitResponse> call1 = apiInterface.info("kowsar_info", "AppBroker_DefaultGroupCode");
+        call1.enqueue(new Callback<RetrofitResponse>() {
+            @Override
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
+                if (response.isSuccessful()) {
+                    assert response.body() != null;
+                    parent(response.body().getText());
+                }
+            }
 
-        Call<RetrofitResponse> call = apiInterface.Getgrp("GoodGroupInfo","0");
+            @Override
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
+            }
+        });
+
+
+
+    }
+
+    private void callrec (){
+        GroupLayerAdapter adapter = new GroupLayerAdapter(companies, App.getContext());
+        rc.setAdapter(adapter);
+        prog.setVisibility(View.GONE);
+    }
+
+    private void parent (String GoodGroupCode){
+
+        Call<RetrofitResponse> call = apiInterface.Getgrp("GoodGroupInfo",GoodGroupCode);
         call.enqueue(new Callback<RetrofitResponse>() {
             @Override
             public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
-                    ArrayList<GoodGroup> res = response.body().getGroups();
-                    for (GoodGroup goodGroups_parent : res) {
-                        ArrayList<Product> Product_child = new ArrayList<>();
-                        Call<RetrofitResponse> call5 = apiInterface.Getgrp(
-                                "GoodGroupInfo",
-                                goodGroups_parent.getGoodGroupFieldValue("groupcode"));
-                        call5.enqueue(new Callback<RetrofitResponse>() {
-                            @Override
-                            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
-                                assert response.body() != null;
-                                ArrayList<GoodGroup> res = response.body().getGroups();
-                                for (GoodGroup goodGroups_parent1 : res) {
-                                    Product_child.add(new Product(
-                                            goodGroups_parent1.getGoodGroupFieldValue("Name"),
-                                            Integer.parseInt(goodGroups_parent1.getGoodGroupFieldValue("groupcode")),
-                                            Integer.parseInt(goodGroups_parent1.getGoodGroupFieldValue("ChildNo"))));
-                                }
-                                cm = new Category(
-                                        goodGroups_parent.getGoodGroupFieldValue("Name"),
-                                        Product_child,
-                                        Integer.parseInt(goodGroups_parent.getGoodGroupFieldValue("groupcode")),
-                                        Integer.parseInt(goodGroups_parent.getGoodGroupFieldValue("ChildNo")));
-                                companies.add(cm);
-                            }
-                            @Override
-                            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
-                                cm = new Category(
-                                        goodGroups_parent.getGoodGroupFieldValue("Name"),
-                                        Product_child,
-                                        Integer.parseInt(goodGroups_parent.getGoodGroupFieldValue("groupcode")),
-                                        Integer.parseInt(goodGroups_parent.getGoodGroupFieldValue("ChildNo")));
-                                companies.add(cm);
-                            }
-                        });
-
-                    }
-
+                    ArrayList<GoodGroup> res=response.body().getGroups();
+                    child(response.body().getGroups());
                 }
             }
             @Override
@@ -124,16 +115,60 @@ public class AllviewActivity extends AppCompatActivity {
                 GetShared.ErrorLog(t.getMessage());
             }
         });
+    }
 
-        Handler handler = new Handler();
-        handler.postDelayed(() -> {
-            ProductAdapter adapter = new ProductAdapter(companies, App.getContext());
-            rc.setAdapter(adapter);
-            prog.setVisibility(View.GONE);
-        }, 2000);
+    private void child (ArrayList<GoodGroup> GoodGroups){
+
+        ArrayList<GroupLayerTwo> Product_child = new ArrayList<>();
+        Call<RetrofitResponse> call5 = apiInterface.Getgrp(
+                "GoodGroupInfo",
+                GoodGroups.get(counter).getGoodGroupFieldValue("groupcode"));
+        call5.enqueue(new Callback<RetrofitResponse>() {
+            @Override
+            public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
+                assert response.body() != null;
+                ArrayList<GoodGroup> res = response.body().getGroups();
+                for (GoodGroup goodGroups_parent1 : res) {
+                    Product_child.add(new GroupLayerTwo(
+                            goodGroups_parent1.getGoodGroupFieldValue("Name"),
+                            Integer.parseInt(goodGroups_parent1.getGoodGroupFieldValue("groupcode")),
+                            Integer.parseInt(goodGroups_parent1.getGoodGroupFieldValue("ChildNo"))));
+                }
+                cm = new GroupLayerOne(
+                        GoodGroups.get(counter).getGoodGroupFieldValue("Name"),
+                        Product_child,
+                        Integer.parseInt(GoodGroups.get(counter).getGoodGroupFieldValue("groupcode")),
+                        Integer.parseInt(GoodGroups.get(counter).getGoodGroupFieldValue("ChildNo")));
+                companies.add(cm);
+                counter++;
+
+                if (counter>(GoodGroups.size()-1)){
+                    callrec();
+                }else {
+                    child(GoodGroups);
+                }
+            }
+            @Override
+            public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
+                cm = new GroupLayerOne(
+                        GoodGroups.get(counter).getGoodGroupFieldValue("Name"),
+                        Product_child,
+                        Integer.parseInt(GoodGroups.get(counter).getGoodGroupFieldValue("groupcode")),
+                        Integer.parseInt(GoodGroups.get(counter).getGoodGroupFieldValue("ChildNo")));
+                companies.add(cm);
+                counter++;
+                if (counter>(GoodGroups.size()-1)){
+                    callrec();
+
+                }else {
+                    child(GoodGroups);
+                }
+            }
+        });
+
+
 
     }
 
-
-
 }
+

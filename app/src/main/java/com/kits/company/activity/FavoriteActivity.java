@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.kits.company.R;
 import com.kits.company.adapter.GetShared;
-import com.kits.company.adapter.Good_ProSearch_Adapter;
+import com.kits.company.adapter.GoodAdapter;
 import com.kits.company.adapter.InternetConnection;
 import com.kits.company.application.App;
 import com.kits.company.model.Good;
@@ -38,7 +38,7 @@ import retrofit2.Response;
 
 public class FavoriteActivity extends AppCompatActivity {
     APIInterface apiInterface = APIClient.getCleint().create(APIInterface.class);
-    Good_ProSearch_Adapter adapter;
+    GoodAdapter adapter;
     Intent intent;
     RecyclerView rc_good;
     ArrayList<Good> goods;
@@ -137,7 +137,7 @@ public class FavoriteActivity extends AppCompatActivity {
             public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     goods = response.body().getGoods();
-                    adapter = new Good_ProSearch_Adapter( goods, App.getContext());
+                    adapter = new GoodAdapter( goods, App.getContext());
                     gridLayoutManager = new GridLayoutManager(App.getContext(),2);
                     rc_good.setLayoutManager(gridLayoutManager);
                     rc_good.setAdapter(adapter);
@@ -175,7 +175,7 @@ public class FavoriteActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     ArrayList<Good> good_page = response.body().getGoods();
                     goods.addAll(good_page);
-                    adapter = new Good_ProSearch_Adapter( goods, App.getContext());
+                    adapter = new GoodAdapter( goods, App.getContext());
                     gridLayoutManager = new GridLayoutManager(App.getContext(),2);
                     gridLayoutManager.scrollToPosition(pastVisiblesItems+2);
                     rc_good.setLayoutManager(gridLayoutManager);
@@ -189,9 +189,7 @@ public class FavoriteActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
-
                 prog.setVisibility(View.GONE);
-                Log.e("retrofit_fail",t.getMessage());
 
             }
         });
@@ -220,7 +218,7 @@ public class FavoriteActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.basket_menu) {
-            intent = new Intent(this, BuyActivity.class);
+            intent = new Intent(this, BasketActivity.class);
             GetShared.EditString("basket_position", "0");
             startActivity(intent);
             return true;
@@ -256,7 +254,6 @@ public class FavoriteActivity extends AppCompatActivity {
                 }
                 @Override
                 public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
-                    Log.e("retrofit_fail",t.getMessage());
 
                 }
             });

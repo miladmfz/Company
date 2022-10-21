@@ -1,17 +1,17 @@
-package com.kits.company.application;
+package com.kits.company.model;
 
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 
 import java.util.List;
 
-public class Category extends ExpandableGroup<Product> {
+public class GroupLayerOne extends ExpandableGroup<GroupLayerTwo> {
 
     public int id ;
     public int childno ;
     public String name ;
 
 
-    public Category(String title, List<Product> items,int id,int childno) {
+    public GroupLayerOne(String title, List<GroupLayerTwo> items, int id, int childno) {
         super(title, items);
         this.id=id;
         this.name=title;

@@ -43,14 +43,10 @@ public class InternetConnection {
 
             Method setMobileDataEnabledMethod = telephonyService.getClass().getDeclaredMethod("setDataEnabled", boolean.class);
 
-            if (null != setMobileDataEnabledMethod)
-            {
-                setMobileDataEnabledMethod.invoke(telephonyService, setMobileDataEnabledMethod);
-            }
+            setMobileDataEnabledMethod.invoke(telephonyService, setMobileDataEnabledMethod);
         }
-        catch (Exception ex)
-        {
-            Log.e("aaa", "Error setting mobile data state", ex);
+        catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 

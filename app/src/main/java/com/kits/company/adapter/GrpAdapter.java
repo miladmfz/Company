@@ -12,20 +12,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
 import com.kits.company.R;
-import com.kits.company.activity.GrpActivity;
+import com.kits.company.activity.SearchActivity;
 import com.kits.company.application.App;
 import com.kits.company.model.GoodGroup;
 
 import java.util.ArrayList;
 
-public class Grp_Vlist_detail_Adapter extends RecyclerView.Adapter<Grp_Vlist_detail_Adapter.GoodGroupViewHolder>{
+public class GrpAdapter extends RecyclerView.Adapter<GrpAdapter.GoodGroupViewHolder>{
 
     private final ArrayList<GoodGroup> GoodGroups;
     private Intent intent;
     Context mContext;
 
 
-    public Grp_Vlist_detail_Adapter(ArrayList<GoodGroup> GoodGroups, Context mContext)
+    public GrpAdapter(ArrayList<GoodGroup> GoodGroups, Context mContext)
     {
         this.GoodGroups = GoodGroups;
         this.mContext = mContext;
@@ -44,24 +44,19 @@ public class Grp_Vlist_detail_Adapter extends RecyclerView.Adapter<Grp_Vlist_det
     public void onBindViewHolder(@NonNull GoodGroupViewHolder holder, int position)
     {
 
-        final GoodGroup GoodGroupView = GoodGroups.get(position);
 
-        holder.grpname.setText(GoodGroupView.getGoodGroupFieldValue("Name"));
+
+        holder.grpname.setText(GoodGroups.get(position).getGoodGroupFieldValue("Name"));
         holder.rltv.setBackgroundResource(R.drawable.bg_round_red);
 
-        holder.grpname.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
+        holder.grpname.setOnClickListener(v -> {
 
-                intent = new Intent(mContext, GrpActivity.class);
-                intent.putExtra("id", Integer.parseInt(GoodGroupView.getGoodGroupFieldValue("groupcode")));
-                intent.putExtra("title",GoodGroupView.getGoodGroupFieldValue("Name"));
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent = new Intent(mContext, SearchActivity.class);
+            intent.putExtra("id", Integer.parseInt(GoodGroups.get(position).getGoodGroupFieldValue("groupcode")));
+            intent.putExtra("title",GoodGroups.get(position).getGoodGroupFieldValue("Name"));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                App.getContext().startActivity(intent);
-            }
+            App.getContext().startActivity(intent);
         });
     }
 

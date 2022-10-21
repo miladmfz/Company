@@ -5,14 +5,11 @@ import com.google.gson.annotations.SerializedName;
 public class PreFactor {
 
 
-
-
-
     @SerializedName("FacAmount")
-    private Integer FacAmount;
+    private String FacAmount;
 
     @SerializedName("Price")
-    private Integer Price;
+    private String Price;
 
     @SerializedName("ProcessStatus")
     private String ProcessStatus;
@@ -29,6 +26,9 @@ public class PreFactor {
     @SerializedName("GoodName")
     private String GoodName;
 
+    @SerializedName("GoodImageName")
+    private String GoodImageName="";
+
     @SerializedName("MaxSellPrice")
     private String MaxSellPrice;
 
@@ -37,7 +37,6 @@ public class PreFactor {
 
     @SerializedName("HasStackAmount")
     private String HasStackAmount;
-
 
 
     @SerializedName("PreFactorDate")
@@ -58,39 +57,78 @@ public class PreFactor {
     @SerializedName("SumnPrice")
     private String SumnPrice;
     @SerializedName("IsReserved")
-    private Integer IsReserved;
+    private String IsReserved;
     @SerializedName("ErrCode")
-    private Integer ErrCode;
+    private String ErrCode;
     @SerializedName("ErrDesc")
     private String ErrDesc;
 
-    public String getPreFactorFieldValue(String AKey)
-    {
+    public void setGoodImageName(String goodImageName) {GoodImageName = goodImageName;}
+
+    public String getPreFactorFieldValue(String AKey) {
         String iKey = AKey.toLowerCase();
         String Res = "";
-        if(iKey.equals("goodname")){Res = GoodName;}
-        else if(iKey.equals("goodcode")){if(GoodCode==null)Res ="";else Res = GoodCode;}
-        else if(iKey.equals("isreserved")){if(IsReserved==null)Res ="";else Res = IsReserved.toString();}
-        else if(iKey.equals("facamount")){if(FacAmount==null)Res ="";else Res = FacAmount.toString();}
-        else if(iKey.equals("price")){if(Price==null)Res ="";else Res = Price.toString();}
-        else if(iKey.equals("maxsellprice")){if(MaxSellPrice==null)Res ="";else Res = MaxSellPrice;}
-        else if(iKey.equals("prefactordate")){if(PreFactorDate==null)Res ="";else Res = PreFactorDate;}
-        else if(iKey.equals("prefactorcode")){if(PreFactorCode==null)Res ="";else Res = PreFactorCode;}
-        else if(iKey.equals("rowscount")){if(RowsCount==null)Res ="";else Res = RowsCount;}
-        else if(iKey.equals("sumamount")){if(SumAmount==null)Res ="";else Res = SumAmount;}
-        else if(iKey.equals("sumprice")){if(SumPrice==null)Res ="";else Res = SumPrice;}
-        else if(iKey.equals("errcode")){if(ErrCode==null)Res ="";else Res = ErrCode.toString();}
-        else if(iKey.equals("errdesc")){if(ErrDesc==null)Res ="";else Res = ErrDesc;}
+        switch (iKey) {
+            case "goodname":
+                Res = GoodName;
+                break;
+            case "goodimagename":
+                if (GoodImageName == null) Res = "";
+                Res = GoodImageName;
+                break;
+            case "goodcode":
+                if (GoodCode == null) Res = "";
+                else Res = GoodCode;
+                break;
+            case "isreserved":
+                if (IsReserved == null) Res = "";
+                else Res = IsReserved.toString();
+                break;
+            case "facamount":
+                if (FacAmount == null) Res = "";
+                else Res = FacAmount;
+                break;
+            case "price":
+                if (Price == null) Res = "";
+                else Res = Price;
+                break;
+            case "maxsellprice":
+                if (MaxSellPrice == null) Res = "";
+                else Res = MaxSellPrice;
+                break;
+            case "prefactordate":
+                if (PreFactorDate == null) Res = "";
+                else Res = PreFactorDate;
+                break;
+            case "prefactorcode":
+                if (PreFactorCode == null) Res = "";
+                else Res = PreFactorCode;
+                break;
+            case "rowscount":
+                if (RowsCount == null) Res = "";
+                else Res = RowsCount;
+                break;
+            case "sumamount":
+                if (SumAmount == null) Res = "";
+                else Res = SumAmount;
+                break;
+            case "sumprice":
+                if (SumPrice == null) Res = "";
+                else Res = SumPrice;
+                break;
+            case "errcode":
+                if (ErrCode == null) Res = "";
+                else Res = ErrCode;
+                break;
+            case "errdesc":
+                if (ErrDesc == null) Res = "";
+                else Res = ErrDesc;
+                break;
+        }
 
         return Res;
 
     }
-
-
-
-
-
-
 
 
 }

@@ -8,11 +8,11 @@
     android:layoutDirection="rtl">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/GrpActivity_appbar"
+        android:id="@+id/SearchActivity_appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-         >
+        >
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/allview_toolbar"
@@ -30,32 +30,32 @@
     </com.google.android.material.appbar.AppBarLayout>
 
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="10dp">
+
+
+
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="10dp">
+            android:id="@+id/allview_rc"/>
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/allview_prog"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:indeterminate="true"
+            />
 
 
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/allview_rc"/>
-            <androidx.core.widget.ContentLoadingProgressBar
-                android:id="@+id/allview_prog"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_margin="5dp"
-                android:layout_gravity="center"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:indeterminate="true"
-                />
-
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 
 

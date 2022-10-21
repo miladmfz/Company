@@ -2,6 +2,7 @@ package com.kits.company.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -31,7 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BuyhistoryDetialActivity extends AppCompatActivity {
+public class BasketHistoryDetialActivity extends AppCompatActivity {
 
     private ArrayList<PreFactor> preFactors;
     private final APIInterface apiInterface = APIClient.getCleint().create(APIInterface.class);
@@ -120,6 +121,7 @@ public class BuyhistoryDetialActivity extends AppCompatActivity {
     }
 
     public void call() {
+
         Call<RetrofitResponse> call = apiInterface.BasketPreFactor(
                 "BasketHistory",
                 GetShared.ReadString("mobile"),

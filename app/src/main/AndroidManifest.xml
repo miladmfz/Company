@@ -23,19 +23,18 @@
         </activity>
         <activity android:name=".activity.ProfileActivity" />
         <activity android:name=".activity.FavoriteActivity" />
-        <activity android:name=".activity.BuyhistoryDetialActivity" />
-        <activity android:name=".activity.BuyhistoryActivity" />
-        <activity android:name=".activity.BuyActivity" />
+        <activity android:name=".activity.BasketHistoryDetialActivity" />
+        <activity android:name=".activity.BasketHistoryActivity" />
+        <activity android:name=".activity.BasketActivity" />
         <activity android:name=".activity.AllviewActivity" />
         <activity android:name=".activity.AboutusActivity" />
         <activity android:name=".activity.CallusActivity" />
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.DetailActivity" />
-        <activity android:name=".activity.GrpActivity" />
-        <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.SearchActivity" />
-        <activity android:name=".activity.Search_date_detailActivity" />
-        <activity android:name=".activity.SplashActivity">
+        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.SplashActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

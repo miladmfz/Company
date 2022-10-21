@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kits.company.R;
 import com.kits.company.adapter.GetShared;
-import com.kits.company.adapter.Good_buy_Adapter;
+import com.kits.company.adapter.GoodBasketAdapter;
 import com.kits.company.adapter.InternetConnection;
 import com.kits.company.application.App;
 import com.kits.company.model.Good;
@@ -39,7 +39,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BuyActivity extends AppCompatActivity {
+public class BasketActivity extends AppCompatActivity {
 
     private final DecimalFormat decimalFormat = new DecimalFormat("0,000");
     RecyclerView re;
@@ -52,7 +52,7 @@ public class BuyActivity extends AppCompatActivity {
     Intent intent;
     ArrayList<Good> Goods_sum;
     public ArrayList<String> Goods_shortage=new ArrayList<>();
-    Good_buy_Adapter adapter;
+    GoodBasketAdapter adapter;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -109,9 +109,8 @@ public class BuyActivity extends AppCompatActivity {
                         App.showToast("کالایی در سبد خرید موجود نمی باشد");
                         finish();
                     }
-                    Log.e("123",GetShared.ReadString("AppBasketItem"));
 
-                    adapter = new Good_buy_Adapter( Goods, BuyActivity.this);
+                    adapter = new GoodBasketAdapter( Goods, BasketActivity.this);
                     gridLayoutManager = new GridLayoutManager(App.getContext(),1);
                     gridLayoutManager.scrollToPosition(Integer.parseInt(GetShared.ReadString("basket_position")));
                     re.setLayoutManager(gridLayoutManager);
@@ -125,7 +124,6 @@ public class BuyActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
-                    Log.e("retrofit_fail",t.getMessage());
             }
         });
 
@@ -156,7 +154,6 @@ public class BuyActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NotNull Call<RetrofitResponse> call,@NotNull Throwable t) {
-                    Log.e("retrofit_fail",t.getMessage());
             }
         });
 
@@ -209,7 +206,6 @@ public class BuyActivity extends AppCompatActivity {
                         }
                         @Override
                         public void onFailure(@NotNull Call<RetrofitResponse> call1,@NotNull  Throwable t) {
-                            Log.e("retrofit_fail",t.getMessage());
                         }
                     });
                 })
@@ -264,7 +260,6 @@ public class BuyActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NotNull Call<RetrofitResponse> call,@NotNull  Throwable t) {
-                Log.e("retrofit_fail",t.getMessage());
             }
         });
     }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.BuyhistoryActivity"
+    tools:context=".activity.BasketHistoryActivity"
     android:orientation="vertical"
     android:layoutDirection="rtl"
     >
@@ -35,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".activity.BuyhistoryActivity">
+        tools:context=".activity.BasketHistoryActivity">
 
 
         <androidx.appcompat.widget.LinearLayoutCompat

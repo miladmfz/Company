@@ -68,7 +68,7 @@ public class GetShared extends Application {
 
 
         PersianCalendar calendar1 = new PersianCalendar();
-        String version= BuildConfig.VERSION_NAME;
+        //String version= BuildConfig.VERSION_NAME;
         String appname= App.getContext().getPackageName();
 
 
@@ -80,7 +80,7 @@ public class GetShared extends Application {
                 , android_id
                 , appname
                 , calendar1.getPersianShortDateTime()
-                , version);
+                , "version");
         cl.enqueue(new Callback<RetrofitResponse>() {@Override
         public void onResponse(@NonNull Call<RetrofitResponse> call, @NonNull retrofit2.Response<RetrofitResponse> response) {
             assert response.body() != null; }

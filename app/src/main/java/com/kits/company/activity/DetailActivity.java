@@ -28,12 +28,13 @@ import com.google.android.material.button.MaterialButton;
 import com.kits.company.R;
 import com.kits.company.adapter.BuyBox;
 import com.kits.company.adapter.GetShared;
-import com.kits.company.adapter.Good_view_Adapter;
+import com.kits.company.adapter.GoodAdapter;
 import com.kits.company.adapter.InternetConnection;
 import com.kits.company.adapter.SliderAdapter;
 import com.kits.company.application.App;
 import com.kits.company.model.Column;
 import com.kits.company.model.Good;
+import com.kits.company.model.GoodGroup;
 import com.kits.company.model.NumberFunctions;
 import com.kits.company.model.RetrofitResponse;
 import com.kits.company.webService.APIClient;
@@ -81,7 +82,7 @@ public class DetailActivity extends AppCompatActivity {
     ArrayList<Good> Goods;
     int pastVisiblesItems = 0, visibleItemCount, totalItemCount, PageNo = 0, favorite_bol = 0;
     ArrayList<Good> available_goods1 = new ArrayList<>();
-    Good_view_Adapter adapter;
+    GoodAdapter adapter;
     ArrayList<Column> Columns;
     BuyBox buyBox;
     private boolean loading = true;
@@ -128,7 +129,7 @@ public class DetailActivity extends AppCompatActivity {
         good_groups();
 
 
-        btnbuy.setOnClickListener(view -> buyBox.buydialog(good));
+        btnbuy.setOnClickListener(view -> buyBox.TestDialog(good,0,"0"));
 
 
         favorite.setOnClickListener(view -> {
@@ -142,10 +143,8 @@ public class DetailActivity extends AppCompatActivity {
                 call.enqueue(new Callback<RetrofitResponse>() {
                     @Override
                     public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
-                        Log.e("onResponse", "" + response.body());
                         assert response.body() != null;
                         if (response.body().getText().equals("1")) {
-                            Log.e("onResponse2", "" + response.body());
                             favorite_bol = 0;
                             favorite.setIconResource(R.drawable.ic_favorite_border_black_24dp);
                             favorite.setIconTintResource(R.color.grey_900);
@@ -156,7 +155,6 @@ public class DetailActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
-                        Log.e("onFailure", "" + t.toString());
                     }
                 });
 
@@ -172,7 +170,6 @@ public class DetailActivity extends AppCompatActivity {
                 call.enqueue(new Callback<RetrofitResponse>() {
                     @Override
                     public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
-                        Log.e("onResponse", "" + response.body());
                         assert response.body() != null;
                         if (response.body().getText().equals("1")) {
                             favorite_bol = 1;
@@ -184,7 +181,6 @@ public class DetailActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
-                        Log.e("onFailure", "" + t.toString());
                     }
                 });
             }
@@ -245,8 +241,8 @@ public class DetailActivity extends AppCompatActivity {
                             available_goods1.add(g);
                         }
                     }
-                    Good_view_Adapter adapter = new Good_view_Adapter(available_goods1, App.getContext());
-                    horizontalLayoutManager = new LinearLayoutManager(App.getContext(), LinearLayoutManager.HORIZONTAL, false);
+                    GoodAdapter adapter = new GoodAdapter(available_goods1, DetailActivity.this);
+                    horizontalLayoutManager = new LinearLayoutManager(DetailActivity.this, LinearLayoutManager.HORIZONTAL, false);
                     rc_likegood.setLayoutManager(horizontalLayoutManager);
                     rc_likegood.setAdapter(adapter);
                     rc_likegood.setItemAnimator(new DefaultItemAnimator());
@@ -255,9 +251,6 @@ public class DetailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
-                Log.e("retrofit_fail", t.getMessage());
-
-
             }
         });
 
@@ -276,8 +269,8 @@ public class DetailActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     ArrayList<Good> good_page = response.body().getGoods();
                     goods.addAll(good_page);
-                    adapter = new Good_view_Adapter(goods, App.getContext());
-                    horizontalLayoutManager = new LinearLayoutManager(App.getContext(), LinearLayoutManager.HORIZONTAL, false);
+                    adapter = new GoodAdapter(goods, DetailActivity.this);
+                    horizontalLayoutManager = new LinearLayoutManager(DetailActivity.this, LinearLayoutManager.HORIZONTAL, false);
                     horizontalLayoutManager.scrollToPosition(pastVisiblesItems + 1);
                     rc_likegood.setLayoutManager(horizontalLayoutManager);
                     rc_likegood.setAdapter(adapter);
@@ -290,9 +283,6 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                 PageNo--;
-
-                Log.e("retrofit_fail", t.getMessage());
-
 
             }
         });
@@ -307,7 +297,6 @@ public class DetailActivity extends AppCompatActivity {
                 "",
                 "0"
         );
-        Log.e("test111",String.valueOf(id));
         call.enqueue(new Callback<RetrofitResponse>() {
             @Override
             public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
@@ -416,7 +405,6 @@ public class DetailActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                             finish();
-                            Log.e("retrofit_fail", t.getMessage());
                         }
                     });
 
@@ -480,7 +468,7 @@ public class DetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.basket_menu) {
-            intent = new Intent(this, BuyActivity.class);
+            intent = new Intent(this, BasketActivity.class);
             GetShared.EditString("basket_position", "0");
             startActivity(intent);
             return true;
@@ -518,12 +506,15 @@ public class DetailActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
-                    Log.e("retrofit_fail", t.getMessage());
                 }
             });
         }
     }
-
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        setupBadge();
+        super.onWindowFocusChanged(hasFocus);
+    }
 
 }
 

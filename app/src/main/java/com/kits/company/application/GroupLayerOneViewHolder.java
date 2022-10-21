@@ -10,28 +10,29 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kits.company.R;
-import com.kits.company.activity.GrpActivity;
+import com.kits.company.activity.SearchActivity;
+import com.kits.company.model.GroupLayerOne;
 import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder;
 
 
-public class CategoryViewHolder extends GroupViewHolder {
+public class GroupLayerOneViewHolder extends GroupViewHolder {
 
     private final TextView textView ;
     private final ImageView arrow;
 
 
-    public CategoryViewHolder(View itemView) {
+    public GroupLayerOneViewHolder(View itemView) {
         super(itemView);
         textView=itemView.findViewById(R.id.item1_tv);
         arrow=itemView.findViewById(R.id.item1_img);
     }
 
-    public void bind (Category company){
+    public void bind (GroupLayerOne company){
         textView.setText(company.getTitle());
 
     }
 
-    public void hide (Category company){
+    public void hide (GroupLayerOne company){
         if(company.childno>0) {
             arrow.setVisibility(View.VISIBLE);
         }else {
@@ -41,13 +42,13 @@ public class CategoryViewHolder extends GroupViewHolder {
 
 
 
-    public void intent(final Category company,final  Context mContext){
+    public void intent(final GroupLayerOne company, final  Context mContext){
 
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(mContext, GrpActivity.class);
+                Intent intent = new Intent(mContext, SearchActivity.class);
                 intent.putExtra("id", company.id);
                 intent.putExtra("title",company.name);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -2,6 +2,7 @@ package com.kits.company.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,7 +18,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.card.MaterialCardView;
 import com.kits.company.R;
+import com.kits.company.activity.DetailActivity;
 import com.kits.company.application.App;
+import com.kits.company.model.Good;
 import com.kits.company.model.NumberFunctions;
 import com.kits.company.model.PreFactor;
 import com.kits.company.model.RetrofitResponse;
@@ -40,6 +43,7 @@ public class Prefactor_Detail_Adapter extends RecyclerView.Adapter<Prefactor_Det
     public Call<RetrofitResponse> call2;
     public Prefactor_Detail_Adapter(ArrayList<PreFactor> preFactors, Context mContext) {
         this.preFactors = preFactors;
+        this.mContext = mContext;
     }
 
     @NonNull
@@ -51,16 +55,21 @@ public class Prefactor_Detail_Adapter extends RecyclerView.Adapter<Prefactor_Det
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull final GoodViewHolder holder, int position) {
-        final PreFactor preFactorview = preFactors.get(position);
+    public void onBindViewHolder(@NonNull final GoodViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
-        holder.goodnameTextView.setText(NumberFunctions.PerisanNumber(preFactorview.getPreFactorFieldValue("GoodName")));
-        holder.maxsellpriceTextView.setText(NumberFunctions.PerisanNumber(preFactorview.getPreFactorFieldValue("MaxSellPrice")));
-        holder.priceTextView.setText(NumberFunctions.PerisanNumber(preFactorview.getPreFactorFieldValue("Price")));
-        holder.total.setText(NumberFunctions.PerisanNumber(String.valueOf(Integer.parseInt(preFactorview.getPreFactorFieldValue("FacAmount"))*Integer.parseInt(preFactorview.getPreFactorFieldValue("Price")))));
-        holder.amount.setText(NumberFunctions.PerisanNumber(preFactorview.getPreFactorFieldValue("FacAmount")));
 
-        if(preFactorview.getPreFactorFieldValue("IsReserved").equals("1")){
+        holder.goodnameTextView.setText(NumberFunctions.PerisanNumber(preFactors.get(position).getPreFactorFieldValue("GoodName")));
+        holder.maxsellpriceTextView.setText(NumberFunctions.PerisanNumber(preFactors.get(position).getPreFactorFieldValue("MaxSellPrice")));
+        holder.priceTextView.setText(NumberFunctions.PerisanNumber(preFactors.get(position).getPreFactorFieldValue("Price")));
+        holder.total.setText(NumberFunctions.PerisanNumber(
+                String.valueOf(
+                        Float.parseFloat(preFactors.get(position).getPreFactorFieldValue("FacAmount"))
+                                *Float.parseFloat(preFactors.get(position).getPreFactorFieldValue("Price"))
+                )
+        ));
+        holder.amount.setText(NumberFunctions.PerisanNumber(preFactors.get(position).getPreFactorFieldValue("FacAmount")));
+
+        if(preFactors.get(position).getPreFactorFieldValue("IsReserved").equals("1")){
             holder.good_ReservedRow.setText("در انبار موجود می باشد");
             holder.good_ReservedRow.setTextColor(App.getContext().getResources().getColor(R.color.green_900));
 
@@ -70,46 +79,71 @@ public class Prefactor_Detail_Adapter extends RecyclerView.Adapter<Prefactor_Det
 
         }
 
+        if (!preFactors.get(position).getPreFactorFieldValue("GoodImageName").equals("")) {
 
-        call2 = apiInterface_image.GetImage(
-                "getImage",
-                preFactorview.getPreFactorFieldValue("GoodCode"),
-                "0",
-                "110"
-        );
-        call2.enqueue(new Callback<RetrofitResponse>() {
-            @Override
-            public void onResponse(Call<RetrofitResponse> call2, Response<RetrofitResponse> response) {
-                if (response.isSuccessful()) {
+            Glide.with(holder.img)
+                    .asBitmap()
+                    .load(R.drawable.white)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .fitCenter()
+                    .into(holder.img);
+            holder.img.setVisibility(View.VISIBLE);
 
-                    assert response.body() != null;
-                    try {
-                    if(!response.body().getText().equals("no_photo")) {
-                        Glide.with(holder.img)
-                                .asBitmap()
-                                .load(Base64.decode(response.body().getText(), Base64.DEFAULT))
-                                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                .fitCenter()
-                                .into(holder.img);
-                    }else {
-                        Glide.with(holder.img)
-                                .asBitmap()
-                                .load(R.drawable.no_photo)
-                                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                .fitCenter()
-                                .into(holder.img);
+            Glide.with(holder.img)
+                    .asBitmap()
+                    .load(Base64.decode(preFactors.get(position).getPreFactorFieldValue("GoodImageName"), Base64.DEFAULT))
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .fitCenter()
+                    .into(holder.img);
+
+
+        } else
+        {
+            Glide.with(holder.img)
+                    .asBitmap()
+                    .load(R.drawable.white)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .fitCenter()
+                    .into(holder.img);
+            holder.img.setVisibility(View.VISIBLE);
+
+
+            call2 = apiInterface_image.GetImage(
+                    "getImage",
+                    preFactors.get(position).getPreFactorFieldValue("GoodCode"),
+                    "0",
+                    "150"
+            );
+            call2.enqueue(new Callback<RetrofitResponse>() {
+                @SuppressLint("NotifyDataSetChanged")
+                @Override
+                public void onResponse(@NonNull Call<RetrofitResponse> call2, @NonNull Response<RetrofitResponse> response) {
+                    if (response.isSuccessful()) {
+
+                        assert response.body() != null;
+
+                        if (!response.body().getText().equals("no_photo")) {
+                            preFactors.get(position).setGoodImageName(response.body().getText());
+                        } else {
+                            preFactors.get(position).setGoodImageName(String.valueOf(R.string.no_photo));
+
+                        }
+                        notifyDataSetChanged();
                     }
-
-                    } catch (Exception e) {
-                        e.getMessage();
-                    }
-
                 }
-            }
-            @Override
-            public void onFailure(Call<RetrofitResponse> call2, Throwable t) {
-                Log.e("onFailure",""+t.toString());
-            }
+
+                @Override
+                public void onFailure(@NonNull Call<RetrofitResponse> call2, @NonNull Throwable t) {
+                }
+            });
+        }
+
+        holder.rltv.setOnClickListener(view -> {
+
+            Intent intent = new Intent(mContext, DetailActivity.class);
+            intent.putExtra("id", Integer.parseInt(preFactors.get(position).getPreFactorFieldValue("GoodCode")));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            App.getContext().startActivity(intent);
         });
 
     }

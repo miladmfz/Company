@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
 import com.kits.company.R;
-import com.kits.company.activity.BuyhistoryDetialActivity;
+import com.kits.company.activity.BasketHistoryDetialActivity;
 import com.kits.company.model.NumberFunctions;
 import com.kits.company.model.PreFactor;
 import com.kits.company.webService.APIInterface;
@@ -34,6 +34,7 @@ public class Prefactor_Adapter extends RecyclerView.Adapter<Prefactor_Adapter.Go
     public Prefactor_Adapter(ArrayList<PreFactor> preFactors, Context context) {
         this.mContext=context;
         this.preFactors = preFactors;
+        this.buyBox=new BuyBox(mContext);
     }
 
     @NonNull
@@ -46,23 +47,22 @@ public class Prefactor_Adapter extends RecyclerView.Adapter<Prefactor_Adapter.Go
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final GoodViewHolder holder, int position) {
-        buyBox=new BuyBox(mContext);
 
-        final int myps= position;
-        final PreFactor preFactorview = preFactors.get(position);
 
-        holder.factordate.setText(NumberFunctions.PerisanNumber(preFactorview.getPreFactorFieldValue("PreFactorDate")));
-        holder.factorcode.setText(NumberFunctions.PerisanNumber(preFactorview.getPreFactorFieldValue("PreFactorCode")));
-        holder.factorrow.setText(NumberFunctions.PerisanNumber(preFactorview.getPreFactorFieldValue("RowsCount")));
-        holder.factorsumamount.setText(NumberFunctions.PerisanNumber(preFactorview.getPreFactorFieldValue("SumAmount")));
-        holder.factorprice.setText(NumberFunctions.PerisanNumber(preFactorview.getPreFactorFieldValue("SumPrice")));
+        holder.factordate.setText(NumberFunctions.PerisanNumber(preFactors.get(position).getPreFactorFieldValue("PreFactorDate")));
+        holder.factorcode.setText(NumberFunctions.PerisanNumber(preFactors.get(position).getPreFactorFieldValue("PreFactorCode")));
+        holder.factorrow.setText(NumberFunctions.PerisanNumber(preFactors.get(position).getPreFactorFieldValue("RowsCount")));
+        holder.factorsumamount.setText(NumberFunctions.PerisanNumber(preFactors.get(position).getPreFactorFieldValue("SumAmount")));
+        holder.factorprice.setText(NumberFunctions.PerisanNumber(preFactors.get(position).getPreFactorFieldValue("SumPrice")));
 
         holder.rltv.setOnClickListener(v -> {
 
 
-            intent = new Intent(mContext, BuyhistoryDetialActivity.class);
-            intent.putExtra("id", preFactorview.getPreFactorFieldValue("PreFactorCode"));
+            intent = new Intent(mContext, BasketHistoryDetialActivity.class);
+            intent.putExtra("id", preFactors.get(position).getPreFactorFieldValue("PreFactorCode"));
             intent.putExtra("ReservedRows", "2");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
             mContext.startActivity(intent);
         });
 

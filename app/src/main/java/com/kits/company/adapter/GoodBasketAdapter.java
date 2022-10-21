@@ -22,7 +22,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.card.MaterialCardView;
 import com.kits.company.R;
-import com.kits.company.activity.BuyActivity;
+import com.kits.company.activity.BasketActivity;
 import com.kits.company.application.App;
 import com.kits.company.model.Good;
 import com.kits.company.model.NumberFunctions;
@@ -38,7 +38,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class Good_buy_Adapter extends RecyclerView.Adapter<Good_buy_Adapter.GoodViewHolder> {
+public class GoodBasketAdapter extends RecyclerView.Adapter<GoodBasketAdapter.GoodViewHolder> {
     private final DecimalFormat decimalFormat = new DecimalFormat("0,000");
     private final APIInterface apiInterface_image = API_image.getCleint().create(APIInterface.class);
     public Call<RetrofitResponse> call2;
@@ -47,9 +47,10 @@ public class Good_buy_Adapter extends RecyclerView.Adapter<Good_buy_Adapter.Good
     BuyBox buyBox;
     private final Context mContext;
 
-    public Good_buy_Adapter(ArrayList<Good> Goods, Context mContext) {
+    public GoodBasketAdapter(ArrayList<Good> Goods, Context mContext) {
         this.mContext=mContext;
         this.Goods = Goods;
+        this.buyBox=new BuyBox(mContext);
     }
 
     @NonNull
@@ -69,57 +70,43 @@ public class Good_buy_Adapter extends RecyclerView.Adapter<Good_buy_Adapter.Good
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull final GoodViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final GoodViewHolder holder, @SuppressLint("RecyclerView") final int position) {
 
-        buyBox=new BuyBox(mContext);
-        final Good GoodView = Goods.get(position);
+
+        
 
         long totalbuy=0;
         holder.img.setVisibility(View.INVISIBLE);
 
-        holder.goodnameTextView.setText(NumberFunctions.PerisanNumber(GoodView.getGoodFieldValue("GoodName")));
-        holder.amount.setText(NumberFunctions.PerisanNumber(GoodView.getGoodFieldValue("FacAmount")));
-        holder.priceTextView.setText(NumberFunctions.PerisanNumber(decimalFormat.format(Integer.parseInt(GoodView.getGoodFieldValue("SellPrice")))));
+        holder.goodnameTextView.setText(NumberFunctions.PerisanNumber(Goods.get(position).getGoodFieldValue("GoodName")));
+        holder.amount.setText(NumberFunctions.PerisanNumber(Goods.get(position).getGoodFieldValue("FacAmount")));
+        holder.priceTextView.setText(NumberFunctions.PerisanNumber(decimalFormat.format(Integer.parseInt(Goods.get(position).getGoodFieldValue("SellPrice")))));
 
-        holder.maxsellpriceTextView.setText(NumberFunctions.PerisanNumber(decimalFormat.format(Integer.parseInt(GoodView.getGoodFieldValue("MaxSellPrice")))));
-        Log.e("test1",GoodView.getGoodFieldValue("SellPrice"));
-        Log.e("test2",GoodView.getGoodFieldValue("FacAmount"));
-        Log.e("test3",GoodView.getGoodFieldValue("bRatio"));
-        totalbuy= (long) (Float.parseFloat(GoodView.getGoodFieldValue("SellPrice"))* Float.parseFloat(GoodView.getGoodFieldValue("FacAmount"))*Float.parseFloat(GoodView.getGoodFieldValue("bRatio")));
+        holder.maxsellpriceTextView.setText(NumberFunctions.PerisanNumber(decimalFormat.format(Integer.parseInt(Goods.get(position).getGoodFieldValue("MaxSellPrice")))));
+        totalbuy= (long) (Float.parseFloat(Goods.get(position).getGoodFieldValue("SellPrice"))* Float.parseFloat(Goods.get(position).getGoodFieldValue("FacAmount"))*Float.parseFloat(Goods.get(position).getGoodFieldValue("bRatio")));
         holder.total.setText(NumberFunctions.PerisanNumber(decimalFormat.format(totalbuy)));
-        holder.good_buy_NotReserved.setText(GoodView.getGoodFieldValue("NotReserved"));
-        holder.good_buy_unit.setText(NumberFunctions.PerisanNumber(GoodView.getGoodFieldValue("bUnitName")+"("+GoodView.getGoodFieldValue("bRatio")+ ")" ));
-        holder.offer.setText(NumberFunctions.PerisanNumber((100 - ((Integer.parseInt(GoodView.getGoodFieldValue("SellPrice"))* 100) / Integer.parseInt(GoodView.getGoodFieldValue("MaxSellPrice")))) + " درصد تخفیف "));
+        holder.good_buy_NotReserved.setText(Goods.get(position).getGoodFieldValue("NotReserved"));
+        holder.good_buy_unit.setText(NumberFunctions.PerisanNumber(Goods.get(position).getGoodFieldValue("bUnitName")+"("+Goods.get(position).getGoodFieldValue("bRatio")+ ")" ));
+        holder.offer.setText(NumberFunctions.PerisanNumber((100 - ((Integer.parseInt(Goods.get(position).getGoodFieldValue("SellPrice"))* 100) / Integer.parseInt(Goods.get(position).getGoodFieldValue("MaxSellPrice")))) + " درصد تخفیف "));
 
 
-        if (GoodView.getGoodFieldValue("IsReserved").equals("1")) {
-            if(Integer.parseInt(GoodView.getGoodFieldValue("NotReserved"))>0){
-                holder.good_buy_IsReserved.setVisibility(View.VISIBLE);
+        if(Integer.parseInt(Goods.get(position).getGoodFieldValue("NotReserved"))>0){
+            holder.good_buy_IsReserved.setVisibility(View.VISIBLE);
 
-            }else{
-                holder.good_buy_IsReserved.setVisibility(View.GONE);
-            }
-        } else {
-            if(Integer.parseInt(GoodView.getGoodFieldValue("NotReserved"))>0){
-                holder.good_buy_IsReserved.setVisibility(View.VISIBLE);
-            }else{
-                holder.good_buy_IsReserved.setVisibility(View.GONE);
-            }
+        }else{
+            holder.good_buy_IsReserved.setVisibility(View.GONE);
         }
-
-
-
 
 
         call2 = apiInterface_image.GetImage(
                 "getImage",
-                GoodView.getGoodFieldValue("GoodCode"),
+                Goods.get(position).getGoodFieldValue("GoodCode"),
                 "0",
                 "120"
         );
         call2.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<RetrofitResponse> call2, Response<RetrofitResponse> response) {
+            public void onResponse(@NonNull Call<RetrofitResponse> call2, @NonNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     try {
@@ -150,8 +137,7 @@ public class Good_buy_Adapter extends RecyclerView.Adapter<Good_buy_Adapter.Good
                 }
             }
             @Override
-            public void onFailure(Call<RetrofitResponse> call2, Throwable t) {
-                Log.e("onFailure",""+t.toString());
+            public void onFailure(@NonNull Call<RetrofitResponse> call2, @NonNull Throwable t) {
             }
         });
 
@@ -165,8 +151,8 @@ public class Good_buy_Adapter extends RecyclerView.Adapter<Good_buy_Adapter.Good
                         .setMessage("آیا کالا از لیست حذف گردد؟")
                         .setPositiveButton("بله", (dialogInterface, i) -> {
 
-                            buyBox.deletegoodfrombasket(GoodView.getGoodFieldValue("GoodCode"));
-                            Intent bag = new Intent(mContext, BuyActivity.class);
+                            buyBox.deletegoodfrombasket(Goods.get(position).getGoodFieldValue("GoodCode"));
+                            Intent bag = new Intent(mContext, BasketActivity.class);
                             ((Activity) mContext).finish();
                             ((Activity) mContext).overridePendingTransition(0, 0);
                             mContext.startActivity(bag);
@@ -183,23 +169,23 @@ public class Good_buy_Adapter extends RecyclerView.Adapter<Good_buy_Adapter.Good
         });
 
 
-        holder.amount.setOnClickListener(view -> buyBox.basketdialog(GoodView,position));
+        holder.amount.setOnClickListener(view -> buyBox.TestDialog(Goods.get(position),position,"1"));
 
 
         holder.pluse.setOnClickListener(view -> buyBox.basketdsolo(
-                GoodView,
-                String.valueOf(Float.parseFloat(GoodView.getGoodFieldValue("FacAmount"))+1),
+                Goods.get(position),
+                String.valueOf(Float.parseFloat(Goods.get(position).getGoodFieldValue("FacAmount"))+1),
                 position));
 
 
         holder.minus.setOnClickListener(view -> {
-            amount=Integer.parseInt(GoodView.getGoodFieldValue("FacAmount"));
-            if(Integer.parseInt(GoodView.getGoodFieldValue("FacAmount"))<2){
+            amount=Integer.parseInt(Goods.get(position).getGoodFieldValue("FacAmount"));
+            if(Integer.parseInt(Goods.get(position).getGoodFieldValue("FacAmount"))<2){
                 App.showToast( "برای حذف کالا از دکمه ی حذف استفاده کنید");
             }else {
                 buyBox.basketdsolo(
-                        GoodView,
-                        String.valueOf(Float.parseFloat(GoodView.getGoodFieldValue("FacAmount"))-1),
+                        Goods.get(position),
+                        String.valueOf(Float.parseFloat(Goods.get(position).getGoodFieldValue("FacAmount"))-1),
                         position);
             }
         });

@@ -5,16 +5,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/good_prosearch"
     android:orientation="vertical"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardCornerRadius="4dp"
     app:cardElevation="4dp"
     app:strokeWidth="1dp"
     app:strokeColor="@color/grey_1000"
-    android:checkable="true"
+    android:checkable="false"
     android:layoutDirection="rtl"
-    app:checkedIconTint="@color/red_800">
+    >
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/proserch_ggg"

@@ -13,6 +13,8 @@ import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -74,16 +76,10 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.GoodViewHolde
 
         if(code.equals(0)) {
             goodView = goods.get(position);
-
             Glide.with(holder.itemView)
                     .load("http://"+SERVER_IP_ADDRESS+goodView.getGoodFieldValue("goodimageurl"))
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(holder.imageViewBackground);
-
-
-
-
-
         }else {
             Call<RetrofitResponse> call2 = apiInterface_image.GetImage(
                     "getImage",
@@ -92,12 +88,10 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.GoodViewHolde
                     );
             call2.enqueue(new Callback<RetrofitResponse>() {
                 @Override
-                public void onResponse(Call<RetrofitResponse> call2, Response<RetrofitResponse> response) {
+                public void onResponse(@NonNull Call<RetrofitResponse> call2, @NonNull Response<RetrofitResponse> response) {
                     if (response.isSuccessful()) {
                         assert response.body() != null;
                         try {
-
-
                             if (!response.body().getText().equals("no_photo")) {
                                 Glide.with(holder.itemView)
                                         .setDefaultRequestOptions(new RequestOptions().timeout(30000))
@@ -105,7 +99,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.GoodViewHolde
                                         .load(Base64.decode(response.body().getText(), Base64.DEFAULT))
                                         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                                         .placeholder(R.drawable.no_photo)
-                                        .error(R.drawable.no_photo) //6
+                                        .error(R.drawable.no_photo)
                                         .fallback(R.drawable.no_photo)
                                         .fitCenter()
                                         .into(holder.imageViewBackground);
@@ -127,8 +121,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.GoodViewHolde
                     }
                 }
                 @Override
-                public void onFailure(Call<RetrofitResponse> call2, Throwable t) {
-                    Log.e("onFailure", "" + t.toString());
+                public void onFailure(@NonNull Call<RetrofitResponse> call2, @NonNull Throwable t) {
                 }
             });
 
