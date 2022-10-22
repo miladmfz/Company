@@ -5,7 +5,6 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
@@ -20,10 +19,6 @@ import androidx.annotation.NonNull;
 
 import com.kits.company.R;
 import com.kits.company.activity.BasketActivity;
-import com.kits.company.activity.DetailActivity;
-import com.kits.company.activity.FavoriteActivity;
-import com.kits.company.activity.SearchActivity;
-import com.kits.company.activity.MainActivity;
 import com.kits.company.application.App;
 import com.kits.company.model.Good;
 import com.kits.company.model.NumberFunctions;
@@ -68,7 +63,7 @@ public class BuyBox {
     }
 
     public void basketdsolo(@NonNull Good good, String facamount, final int position) {
-
+        last_amount = 0;
 
         Call<RetrofitResponse> call = apiInterface.InsertBasket("Insertbasket",
                 "DeviceCode",
@@ -102,8 +97,8 @@ public class BuyBox {
     }
 
 
-    public void TestDialog(@NonNull Good good, final int position, String BasketFlag) {
-
+    public void BuyDialog(@NonNull Good good, final int position, String BasketFlag) {
+        last_amount = 0;
         GoodUnitRef = good.getGoodFieldValue("GoodUnitRef");
         DefaultUnitValue = good.getGoodFieldValue("DefaultUnitValue");
         UnitName = good.getGoodFieldValue("UnitName");
@@ -168,6 +163,7 @@ public class BuyBox {
         tv_goodname.setText(good.getGoodFieldValue("GoodName"));
         price.setText(NumberFunctions.PerisanNumber(good.getGoodFieldValue("SellPrice")));
         amount.setHint(good.getGoodFieldValue("BasketAmount"));
+
         last_amount = last_amount + Float.parseFloat(good.getGoodFieldValue("BasketAmount"));
 
         ArrayAdapter<String> spinner_adapter = new ArrayAdapter<>(mContext,
@@ -282,17 +278,14 @@ public class BuyBox {
 
                                 if (BasketFlag.equals("0")) {
                                     if (Integer.parseInt(Goods.get(0).getGoodFieldValue("ErrCode")) > 0) {
-
                                         App.showToast(Goods.get(0).getGoodFieldValue("ErrDesc"));
-
                                     } else {
+
                                         App.showToast("کالای مورد نظر به سبد خرید اضافه شد");
                                         dialog.dismiss();
-
                                     }
                                 } else {
                                     if (Integer.parseInt(Goods.get(0).getGoodFieldValue("ErrCode")) > 0) {
-
                                         App.showToast(Goods.get(0).getGoodFieldValue("ErrDesc"));
                                     } else {
                                         BasketActivity activity = (BasketActivity) mContext;
@@ -327,7 +320,7 @@ public class BuyBox {
 
 
     public void deletegoodfrombasket(String goodcode) {
-
+        last_amount = 0;
         Call<RetrofitResponse> call = apiInterface.Basketdelete(
                 "deletebasket",
                 "DeviceCode",

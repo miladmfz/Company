@@ -4,12 +4,10 @@ package com.kits.company.activity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -18,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.kits.company.R;
 import com.kits.company.adapter.GetShared;
 import com.kits.company.adapter.GoodBasketAdapter;
@@ -46,7 +45,7 @@ public class BasketActivity extends AppCompatActivity {
     ArrayList<Good> Goods;
     private final APIInterface apiInterface = APIClient.getCleint().create(APIInterface.class);
     TextView Buy_row,Buy_price,Buy_amount;
-    ProgressBar prog;
+    LottieAnimationView prog;
     GridLayoutManager gridLayoutManager;
     int id=0;
     Intent intent;

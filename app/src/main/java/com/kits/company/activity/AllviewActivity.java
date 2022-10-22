@@ -2,22 +2,21 @@ package com.kits.company.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.kits.company.R;
 import com.kits.company.adapter.GetShared;
 import com.kits.company.adapter.InternetConnection;
 import com.kits.company.application.App;
-import com.kits.company.model.GroupLayerOne;
-import com.kits.company.model.GroupLayerTwo;
 import com.kits.company.application.GroupLayerAdapter;
 import com.kits.company.model.GoodGroup;
+import com.kits.company.model.GroupLayerOne;
+import com.kits.company.model.GroupLayerTwo;
 import com.kits.company.model.RetrofitResponse;
 import com.kits.company.webService.APIClient;
 import com.kits.company.webService.APIInterface;
@@ -35,7 +34,7 @@ public class AllviewActivity extends AppCompatActivity {
     APIInterface apiInterface = APIClient.getCleint().create(APIInterface.class);
 
     Intent intent;
-    ProgressBar prog;
+    LottieAnimationView prog;
     ArrayList<GroupLayerOne> companies=new ArrayList<>();
     RecyclerView rc;
     GroupLayerOne cm ;

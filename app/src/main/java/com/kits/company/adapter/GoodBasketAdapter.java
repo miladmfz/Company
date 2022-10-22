@@ -6,7 +6,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -169,7 +168,7 @@ public class GoodBasketAdapter extends RecyclerView.Adapter<GoodBasketAdapter.Go
         });
 
 
-        holder.amount.setOnClickListener(view -> buyBox.TestDialog(Goods.get(position),position,"1"));
+        holder.amount.setOnClickListener(view -> buyBox.BuyDialog(Goods.get(position),position,"1"));
 
 
         holder.pluse.setOnClickListener(view -> buyBox.basketdsolo(

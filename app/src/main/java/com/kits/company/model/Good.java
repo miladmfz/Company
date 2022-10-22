@@ -416,6 +416,13 @@ public class Good implements Serializable {
 
     }
 
+    public String getBasketAmount() {
+        return BasketAmount;
+    }
+
+    public void setBasketAmount(String basketAmount) {
+        BasketAmount = basketAmount;
+    }
 
     public void setFacAmount(String facAmount) {
         FacAmount = facAmount;

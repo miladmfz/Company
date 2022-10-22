@@ -2,12 +2,10 @@ package com.kits.company.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +13,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.kits.company.R;
 import com.kits.company.adapter.GetShared;
@@ -44,7 +43,7 @@ public class FavoriteActivity extends AppCompatActivity {
     ArrayList<Good> goods;
     TextView textCartItemCount;
     ArrayList<Good> Goods;
-    ProgressBar prog;
+    LottieAnimationView prog;
     GridLayoutManager gridLayoutManager;
     private boolean loading = true;
     int pastVisiblesItems, visibleItemCount, totalItemCount,PageNo=0;

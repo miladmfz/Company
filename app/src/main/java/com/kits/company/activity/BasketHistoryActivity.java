@@ -3,12 +3,12 @@ package com.kits.company.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.kits.company.R;
 import com.kits.company.adapter.GetShared;
 import com.kits.company.adapter.InternetConnection;
@@ -34,7 +34,7 @@ public class BasketHistoryActivity extends AppCompatActivity {
 
     ArrayList<PreFactor> preFactors;
     private final APIInterface apiInterface = APIClient.getCleint().create(APIInterface.class);
-    ProgressBar prog;
+    LottieAnimationView prog;
     Prefactor_Adapter adapter;
     Intent intent;
 

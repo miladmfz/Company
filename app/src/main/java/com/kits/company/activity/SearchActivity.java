@@ -4,12 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,10 +16,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -29,7 +25,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.airbnb.lottie.Lottie;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -41,7 +36,6 @@ import com.kits.company.adapter.GrpAdapter;
 import com.kits.company.adapter.InternetConnection;
 import com.kits.company.adapter.Search_box;
 import com.kits.company.application.App;
-import com.kits.company.databinding.ActivitySearchBinding;
 import com.kits.company.model.Good;
 import com.kits.company.model.GoodGroup;
 import com.kits.company.model.NumberFunctions;
@@ -53,7 +47,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-import jp.wasabeef.recyclerview.animators.FlipInTopXAnimator;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -74,7 +67,7 @@ public class SearchActivity extends AppCompatActivity {
     Toolbar toolbar;
     ArrayList<Good> goods;
     ArrayList<GoodGroup> Groups;
-    ProgressBar prog;
+    LottieAnimationView prog;
     TextView textCartItemCount;
     TextView tvstatus;
     ArrayList<Good> Goods, Goods_setupBadge;
@@ -122,7 +115,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public void GetFirstData() {
-        Call<RetrofitResponse> call1 = apiInterface.info("kowsar_info", "AppBroker_DefaultGroupCode");
+        Call<RetrofitResponse> call1 = apiInterface.info("kowsar_info", "AppCustomer_DefaultGroupCode");
         call1.enqueue(new Callback<RetrofitResponse>() {
             @Override
             public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
@@ -368,6 +361,11 @@ public class SearchActivity extends AppCompatActivity {
     public void allgood(String edtsearch, String where) {
         prog.setVisibility(View.VISIBLE);
         prog.setVisibility(View.VISIBLE);
+
+
+
+
+
         Call<RetrofitResponse> call = apiInterface.GetAllGood(
                 "goodinfo",
                 "0",
@@ -391,7 +389,8 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NotNull Call<RetrofitResponse> call, @NotNull Throwable t) {
                 App.showToast("کالایی در این گروه یافت نشد");
-                prog.setVisibility(View.GONE);
+                goods.clear();
+                CallRecycler();
                 PageNo = 0;
             }
         });
@@ -540,6 +539,15 @@ public class SearchActivity extends AppCompatActivity {
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
+    public void RefreshData(Good good) {
+        for (Good singlegood:goods){
+            if(singlegood.getGoodFieldValue("GoodCode").equals(good.getGoodFieldValue("GoodCode"))){
+                goods.get(goods.indexOf(singlegood)).setFacAmount(good.getGoodFieldValue("FacAmount"));
+            }
+        }
+        adapter.notifyDataSetChanged();
+    }
     public void CallRecycler() {
         adapter = new GoodAdapter(goods, this);
 
@@ -570,5 +578,10 @@ public class SearchActivity extends AppCompatActivity {
         rc_good.setAdapter(adapter);
         rc_good.setItemAnimator(new DefaultItemAnimator());
         prog.setVisibility(View.GONE);
+    }
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        setupBadge();
+        super.onWindowFocusChanged(hasFocus);
     }
 }

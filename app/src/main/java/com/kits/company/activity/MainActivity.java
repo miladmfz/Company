@@ -14,12 +14,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.Toolbar;
@@ -30,6 +28,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.button.MaterialButton;
@@ -86,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Button btn1,btn2,kowsarsamaneh,kowsar_version;
     ImageView imagebtn1,imagebtn2;
     CardView card_imagebtn1,card_imagebtn2;
-    ProgressBar prog;
+    LottieAnimationView prog;
     public SliderView sliderView;
     private boolean doubleBackToExitPressedOnce = false;
     LinearLayoutManager horizontalLayoutManager;
@@ -260,6 +259,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
+                    assert response.body() != null;
                     Groups_image = response.body().getGroups();
 
                     if(Integer.parseInt(Groups_image.get(0).getGoodGroupFieldValue("ErrCode"))>0)
@@ -269,7 +269,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         image_name1=Groups_image.get(0).getGoodGroupFieldValue("Name");
                         image_id1=Integer.parseInt(Groups_image.get(0).getGoodGroupFieldValue("groupcode"));
                         Glide.with(imagebtn1)
-                                .load("http://" + getString(R.string.SERVERIP) + "/login/slide_img/imageview1.jpg")
+                                .load("http://" + getString(R.string.SERVERIP) + "/login/SlideImage/imageview1.jpg")
                                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                                 .into(imagebtn1);
                         card_imagebtn1.setVisibility(View.VISIBLE);
@@ -279,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             image_id2 = Integer.parseInt(Groups_image.get(1).getGoodGroupFieldValue("groupcode"));
                             card_imagebtn2.setVisibility(View.VISIBLE);
                             Glide.with(imagebtn2)
-                                    .load("http://" + getString(R.string.SERVERIP) + "/login/slide_img/imageview2.jpg")
+                                    .load("http://" + getString(R.string.SERVERIP) + "/login/SlideImage/imageview2.jpg")
                                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                                     .into(imagebtn2);
                         }
@@ -502,6 +502,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onResponse(@NotNull Call<RetrofitResponse> call, @NotNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
+                    assert response.body() != null;
                     banner_goods = response.body().getGoods();
 
                     if(banner_goods.size()>0) {
@@ -559,7 +560,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Call<RetrofitResponse> call1 = apiInterface.Notification("Notification", "Customer");
         call1.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(@NonNull Call<RetrofitResponse> call, @NonNull retrofit2.Response<RetrofitResponse> response) {
+            public void onResponse(@NonNull Call<RetrofitResponse> call, @NonNull Response<RetrofitResponse> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     if (!response.body().getText().equals("")) {

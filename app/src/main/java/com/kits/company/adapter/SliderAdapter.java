@@ -1,5 +1,6 @@
 package com.kits.company.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -45,7 +46,6 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.GoodViewHolde
     private Integer code=0;
     private Integer img_count=1;
     private final boolean image_zoom;
-    private Good goodView;
 
     public SliderAdapter(Context context, Integer code, Integer img_count, List<Good> goods, boolean zoom) {
         this.img_count = img_count;
@@ -65,7 +65,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.GoodViewHolde
 
     @Override
     public GoodViewHolder onCreateViewHolder(ViewGroup parent) {
-        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_slider_layout_item, null);
+        @SuppressLint("InflateParams") View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_slider_layout_item, null);
         return new GoodViewHolder(inflate);
     }
 
@@ -75,9 +75,9 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.GoodViewHolde
         String SERVER_IP_ADDRESS = App.getContext().getString(R.string.SERVERIP);
 
         if(code.equals(0)) {
-            goodView = goods.get(position);
+
             Glide.with(holder.itemView)
-                    .load("http://"+SERVER_IP_ADDRESS+goodView.getGoodFieldValue("goodimageurl"))
+                    .load("http://"+SERVER_IP_ADDRESS+goods.get(position).getGoodFieldValue("goodimageurl"))
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(holder.imageViewBackground);
         }else {
@@ -133,15 +133,16 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.GoodViewHolde
                 image_zome_view();
             }else {
                 try {
-                    if (Integer.parseInt(goodView.getGoodFieldValue("GoodName").substring(2)) > 0) {
 
+                    if (Integer.parseInt(goods.get(position).getGoodFieldValue("GoodName").substring(2)) > 0) {
                         intent = new Intent(mcontext, DetailActivity.class);
                         intent.putExtra("id", Integer.parseInt(goods.get(position).getGoodFieldValue("GoodName").substring(2)));
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         App.getContext().startActivity(intent);
                     }
                 }catch (Exception e)
                 {
-
+                    Log.e("test___","Exception");
                 }
             }
 

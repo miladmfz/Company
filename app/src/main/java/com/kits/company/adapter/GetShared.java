@@ -8,7 +8,6 @@ import android.provider.Settings;
 
 import androidx.annotation.NonNull;
 
-import com.kits.company.BuildConfig;
 import com.kits.company.application.App;
 import com.kits.company.model.RetrofitResponse;
 import com.kits.company.webService.APIInterface;

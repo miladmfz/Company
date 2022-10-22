@@ -123,20 +123,20 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/SearchActivity_good"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:paddingTop="10dp"
                     android:layout_weight="0.1"
                     />
-                <androidx.core.widget.ContentLoadingProgressBar
+
+                <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/SearchActivity_prog"
-                    style="?android:attr/progressBarStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:indeterminate="true"
-                    android:layout_weight="0.9"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="2dp"
+                    app:lottie_rawRes="@raw/loading"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    android:layout_gravity="center"
                     />
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/SearchActivity_lottie"

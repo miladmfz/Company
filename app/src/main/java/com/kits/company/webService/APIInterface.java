@@ -11,39 +11,38 @@ import retrofit2.http.POST;
 public interface APIInterface {
 
 
-
     @POST("index.php")
     @FormUrlEncoded
     Call<RetrofitResponse> XUserCreate(@Field("tag") String tag,
-                                      @Field("UName") String user,
-                                      @Field("UPass") String pass,
-                                      @Field("NewPass") String NewPass,
-                                      @Field("FName") String fname,
-                                      @Field("LName") String lname,
-                                      @Field("mobile") String mobile,
-                                      @Field("company") String company,
-                                      @Field("address") String address,
-                                      @Field("PostalCode") String PostalCode,
-                                      @Field("email") String email,
-                                      @Field("Flag") String Flag);
+                                       @Field("UName") String user,
+                                       @Field("UPass") String pass,
+                                       @Field("NewPass") String NewPass,
+                                       @Field("FName") String fname,
+                                       @Field("LName") String lname,
+                                       @Field("mobile") String mobile,
+                                       @Field("company") String company,
+                                       @Field("address") String address,
+                                       @Field("PostalCode") String PostalCode,
+                                       @Field("email") String email,
+                                       @Field("Flag") String Flag);
 
 
     @POST("index.php")
     @FormUrlEncoded
     Call<RetrofitResponse> GetAllGood(@Field("tag") String tag,
-                                 @Field("GoodCode") String GoodCode,
-                                 @Field("SearchTarget") String SearchTarget,
-                                 @Field("Where") String Where,
-                                 @Field("GroupCode") String GroupCode,
-                                 @Field("PageNo") String PageNo,
-                                 @Field("MobileNo") String MobileNo,
-                                 @Field("OnlyFavorite") String OnlyFavorite);
+                                      @Field("GoodCode") String GoodCode,
+                                      @Field("SearchTarget") String SearchTarget,
+                                      @Field("Where") String Where,
+                                      @Field("GroupCode") String GroupCode,
+                                      @Field("PageNo") String PageNo,
+                                      @Field("MobileNo") String MobileNo,
+                                      @Field("OnlyFavorite") String OnlyFavorite);
 
     @POST("index.php")
     @FormUrlEncoded
     Call<RetrofitResponse> GetLikeGood(@Field("tag") String tag,
-                                  @Field("LikeGood") String LikeGood,
-                                  @Field("PageNo") String PageNo);
+                                       @Field("LikeGood") String LikeGood,
+                                       @Field("PageNo") String PageNo);
 
 
 
@@ -64,9 +63,9 @@ public interface APIInterface {
     @POST("index.php")
     @FormUrlEncoded
     Call<RetrofitResponse> GetColumn(@Field("tag") String tag,
-                                  @Field("GoodCode") String GoodCode,
-                                  @Field("GoodType") String GoodType,
-                                  @Field("Type") String Type);
+                                     @Field("GoodCode") String GoodCode,
+                                     @Field("GoodType") String GoodType,
+                                     @Field("Type") String Type);
 
     @POST("index.php")
     @FormUrlEncoded
@@ -75,29 +74,29 @@ public interface APIInterface {
     @POST("index.php")
     @FormUrlEncoded
     Call<RetrofitResponse> info(@Field("tag") String tag,
-                      @Field("Where") String Where);
+                                @Field("Where") String Where);
 
 
 
     @POST("index.php")
     @FormUrlEncoded
     Call <RetrofitResponse> GetImage(@Field("tag") String tag,
-                           @Field("GoodCode") String GoodCode,
-                           @Field("IX") String IX,
-                           @Field("Scale") String Scale);
+                                     @Field("GoodCode") String GoodCode,
+                                     @Field("IX") String IX,
+                                     @Field("Scale") String Scale);
 
 
     @POST("index.php")
     @FormUrlEncoded
     Call <RetrofitResponse> InsertBasket(@Field("tag") String tag,
-                                       @Field("DeviceCode") String DeviceCode,
-                                       @Field("GoodRef") String GoodRef,
-                                       @Field("FacAmount") String FacAmount,
-                                       @Field("Price") String Price,
-                                       @Field("UnitRef") String UnitRef,
-                                       @Field("Ratio") String Ratio,
-                                       @Field("Explain") String Explain,
-                                       @Field("Mobile") String Mobile);
+                                         @Field("DeviceCode") String DeviceCode,
+                                         @Field("GoodRef") String GoodRef,
+                                         @Field("FacAmount") String FacAmount,
+                                         @Field("Price") String Price,
+                                         @Field("UnitRef") String UnitRef,
+                                         @Field("Ratio") String Ratio,
+                                         @Field("Explain") String Explain,
+                                         @Field("Mobile") String Mobile);
 
     @POST("index.php")
     @FormUrlEncoded
@@ -109,7 +108,7 @@ public interface APIInterface {
     @POST("index.php")
     @FormUrlEncoded
     Call<RetrofitResponse> Getbasket(@Field("tag") String tag,
-                                   @Field("Mobile") String Mobile);
+                                     @Field("Mobile") String Mobile);
 
     @POST("index.php")
     @FormUrlEncoded
@@ -122,28 +121,28 @@ public interface APIInterface {
     @POST("index.php")
     @FormUrlEncoded
     Call<RetrofitResponse> GetbasketSum(@Field("tag") String tag,
-                                      @Field("Mobile") String Mobile);
+                                        @Field("Mobile") String Mobile);
 
     @POST("index.php")
     @FormUrlEncoded
     Call<RetrofitResponse> GetbasketSum(@Field("tag") String tag,
-                                      @Field("Mobile") String Mobile,
-                                      @Field("Explain") String Explain);
+                                        @Field("Mobile") String Mobile,
+                                        @Field("Explain") String Explain);
 
 
     @POST("index.php")
     @FormUrlEncoded
     Call<RetrofitResponse> Basketdeleteall(@Field("tag") String tag,
-                                 @Field("Mobile") String Mobile);
+                                           @Field("Mobile") String Mobile);
 
 
 
     @POST("index.php")
     @FormUrlEncoded
     Call<RetrofitResponse> Basketdelete(@Field("tag") String tag,
-                              @Field("DeviceCode") String DeviceCode,
-                              @Field("GoodRef") String GoodRef,
-                              @Field("Mobile") String Mobile);
+                                        @Field("DeviceCode") String DeviceCode,
+                                        @Field("GoodRef") String GoodRef,
+                                        @Field("Mobile") String Mobile);
 
 
     @POST("index.php")
@@ -153,9 +152,9 @@ public interface APIInterface {
     @POST("index.php")
     @FormUrlEncoded
     Call<RetrofitResponse> Favorite_action(@Field("tag") String tag,
-                                 @Field("Mobile") String Mobile,
-                                 @Field("GoodRef") String GoodRef,
-                                 @Field("DeleteFlag") String DeleteFlag);
+                                           @Field("Mobile") String Mobile,
+                                           @Field("GoodRef") String GoodRef,
+                                           @Field("DeleteFlag") String DeleteFlag);
 
 
 
@@ -163,8 +162,8 @@ public interface APIInterface {
     @POST("index.php")
     @FormUrlEncoded
     Call<RetrofitResponse> Verification(@Field("tag") String tag,
-                              @Field("Code") String Code,
-                              @Field("MobileNumber") String MobileNumber);
+                                        @Field("Code") String Code,
+                                        @Field("MobileNumber") String MobileNumber);
 
     @POST("index.php")
     @FormUrlEncoded
@@ -177,6 +176,7 @@ public interface APIInterface {
             , @Field("StrDate")     String StrDate
             , @Field("VersionName") String VersionName
     );
+
 
 
 

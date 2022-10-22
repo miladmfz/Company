@@ -7,13 +7,11 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StrikethroughSpan;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.button.MaterialButton;
 import com.kits.company.R;
 import com.kits.company.adapter.BuyBox;
@@ -34,7 +33,6 @@ import com.kits.company.adapter.SliderAdapter;
 import com.kits.company.application.App;
 import com.kits.company.model.Column;
 import com.kits.company.model.Good;
-import com.kits.company.model.GoodGroup;
 import com.kits.company.model.NumberFunctions;
 import com.kits.company.model.RetrofitResponse;
 import com.kits.company.webService.APIClient;
@@ -76,7 +74,7 @@ public class DetailActivity extends AppCompatActivity {
     Intent intent;
     DecimalFormat decimalFormat = new DecimalFormat("0,000");
     SliderView sliderView;
-    ProgressBar prog;
+    LottieAnimationView prog;
     LinearLayoutManager horizontalLayoutManager;
     TextView textCartItemCount;
     ArrayList<Good> Goods;
@@ -129,7 +127,7 @@ public class DetailActivity extends AppCompatActivity {
         good_groups();
 
 
-        btnbuy.setOnClickListener(view -> buyBox.TestDialog(good,0,"0"));
+        btnbuy.setOnClickListener(view -> buyBox.BuyDialog(good,0,"0"));
 
 
         favorite.setOnClickListener(view -> {

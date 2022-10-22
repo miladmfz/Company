@@ -46,17 +46,17 @@
                 android:layout_height="wrap_content"
                 android:gravity="center">
 
-                <androidx.core.widget.ContentLoadingProgressBar
-                    android:id="@+id/DetailActivity_prog"
-                    style="?android:attr/progressBarStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:indeterminate="true"
-                    />
 
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/DetailActivity_prog"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="2dp"
+                    app:lottie_rawRes="@raw/loading"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    android:layout_gravity="center"
+                    />
 
                 <com.smarteist.autoimageslider.SliderView
                     android:id="@+id/DetailActivity_imageSlider"

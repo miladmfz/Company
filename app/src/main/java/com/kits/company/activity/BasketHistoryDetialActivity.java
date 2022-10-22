@@ -2,17 +2,16 @@ package com.kits.company.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.kits.company.R;
 import com.kits.company.adapter.GetShared;
 import com.kits.company.adapter.InternetConnection;
@@ -36,7 +35,7 @@ public class BasketHistoryDetialActivity extends AppCompatActivity {
 
     private ArrayList<PreFactor> preFactors;
     private final APIInterface apiInterface = APIClient.getCleint().create(APIInterface.class);
-    ProgressBar prog;
+    LottieAnimationView prog;
     Integer code=0;
     Integer ReservedRows=2;
     Prefactor_Detail_Adapter adapter;
