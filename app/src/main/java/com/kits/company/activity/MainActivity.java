@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -555,6 +556,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             }
         });
+        Call<RetrofitResponse> call1 = apiInterface.Notification("Notification", "Customer");
+        call1.enqueue(new Callback<RetrofitResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<RetrofitResponse> call, @NonNull retrofit2.Response<RetrofitResponse> response) {
+                if (response.isSuccessful()) {
+                    assert response.body() != null;
+                    if (!response.body().getText().equals("")) {
+                        new android.app.AlertDialog.Builder(MainActivity.this)
+                                .setTitle("توجه")
+                                .setMessage(response.body().getText())
+                                .show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<RetrofitResponse> call, @NonNull Throwable t) {
+            }
+        });
 
     }
 
@@ -648,6 +668,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     public void setupBadge() {
 

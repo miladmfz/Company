@@ -99,6 +99,12 @@ public interface APIInterface {
                                        @Field("Explain") String Explain,
                                        @Field("Mobile") String Mobile);
 
+    @POST("index.php")
+    @FormUrlEncoded
+    Call<RetrofitResponse> Notification(
+            @Field("tag") String tag,
+            @Field("Condition") String Condition
+    );
 
     @POST("index.php")
     @FormUrlEncoded
