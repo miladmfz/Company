@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Button test = findViewById(R.id.mainactivity_test);
 
             if (getString(R.string.app_name).equals("company")) {
-                test.setVisibility(View.VISIBLE);
+                //test.setVisibility(View.VISIBLE);
 
             }
             test.setOnClickListener(v -> test_fun());

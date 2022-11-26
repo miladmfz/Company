@@ -47,8 +47,7 @@ public class SplashActivity extends AppCompatActivity {
                 GetShared.ErrorLog(e.getMessage());
             }
 
-        }
-        else{
+        } else{
             final Dialog dialog1 ;
             dialog1 = new Dialog(this);
             dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
