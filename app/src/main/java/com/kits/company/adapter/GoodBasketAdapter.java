@@ -97,8 +97,8 @@ public class GoodBasketAdapter extends RecyclerView.Adapter<GoodBasketAdapter.Go
         }
 
 
-        call2 = apiInterface_image.GetImage(
-                "getImage",
+        call2 = apiInterface_image.GetImageCompany(
+                "GetImageCompany",
                 Goods.get(position).getGoodFieldValue("GoodCode"),
                 "0",
                 "120"

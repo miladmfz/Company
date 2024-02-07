@@ -106,8 +106,8 @@ public class Prefactor_Detail_Adapter extends RecyclerView.Adapter<Prefactor_Det
             holder.img.setVisibility(View.VISIBLE);
 
 
-            call2 = apiInterface_image.GetImage(
-                    "getImage",
+            call2 = apiInterface_image.GetImageCompany(
+                    "GetImageCompany",
                     preFactors.get(position).getPreFactorFieldValue("GoodCode"),
                     "0",
                     "150"

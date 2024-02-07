@@ -81,8 +81,8 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.GoodViewHolde
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(holder.imageViewBackground);
         }else {
-            Call<RetrofitResponse> call2 = apiInterface_image.GetImage(
-                    "getImage",
+            Call<RetrofitResponse> call2 = apiInterface_image.GetImageCompany(
+                    "GetImageCompany",
                     code.toString(),
                     String.valueOf(position),"400"
                     );

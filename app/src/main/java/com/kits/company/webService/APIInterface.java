@@ -6,6 +6,7 @@ import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 
 public interface APIInterface {
@@ -80,12 +81,17 @@ public interface APIInterface {
 
     @POST("index.php")
     @FormUrlEncoded
-    Call <RetrofitResponse> GetImage(@Field("tag") String tag,
+    Call <RetrofitResponse> GetImageCompany(@Field("tag") String tag,
                                      @Field("GoodCode") String GoodCode,
                                      @Field("IX") String IX,
                                      @Field("Scale") String Scale);
 
-
+    @POST("index.php")
+    @FormUrlEncoded
+    Call <String> GetImage(@Field("tag") String tag,
+                           @Field("GoodCode") String GoodCode,
+                           @Field("IX") Integer IX,
+                           @Field("Scale") Integer Scale);
     @POST("index.php")
     @FormUrlEncoded
     Call <RetrofitResponse> InsertBasket(@Field("tag") String tag,
@@ -178,6 +184,11 @@ public interface APIInterface {
     );
 
 
+
+
+    @POST("SendSms")
+    Call<String> Verification(@Query("RandomCode") Integer Code,
+                              @Query("NumberPhone") String MobileNumber);
 
 
 }

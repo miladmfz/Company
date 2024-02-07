@@ -148,7 +148,7 @@ public class SearchActivity extends AppCompatActivity {
         fab = findViewById(R.id.SearchActivity_fab);
         lottie = findViewById(R.id.SearchActivity_lottie);
         tvstatus = findViewById(R.id.SearchActivity_tvstatus);
-
+        goods=new ArrayList<>();
 
         toolbar.setTitle(title);
         setSupportActionBar(toolbar);

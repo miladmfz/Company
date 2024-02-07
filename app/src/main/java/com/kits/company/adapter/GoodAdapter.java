@@ -103,6 +103,18 @@ public class GoodAdapter extends RecyclerView.Adapter<GoodAdapter.GoodViewHolder
         }
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
     @NonNull
     @Override
     public GoodViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -140,6 +152,9 @@ public class GoodAdapter extends RecyclerView.Adapter<GoodAdapter.GoodViewHolder
                 }
             }
         }
+
+
+
 
         if (GetShared.ReadBoolan("available_good")) {
             goods = available_goods;
@@ -209,7 +224,6 @@ public class GoodAdapter extends RecyclerView.Adapter<GoodAdapter.GoodViewHolder
                     .fitCenter()
                     .into(holder.img);
 
-
         } else {
             Glide.with(holder.img)
                     .asBitmap()
@@ -218,12 +232,13 @@ public class GoodAdapter extends RecyclerView.Adapter<GoodAdapter.GoodViewHolder
                     .fitCenter()
                     .into(holder.img);
             holder.img.setVisibility(View.VISIBLE);
-            call2 = apiInterface_image.GetImage(
-                    "getImage",
+            call2 = apiInterface_image.GetImageCompany(
+                    "GetImageCompany",
                     goods.get(position).getGoodFieldValue("GoodCode"),
                     "0",
                     "150"
             );
+
             call2.enqueue(new Callback<RetrofitResponse>() {
                 @SuppressLint("NotifyDataSetChanged")
                 @Override
